@@ -271,7 +271,7 @@
             >
               <div class="h-12 w-12 bg-action-teal/20 text-deep-teal rounded-lg flex items-center justify-center mb-6">
                 <!-- <component :is="service.icon" :size="24" /> -->
-                 <i :data-lucide="toKebabCase(service.icon)" style="width:24px; height:24px;"></i>
+                 <i :data-lucide="service.icon" style="width:24px; height:24px;"></i>
               </div>
               <h3 class="text-xl font-bold text-slate-900 mb-3">{{ service.title }}</h3>
               <p class="text-slate-600 flex-grow">{{ service.description }}</p>
@@ -548,11 +548,11 @@
         ]);
 
         const services = ref([
-          { title: 'Corrective Maintenance', description: 'Rapid, on-site emergency repairs to minimize operational downtime and restore functionality.', icon: 'Wrench' },
-          { title: 'Preventive Maintenance', description: 'Scheduled inspections and servicing to prevent failures and extend the lifespan of your machinery.', icon: 'ShieldCheck' },
-          { title: 'Procurement Support', description: 'Expert assistance in sourcing, vetting, and acquiring the ideal machinery for your specific needs.', icon: 'ShoppingCart' },
-          { title: 'Technical Consultation', description: 'Strategic advice on optimizing your production line, improving efficiency, and long-term planning.', icon: 'BrainCircuit' },
-          { title: 'Operator Training', description: 'Comprehensive training programs to ensure your team can operate new machinery safely and effectively.', icon: 'Users' },
+          { title: 'Corrective Maintenance', description: 'Rapid, on-site emergency repairs to minimize operational downtime and restore functionality.', icon: 'wrench' },
+          { title: 'Preventive Maintenance', description: 'Scheduled inspections and servicing to prevent failures and extend the lifespan of your machinery.', icon: 'shield-check' },
+          { title: 'Procurement Support', description: 'Expert assistance in sourcing, vetting, and acquiring the ideal machinery for your specific needs.', icon: 'shopping-cart' },
+          { title: 'Technical Consultation', description: 'Strategic advice on optimizing your production line, improving efficiency, and long-term planning.', icon: 'brain-circuit' },
+          { title: 'Operator Training', description: 'Comprehensive training programs to ensure your team can operate new machinery safely and effectively.', icon: 'users' },
         ]);
         
         const machineTypes = ref([
@@ -571,10 +571,6 @@
           mobileMenuOpen.value = false;
         };
 
-        const toKebabCase = (str) => {
-          return str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
-        };
-
         onMounted(() => {
           window.addEventListener('scroll', handleScroll);
           lucide.createIcons();
@@ -591,8 +587,7 @@
           services,
           machineTypes,
           selectedMachineForQuote,
-          closeMobileMenu,
-          toKebabCase,
+          closeMobileMenu
         };
       }
     }).mount('#app');
