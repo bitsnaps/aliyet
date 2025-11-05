@@ -1,897 +1,601 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aliyet — Industrial Machine Maintenance & Procurement</title>
-  <meta name="description" content="Aliyet provides fast corrective maintenance, reliable preventive programs, and expert guidance to procure industrial machines. Build & Price your machine to request a tailored quote." />
-  <meta name="keywords" content="industrial maintenance, corrective maintenance, preventive maintenance, CNC machines, turning center, machining center, EDM, hydraulic maintenance, pneumatic maintenance, quote" />
-  <meta property="og:title" content="Aliyet — Industrial Machine Maintenance & Procurement" />
-  <meta property="og:description" content="Professional, multilingual corporate website to establish credibility, showcase services, and generate qualified leads." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="logo.svg" />
-  <link rel="icon" type="image/svg+xml" href="./logo.svg" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Aliyet | Industrial Machine Maintenance &amp; Procurement</title>
+    <meta name="description"
+        content="Expert industrial maintenance services and machine procurement for factories and workshops.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-            brand: ['Manrope', 'Inter', 'system-ui', 'sans-serif']
-          },
-          colors: {
-            brand: {
-              DEFAULT: '#0EA5E9', // sky-500
-              50: '#F0F9FF',
-              100: '#E0F2FE',
-              200: '#BAE6FD',
-              300: '#7DD3FC',
-              400: '#38BDF8',
-              500: '#0EA5E9',
-              600: '#0284C7',
-              700: '#0369A1',
-              800: '#075985',
-              900: '#0C4A6E'
-            },
-            accent: {
-              DEFAULT: '#F59E0B', // amber-500
-              600: '#D97706'
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        // Custom Tailwind CSS Configuration
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'deep-teal': '#006978',
+                        'action-teal': '#00BCD4',
+                        'light-gray': '#F0F4F5',
+                        'charcoal': '#212529',
+                        'medium-gray': '#6C757D',
+                        'success-green': '#4CAF50',
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif'],
+                        'heading': ['Montserrat', 'sans-serif'],
+                    }
+                }
             }
-          }
         }
-      }
-    }
-  </script>
+    </script>
 
-  <style>
-    :root {
-      /* Subtle noise for premium feel */
-      --noise: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.025"/></svg>');
-    }
-    .hero-bg {
-      background:
-        radial-gradient(1200px 600px at 85% 10%, rgba(14,165,233,.25), transparent 60%),
-        radial-gradient(1200px 600px at -10% 100%, rgba(245,158,11,.20), transparent 60%),
-        linear-gradient(180deg, rgba(11,15,25,1) 0%, rgba(7,11,19,1) 100%);
-    }
-    .noise-overlay::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: var(--noise);
-      pointer-events: none;
-      mix-blend-mode: soft-light;
-    }
-    .glass {
-      backdrop-filter: saturate(140%) blur(8px);
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-    .card-gradient {
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-    .shadow-elevate {
-      box-shadow:
-        0 40px 80px -20px rgba(2, 132, 199, 0.25),
-        0 20px 40px -10px rgba(245, 158, 11, 0.15);
-    }
-    .step-active {
-      border-color: #0EA5E9 !important;
-      background: rgba(14,165,233,0.1) !important;
-    }
-    .step-done {
-      border-color: #22c55e !important;
-      background: rgba(34,197,94,0.10) !important;
-    }
-    .animate-in {
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity .6s ease, transform .6s ease;
-    }
-    .animate-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+<style>
+/* Simple Fade Transition for Vue */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
 
-    /* Light theme overrides */
-    html:not(.dark) .hero-bg {
-      background:
-        radial-gradient(1200px 600px at 85% 10%, rgba(14,165,233,.15), transparent 60%),
-        radial-gradient(1200px 600px at -10% 100%, rgba(245,158,11,.12), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(248,250,252,1) 100%);
-    }
-    html:not(.dark) .glass {
-      backdrop-filter: saturate(140%) blur(8px);
-      background: rgba(255,255,255,0.6);
-      border: 1px solid rgba(15,23,42,0.08);
-    }
-    html:not(.dark) .card-gradient {
-      background: linear-gradient(180deg, rgba(15,23,42,0.03), rgba(15,23,42,0.01));
-      border: 1px solid rgba(15,23,42,0.08);
-    }
-    html:not(.dark) .text-slate-300 { color: #475569 !important; }
-    html:not(.dark) .text-slate-400 { color: #64748b !important; }
-    html:not(.dark) .border-slate-800 { border-color: #e2e8f0 !important; }
-    html:not(.dark) .bg-slate-900 { background-color: #ffffff !important; }
-    html:not(.dark) .bg-slate-950 { background-color: #f8fafc !important; }
-    html:not(.dark) .bg-slate-900\/80 { background-color: rgba(255,255,255,0.8) !important; }
-    html:not(.dark) .bg-slate-900\/90 { background-color: rgba(255,255,255,0.9) !important; }
-    html:not(.dark) .bg-slate-800\/60 { background-color: rgba(241,245,249,0.6) !important; }
-  </style>
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* Simple Keyframes for initial load since we removed framer-motion */
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-right {
+  animation: fadeInRight 0.8s ease-out forwards;
+}
+</style>
+
 </head>
+<body class="antialiased">
+  <div id="app" class="min-h-screen bg-light-gray font-sans text-charcoal overflow-x-hidden">
+    <!-- Head replacement (standard HTML meta) -->
+    <!-- In a real Nuxt app, use useHead() -->
 
-<body class="antialiased bg-white text-slate-900 dark:bg-slate-900 dark:text-white">
-  <!-- Top Bar -->
-  <div class="hidden md:flex items-center justify-center gap-6 text-xs bg-slate-100/60 dark:bg-slate-800/60 py-2 px-6">
-    <div class="flex items-center gap-2 text-slate-700 dark:text-slate-300"><span class="inline-block w-2 h-2 rounded-full bg-green-400"></span>Rapid corrective response</div>
-    <div class="text-slate-700 dark:text-slate-300">Preventive programs tailored to your production schedule</div>
-    <div class="text-slate-700 dark:text-slate-300">Expert guidance to procure the right machine</div>
-  </div>
-
-  <!-- Navbar -->
-  <header class="sticky top-0 z-50 glass bg-white/80 dark:bg-slate-900/80">
-    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex h-16 items-center justify-between">
-        <a href="#" class="flex items-center gap-3">
-          <img src="./logo.svg" alt="Aliyet logo" class="h-8 w-8" />
-          <span class="font-brand font-extrabold text-xl tracking-tight">Aliyet</span>
-        </a>
-        <div class="hidden md:flex items-center gap-8">
-          <a href="#services" class="text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Services</a>
-          <a href="#products" class="text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Products</a>
-          <a href="#build-price" class="text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Build & Price</a>
-          <a href="#contact" class="text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Contact</a>
-          <button id="themeToggle" aria-label="Toggle theme" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-300 bg-slate-200 text-slate-900 hover:bg-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
-            <span class="block dark:hidden">🌞</span>
-            <span class="hidden dark:block">🌙</span>
-          </button>
-          <button id="openQuoteTop" class="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg shadow-elevate">
-            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-            Get a Quote
-          </button>
-        </div>
-        <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg bg-slate-800 hover:bg-slate-700" aria-label="Open menu">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-        </button>
-      </div>
-    </nav>
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90">
-      <div class="max-w-7xl mx-auto px-4 py-3 space-y-2">
-        <a href="#services" class="block py-2 text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Services</a>
-        <a href="#products" class="block py-2 text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Products</a>
-        <a href="#build-price" class="block py-2 text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Build & Price</a>
-        <a href="#contact" class="block py-2 text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Contact</a>
-        <button id="themeToggleMobile" aria-label="Toggle theme" class="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-slate-300 bg-slate-200 text-slate-900 hover:bg-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
-          <span class="block dark:hidden">🌞</span>
-          <span class="hidden dark:block">🌙</span>
-          <span class="text-sm">Theme</span>
-        </button>
-        <button id="openQuoteMobile" class="w-full mt-2 inline-flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-          Get a Fast Quote
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero -->
-  <section class="relative hero-bg overflow-hidden">
-    <div class="noise-overlay absolute inset-0 pointer-events-none"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 relative">
-      <div class="grid lg:grid-cols-2 gap-12 items-center">
-        <div class="space-y-6 animate-in">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-900/40 text-brand-200 border border-brand-800">
-            <span class="inline-block w-1.5 h-1.5 rounded-full bg-brand-400"></span>
-            Industrial Machine Maintenance & Procurement
+    <!-- --- Navigation --- -->
+    <header 
+      class="fixed w-full z-50 transition-all duration-300"
+      :class="isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-md py-3' : 'bg-transparent py-5'"
+    >
+      <div class="container mx-auto px-4 md:px-8 flex items-center justify-between">
+        <!-- Logo -->
+        <a href="#hero" class="flex items-center gap-2">
+          <div class="bg-deep-teal text-white p-2 rounded-md">
+            <i data-lucide="cog" style="width:28px; height:28px;"></i>
           </div>
-          <h1 class="font-brand text-4xl sm:text-5xl font-extrabold leading-tight">
-            Keep Your Factory Running.
-            <span class="text-brand-400">Running</span>.
-          </h1>
-          <p class="text-lg text-slate-300">
-            Aliyet is your trusted partner for expert industrial maintenance and seamless machine procurement to minimize downtime and scale capacity.
-          </p>
-          <div class="flex flex-wrap gap-3">
-            <button id="openQuoteHero" class="inline-flex items-center gap-3 bg-brand-500 hover:bg-brand-600 text-white px-5 py-3 rounded-xl shadow-elevate">
-              <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-              Build & Price a Machine
-            </button>
-            <a href="#services" class="inline-flex items-center gap-3 bg-slate-800 hover:bg-slate-700 text-white px-5 py-3 rounded-xl border border-slate-700">
-              <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M12 6l6 6-6 6M6 6l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-              Explore Services
+          <span 
+            class="text-2xl font-extrabold tracking-tight transition-colors"
+            :class="isScrolled ? 'text-deep-teal' : 'text-white'"
+          >
+            ALIYET
+          </span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex items-center gap-8">
+          <a 
+            v-for="link in navLinks" 
+            :key="link.name" 
+            :href="link.href" 
+            class="text-sm font-medium hover:text-action-teal transition-colors"
+            :class="isScrolled ? 'text-charcoal' : 'text-slate-200'"
+          >
+            {{ link.name }}
+          </a>
+        </nav>
+
+        <div class="hidden md:flex items-center gap-4">
+          <!-- Language Switcher -->
+          <button 
+            class="flex items-center gap-1 text-sm font-medium"
+            :class="isScrolled ? 'text-charcoal' : 'text-slate-200'"
+          >
+            <i data-lucide="globe" style="width:18px; height:18px;"></i>
+            <span>EN</span>
+          </button>
+          <a 
+            href="#build-price"
+            class="bg-action-teal hover:bg-action-teal/90 text-charcoal px-5 py-2.5 rounded-md font-bold text-sm transition-colors shadow-lg shadow-action-teal/20"
+          >
+            Build & Price
+          </a>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button 
+          class="md:hidden text-action-teal"
+          @click="mobileMenuOpen = !mobileMenuOpen"
+        >
+          <i v-if="!mobileMenuOpen" data-lucide="menu" style="width:28px; height:28px;"></i>
+          <i v-else data-lucide="x" style="width:28px; height:28px;"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <Transition name="fade">
+      <div 
+        v-if="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-charcoal/95 pt-24 px-6 md:hidden"
+      >
+        <nav class="flex flex-col gap-6 text-center">
+          <a 
+            v-for="link in navLinks" 
+            :key="link.name" 
+            :href="link.href" 
+            @click="closeMobileMenu"
+            class="text-2xl text-white font-semibold hover:text-action-teal"
+          >
+            {{ link.name }}
+          </a>
+          <hr class="border-slate-700 my-4" />
+          <button class="text-white flex items-center justify-center gap-2 text-xl">
+            <i data-lucide="globe" style="width:20px; height:20px;"></i> EN / FR / AR
+          </button>
+          <a 
+            href="#build-price" 
+            @click="closeMobileMenu"
+            class="bg-action-teal text-charcoal py-3 rounded-md font-bold text-xl mt-4"
+          >
+            Build & Price Quote
+          </a>
+        </nav>
+      </div>
+    </Transition>
+
+    <main>
+      <!-- --- Hero Section --- -->
+      <section id="hero" class="relative min-h-[90vh] flex items-center pt-20">
+        <!-- Background Image Placeholder -->
+        <div class="absolute inset-0 bg-charcoal">
+           <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1565035051432-57b00135d404?q=80&w=2940&auto=format&fit=crop')] bg-cover bg-center opacity-40 mix-blend-overlay"></div>
+           <div class="absolute inset-0 bg-gradient-to-r from-charcoal via-deep-teal/70 to-transparent"></div>
+        </div>
+
+        <div class="container mx-auto px-4 md:px-8 relative z-10">
+          <div class="max-w-3xl animate-fade-in-right">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight font-heading">
+              Keep Your Factory <span class="text-action-teal">Running.</span>
+            </h1>
+            <p class="mt-6 text-xl text-slate-300 max-w-xl leading-relaxed">
+              Your trusted partner for expert industrial maintenance and seamless machine procurement. Minimize downtime, maximize efficiency.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row gap-4">
+              <a 
+                href="#services"
+                class="bg-deep-teal hover:bg-deep-teal/90 text-white px-8 py-4 rounded-md font-bold text-lg flex items-center justify-center gap-2 transition-all"
+              >
+                Explore Services <i data-lucide="arrow-right" style="width:20px; height:20px;"></i>
+              </a>
+              <a 
+                href="#build-price"
+                class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 rounded-md font-bold text-lg flex items-center justify-center gap-2 transition-all"
+              >
+                Get Machine Quote
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --- Trust Signals --- -->
+      <div class="bg-white py-8 border-b border-slate-200">
+        <div class="container mx-auto px-4 md:px-8">
+          <p class="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-6">Trusted by industry leaders</p>
+          <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale">
+            <!-- Logo Placeholders -->
+            <div v-for="i in 5" :key="i" class="h-8 w-32 bg-slate-300 rounded-md animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- --- About Us Section --- -->
+      <section id="about" class="py-20 md:py-32 bg-white">
+        <div class="container mx-auto px-4 md:px-8 grid md:grid-cols-2 gap-16 items-center">
+          <div>
+            <h4 class="text-deep-teal font-bold uppercase tracking-wider mb-4">About Aliyet</h4>
+            <h2 class="text-4xl font-bold text-slate-900 mb-6 leading-tight">Ensuring Industrial Excellence Through Reliability.</h2>
+            <p class="text-lg text-slate-600 mb-6 leading-relaxed">
+              Aliyet was founded with a clear mission: to bridge the gap between top-tier industrial machinery and the workshops that rely on them. We are more than just a service provider; we are your technical partner on the factory floor.
+            </p>
+            <ul class="space-y-3">
+              <li class="flex items-center gap-3 text-slate-700 font-medium">
+                <i data-lucide="check-circle-2" class="text-action-teal" style="width:20px; height:20px;"></i>
+                Certified expert technicians
+              </li>
+              <li class="flex items-center gap-3 text-slate-700 font-medium">
+                <i data-lucide="check-circle-2" class="text-action-teal" style="width:20px; height:20px;"></i>
+                Rapid response for corrective maintenance
+              </li>
+              <li class="flex items-center gap-3 text-slate-700 font-medium">
+                <i data-lucide="check-circle-2" class="text-action-teal" style="width:20px; height:20px;"></i>
+                Transparent procurement facilitation
+              </li>
+            </ul>
+          </div>
+          <div class="relative h-96 bg-slate-200 rounded-2xl overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2730&auto=format&fit=crop" 
+              alt="Industrial technicians working"
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- --- Services Section --- -->
+      <section id="services" class="py-20 md:py-32 bg-slate-50">
+        <div class="container mx-auto px-4 md:px-8">
+          <!-- Section Heading Inline -->
+          <div class="mb-12 text-center text-slate-900">
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
+              Comprehensive Maintenance Services
+            </h2>
+            <p class="mt-4 text-lg max-w-2xl mx-auto text-slate-600">
+              From emergency fixes to long-term optimization, our diverse range of services ensures your machinery operates at peak performance.
+            </p>
+            <div class="mt-4 mx-auto h-1 w-24 rounded bg-deep-teal"></div>
+          </div>
+
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Service Cards Loop -->
+            <div 
+              v-for="(service, idx) in services" 
+              :key="idx"
+              class="bg-white p-6 rounded-xl shadow-md border border-slate-100 hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
+            >
+              <div class="h-12 w-12 bg-action-teal/20 text-deep-teal rounded-lg flex items-center justify-center mb-6">
+                <!-- <component :is="service.icon" :size="24" /> -->
+                 <i :data-lucide="toKebabCase(service.icon)" style="width:24px; height:24px;"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mb-3">{{ service.title }}</h3>
+              <p class="text-slate-600 flex-grow">{{ service.description }}</p>
+              <a href="#contact" class="mt-6 text-deep-teal font-semibold flex items-center group">
+                Inquire Now 
+                <i data-lucide="arrow-right" style="width:16px; height:16px;" class="ml-2 group-hover:translate-x-1 transition-transform"></i>
+              </a>
+            </div>
+
+            <!-- CTA Card -->
+            <div class="bg-deep-teal p-6 rounded-xl shadow-md flex flex-col justify-center items-center text-center text-white">
+              <h3 class="text-2xl font-bold mb-4">Need Custom Service?</h3>
+              <p class="text-light-gray mb-8">Contact our technical team to discuss your specific factory requirements.</p>
+              <a href="#contact" class="bg-action-teal hover:bg-action-teal/90 text-charcoal font-bold px-6 py-3 rounded-md w-full transition-colors">
+                Contact Us
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --- Products Catalog Teaser --- -->
+      <section id="products" class="py-20 md:py-32 bg-white">
+        <div class="container mx-auto px-4 md:px-8">
+          <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+            <div>
+              <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Machine Procurement</h2>
+              <p class="text-lg text-slate-600 max-w-2xl">We facilitate the sourcing of high-quality industrial machines tailored to your production needs.</p>
+            </div>
+            <a href="#" class="hidden md:flex items-center font-bold text-deep-teal hover:text-action-teal transition-colors mt-4 md:mt-0">
+              View Full Catalog <i data-lucide="arrow-right" style="width:20px; height:20px;" class="ml-2"></i>
             </a>
           </div>
 
-          <div class="flex items-center gap-6 pt-2">
-            <div class="flex -space-x-2">
-              <span class="inline-flex w-8 h-8 rounded-full bg-brand-600/60 border border-brand-400"></span>
-              <span class="inline-flex w-8 h-8 rounded-full bg-accent-600/60 border border-accent-500"></span>
-              <span class="inline-flex w-8 h-8 rounded-full bg-emerald-600/60 border border-emerald-400"></span>
-            </div>
-            <p class="text-sm text-slate-400">Trusted by workshops and factories across diverse industries</p>
-          </div>
-        </div>
-        <div class="relative animate-in">
-          <div class="absolute -top-12 -right-8 w-64 h-64 bg-brand-500/20 blur-3xl rounded-full"></div>
-          <div class="absolute -bottom-8 -left-8 w-72 h-72 bg-accent-500/20 blur-3xl rounded-full"></div>
-          <div class="glass rounded-2xl p-6 sm:p-8 border border-slate-800">
-            <div class="grid grid-cols-2 gap-4">
-              <div class="card-gradient rounded-xl p-4 border border-slate-800">
-                <div class="text-sm text-slate-400">Response Time</div>
-                <div class="text-2xl font-bold">Under 24h</div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Machine Cards -->
+            <div 
+              v-for="(machine, idx) in ['Turning Centers', 'Machining Centers', 'EDM Machines']" 
+              :key="idx"
+              class="group relative overflow-hidden rounded-2xl bg-charcoal aspect-[4/3]"
+            >
+              <div class="absolute inset-0 bg-slate-800 flex items-center justify-center text-slate-600">
+                 <i data-lucide="factory" style="width:48px; height:48px;" class="opacity-20"></i>
               </div>
-              <div class="card-gradient rounded-xl p-4 border border-slate-800">
-                <div class="text-sm text-slate-400">Preventive Plans</div>
-                <div class="text-2xl font-bold">Quarterly / Biannual</div>
-              </div>
-              <div class="card-gradient rounded-xl p-4 border border-slate-800">
-                <div class="text-sm text-slate-400">Procurement</div>
-                <div class="text-2xl font-bold">Guided & Brokered</div>
-              </div>
-              <div class="card-gradient rounded-xl p-4 border border-slate-800">
-                <div class="text-sm text-slate-400">Coverage</div>
-                <div class="text-2xl font-bold">CNC, Hydraulic, Pneumatic</div>
-              </div>
-            </div>
-            <div class="mt-6 text-sm text-slate-400">
-              Aliyet is a facilitator/broker for machine procurement, not a direct seller.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Who We Are -->
-  <section class="relative bg-slate-900">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="grid lg:grid-cols-3 gap-10 items-start">
-        <div class="lg:col-span-1 animate-in">
-          <h2 class="font-brand text-3xl font-extrabold">Who We Are</h2>
-          <p class="mt-4 text-slate-300">
-            Aliyet is a team of specialists in industrial machine maintenance and configuration.
-            We help factories keep machines running at peak performance while guiding managers
-            through clear, risk-aware procurement decisions.
-          </p>
-          <div class="mt-6 flex items-center gap-2 text-sm text-slate-400">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Credibility, clarity, and lead generation at the core
-          </div>
-        </div>
-        <div class="lg:col-span-2 grid md:grid-cols-3 gap-6 animate-in">
-          <div class="card-gradient rounded-xl p-6 border border-slate-800">
-            <div class="text-lg font-semibold">Corrective</div>
-            <p class="mt-2 text-slate-300">Fast, efficient interventions to get broken machines back online.</p>
-          </div>
-          <div class="card-gradient rounded-xl p-6 border border-slate-800">
-            <div class="text-lg font-semibold">Preventive</div>
-            <p class="mt-2 text-slate-300">Scheduled programs to minimize downtime and extend machine life.</p>
-          </div>
-          <div class="card-gradient rounded-xl p-6 border border-slate-800">
-            <div class="text-lg font-semibold">Specialized</div>
-            <p class="mt-2 text-slate-300">Programming, configuration, hardware, hydraulic and pneumatic maintenance.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Services -->
-  <section id="services" class="relative bg-slate-950">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="flex items-end justify-between">
-        <h2 class="font-brand text-3xl font-extrabold">Services</h2>
-        <a href="#build-price" class="inline-flex items-center gap-2 text-brand-300 hover:text-brand-200">
-          Build & Price
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </a>
-      </div>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-        <article class="card-gradient rounded-xl border border-slate-800 p-6 animate-in">
-          <div class="flex items-center gap-3">
-            <span class="inline-flex p-2 rounded-lg bg-brand-900/40 border border-brand-800">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M3 12h18" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round"/></svg>
-            </span>
-            <h3 class="text-xl font-semibold">Corrective Maintenance</h3>
-          </div>
-          <p class="mt-3 text-slate-300">Rapid diagnostics and repair to restore production quickly.</p>
-        </article>
-
-        <article class="card-gradient rounded-xl border border-slate-800 p-6 animate-in">
-          <div class="flex items-center gap-3">
-            <span class="inline-flex p-2 rounded-lg bg-brand-900/40 border border-brand-800">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h12M4 18h8" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round"/></svg>
-            </span>
-            <h3 class="text-xl font-semibold">Preventive Maintenance</h3>
-          </div>
-          <p class="mt-3 text-slate-300">Structured plans to avoid failures and reduce unexpected downtime.</p>
-        </article>
-
-        <article class="card-gradient rounded-xl border border-slate-800 p-6 animate-in">
-          <div class="flex items-center gap-3">
-            <span class="inline-flex p-2 rounded-lg bg-brand-900/40 border border-brand-800">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5l7 7-7 7M5 5l7 7-7 7" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round"/></svg>
-            </span>
-            <h3 class="text-xl font-semibold">Programming & Configuring</h3>
-          </div>
-          <p class="mt-3 text-slate-300">Control tuning, CNC programs, and machine setup optimization.</p>
-        </article>
-
-        <article class="card-gradient rounded-xl border border-slate-800 p-6 animate-in">
-          <div class="flex items-center gap-3">
-            <span class="inline-flex p-2 rounded-lg bg-brand-900/40 border border-brand-800">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 12l6-8 6 8-6 8-6-8z" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round"/></svg>
-            </span>
-            <h3 class="text-xl font-semibold">Hardware Maintenance</h3>
-          </div>
-          <p class="mt-3 text-slate-300">Precision alignment, component replacement, and reliability checks.</p>
-        </article>
-
-        <article class="card-gradient rounded-xl border border-slate-800 p-6 animate-in">
-          <div class="flex items-center gap-3">
-            <span class="inline-flex p-2 rounded-lg bg-brand-900/40 border border-brand-800">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 6h12v12H6z" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round"/></svg>
-            </span>
-            <h3 class="text-xl font-semibold">Hydraulic Maintenance</h3>
-          </div>
-          <p class="mt-3 text-slate-300">Leak prevention, pressure testing, and system performance tuning.</p>
-        </article>
-
-        <article class="card-gradient rounded-xl border border-slate-800 p-6 animate-in">
-          <div class="flex items-center gap-3">
-            <span class="inline-flex p-2 rounded-lg bg-brand-900/40 border border-brand-800">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 8h8v8H8z" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round"/></svg>
-            </span>
-            <h3 class="text-xl font-semibold">Pneumatic Maintenance</h3>
-          </div>
-          <p class="mt-3 text-slate-300">Air systems optimization, valve diagnostics, and component care.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Products -->
-  <section id="products" class="relative bg-slate-900">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="flex items-end justify-between">
-        <h2 class="font-brand text-3xl font-extrabold">Products Catalog</h2>
-        <a href="#build-price" class="inline-flex items-center gap-2 text-brand-300 hover:text-brand-200">
-          Build & Price a machine
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </a>
-      </div>
-
-      <p class="mt-4 text-slate-300">
-        Explore machine categories to understand capabilities. Aliyet brokers procurement and helps configure the right machine for your production.
-      </p>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-        <!-- Turning Center -->
-        <div class="card-gradient rounded-xl border border-slate-800 overflow-hidden animate-in">
-          <div class="p-6">
-            <div class="flex items-center gap-3">
-              <span class="inline-block w-10 h-10 rounded-lg bg-brand-900/40 border border-brand-800"></span>
-              <h3 class="text-xl font-semibold">Turning Center</h3>
-            </div>
-            <p class="mt-3 text-slate-300">High-precision CNC turning for shafts and rotational parts.</p>
-            <button class="mt-4 inline-flex items-center gap-2 text-brand-300 hover:text-brand-200" data-machine="Turning Center" onclick="startQuoteFromCard(this)">
-              Configure & Quote
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Machining Center -->
-        <div class="card-gradient rounded-xl border border-slate-800 overflow-hidden animate-in">
-          <div class="p-6">
-            <div class="flex items-center gap-3">
-              <span class="inline-block w-10 h-10 rounded-lg bg-brand-900/40 border border-brand-800"></span>
-              <h3 class="text-xl font-semibold">Machining Center</h3>
-            </div>
-            <p class="mt-3 text-slate-300">Multi-axis milling for complex geometries and high throughput.</p>
-            <button class="mt-4 inline-flex items-center gap-2 text-brand-300 hover:text-brand-200" data-machine="Machining Center" onclick="startQuoteFromCard(this)">
-              Configure & Quote
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- EDM machine -->
-        <div class="card-gradient rounded-xl border border-slate-800 overflow-hidden animate-in">
-          <div class="p-6">
-            <div class="flex items-center gap-3">
-              <span class="inline-block w-10 h-10 rounded-lg bg-brand-900/40 border border-brand-800"></span>
-              <h3 class="text-xl font-semibold">EDM Machine</h3>
-            </div>
-            <p class="mt-3 text-slate-300">Electrical discharge machining for intricate, hard materials.</p>
-            <button class="mt-4 inline-flex items-center gap-2 text-brand-300 hover:text-brand-200" data-machine="EDM Machine" onclick="startQuoteFromCard(this)">
-              Configure & Quote
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Build & Price -->
-  <section id="build-price" class="relative bg-slate-950">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="flex items-end justify-between">
-        <h2 class="font-brand text-3xl font-extrabold">Build & Price — Quote Request</h2>
-        <div class="text-slate-400 text-sm">Workflow is fixed: Machine → Main → Optional → Details</div>
-      </div>
-
-      <!-- Stepper -->
-      <div class="mt-8 grid lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2">
-          <div class="grid sm:grid-cols-4 gap-3">
-            <div id="step1Indicator" class="card-gradient rounded-xl p-4 border border-slate-800">
-              <div class="text-xs text-slate-400">Step 1</div>
-              <div class="font-semibold">Choose Machine</div>
-            </div>
-            <div id="step2Indicator" class="card-gradient rounded-xl p-4 border border-slate-800">
-              <div class="text-xs text-slate-400">Step 2</div>
-              <div class="font-semibold">Main Characteristics</div>
-            </div>
-            <div id="step3Indicator" class="card-gradient rounded-xl p-4 border border-slate-800">
-              <div class="text-xs text-slate-400">Step 3</div>
-              <div class="font-semibold">Optional Add-ons</div>
-            </div>
-            <div id="step4Indicator" class="card-gradient rounded-xl p-4 border border-slate-800">
-              <div class="text-xs text-slate-400">Step 4</div>
-              <div class="font-semibold">Your Details</div>
-            </div>
-          </div>
-
-          <!-- Panels -->
-          <div class="mt-8 space-y-8">
-            <!-- Step 1 -->
-            <div id="step1Panel" class="card-gradient rounded-xl p-6 border border-slate-800">
-              <div class="grid sm:grid-cols-3 gap-4">
-                <label class="group flex items-center gap-3 border border-slate-800 rounded-lg p-4 hover:border-brand-500 cursor-pointer">
-                  <input type="radio" name="machine" value="Turning Center" class="sr-only" />
-                  <span class="inline-block w-10 h-10 rounded-lg bg-brand-900/40 border border-brand-800"></span>
-                  <div>
-                    <div class="font-semibold">Turning Center</div>
-                    <div class="text-sm text-slate-400">CNC lathe for rotational parts</div>
-                  </div>
-                </label>
-                <label class="group flex items-center gap-3 border border-slate-800 rounded-lg p-4 hover:border-brand-500 cursor-pointer">
-                  <input type="radio" name="machine" value="Machining Center" class="sr-only" />
-                  <span class="inline-block w-10 h-10 rounded-lg bg-brand-900/40 border border-brand-800"></span>
-                  <div>
-                    <div class="font-semibold">Machining Center</div>
-                    <div class="text-sm text-slate-400">Multi-axis milling</div>
-                  </div>
-                </label>
-                <label class="group flex items-center gap-3 border border-slate-800 rounded-lg p-4 hover:border-brand-500 cursor-pointer">
-                  <input type="radio" name="machine" value="EDM Machine" class="sr-only" />
-                  <span class="inline-block w-10 h-10 rounded-lg bg-brand-900/40 border border-brand-800"></span>
-                  <div>
-                    <div class="font-semibold">EDM Machine</div>
-                    <div class="text-sm text-slate-400">Electrical discharge machining</div>
-                  </div>
-                </label>
-              </div>
-              <div class="mt-6 flex justify-end">
-                <button id="toStep2" class="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-5 py-3 rounded-lg">
-                  Continue
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- Step 2 -->
-            <div id="step2Panel" class="hidden card-gradient rounded-xl p-6 border border-slate-800">
-              <div id="mainOptions" class="grid sm:grid-cols-2 gap-4"></div>
-              <div class="mt-6 flex justify-between">
-                <button id="backTo1" class="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19 12H5m7-7l-7 7 7 7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-                  Back
-                </button>
-                <button id="toStep3" class="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-5 py-3 rounded-lg">
-                  Continue
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- Step 3 -->
-            <div id="step3Panel" class="hidden card-gradient rounded-xl p-6 border border-slate-800">
-              <div id="optionalOptions" class="grid sm:grid-cols-2 gap-4"></div>
-              <div class="mt-6 flex justify-between">
-                <button id="backTo2" class="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19 12H5m7-7l-7 7 7 7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-                  Back
-                </button>
-                <button id="toStep4" class="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-5 py-3 rounded-lg">
-                  Continue
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- Step 4 -->
-            <div id="step4Panel" class="hidden card-gradient rounded-xl p-6 border border-slate-800">
-              <div class="grid sm:grid-cols-2 gap-4">
-                <input id="fullName" type="text" placeholder="Full Name" class="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2" />
-                <input id="email" type="email" placeholder="Email" class="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2" />
-                <input id="phone" type="tel" placeholder="Telephone" class="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2" />
-                <input id="company" type="text" placeholder="Company" class="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2" />
-                <textarea id="message" rows="4" placeholder="Additional notes (optional)" class="sm:col-span-2 w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"></textarea>
-              </div>
-              <div class="mt-6 flex justify-between">
-                <button id="backTo3" class="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19 12H5m7-7l-7 7 7 7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-                  Back
-                </button>
-                <div class="flex items-center gap-3">
-                  <button id="submitQuote" class="inline-flex items-center gap-2 bg-accent-600 hover:bg-accent-600/90 text-white px-5 py-3 rounded-lg">
-                    Submit & Open Email
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4z" stroke="#fff" stroke-width="2"/><path d="M4 7l8 6 8-6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 md:opacity-60 group-hover:opacity-90 transition-opacity duration-300"></div>
+              
+              <div class="absolute bottom-0 left-0 p-6 w-full">
+                <h3 class="text-white text-2xl font-bold mb-2">{{ machine }}</h3>
+                <div class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 transition-all duration-300">
+                  <button class="bg-action-teal hover:bg-action-teal/90 text-charcoal font-bold py-2 px-4 rounded-md flex items-center text-sm">
+                    Configure & Price <i data-lucide="arrow-right" style="width:16px; height:16px;" class="ml-2"></i>
                   </button>
                 </div>
               </div>
-              <p class="mt-3 text-sm text-slate-400">
-                On submission a prefilled email to <span class="text-brand-300">contact@aliyet.net</span> opens with your selections. Server-side sending can be added later.
+            </div>
+          </div>
+
+          <div class="mt-8 md:hidden">
+            <a href="#" class="flex items-center justify-center font-bold text-deep-teal border-2 border-deep-teal rounded-md py-3">
+              View Full Catalog <i data-lucide="arrow-right" style="width:20px; height:20px;" class="ml-2"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- --- Build & Price Feature Section --- -->
+      <section id="build-price" class="py-20 bg-charcoal text-white relative overflow-hidden">
+        <!-- Abstract industrial background shapes -->
+        <div class="absolute top-0 right-0 -mt-24 -mr-24 text-deep-teal/20">
+          <i data-lucide="cog" style="width:400px; height:400px;"></i>
+        </div>
+        
+        <div class="container mx-auto px-4 md:px-8 relative z-10">
+          <div class="grid lg:grid-cols-5 gap-12 items-center">
+            <div class="lg:col-span-2">
+              <span class="inline-block py-1 px-3 rounded-full bg-action-teal/20 text-action-teal text-sm font-bold mb-6">
+                Interactive Quote Tool
+              </span>
+              <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Build Your Perfect Machine.</h2>
+              <p class="text-lg text-light-gray mb-8">
+                Know what you need? Use our streamlined "Build & Price" tool to configure your machine's characteristics and get a rapid quote directly to your inbox.
               </p>
+              <ul class="space-y-4 text-light-gray mb-8">
+                <li class="flex items-center gap-3"><div class="bg-charcoal p-1 rounded-full text-action-teal font-bold w-6 h-6 flex items-center justify-center text-xs">1</div> Select Machine Type</li>
+                <li class="flex items-center gap-3"><div class="bg-charcoal p-1 rounded-full text-action-teal font-bold w-6 h-6 flex items-center justify-center text-xs">2</div> Choose Main Characteristics</li>
+                <li class="flex items-center gap-3"><div class="bg-charcoal p-1 rounded-full text-action-teal font-bold w-6 h-6 flex items-center justify-center text-xs">3</div> Add Optional Features</li>
+              </ul>
+            </div>
+
+            <!-- Interactive Widget Entry Point -->
+            <div class="lg:col-span-3 bg-white text-slate-900 rounded-2xl p-6 md:p-8 shadow-2xl">
+              <h3 class="text-2xl font-bold mb-6">Start Your Configuration</h3>
+              
+              <div class="space-y-6">
+                <div>
+                  <label class="block text-sm font-bold text-slate-700 mb-2">Step 1: Select Machine Category</label>
+                  <div class="grid sm:grid-cols-3 gap-3">
+                    <button
+                      v-for="type in machineTypes"
+                      :key="type.id"
+                      @click="selectedMachineForQuote = type.id"
+                      class="py-4 px-3 rounded-lg border-2 font-medium text-sm transition-all"
+                      :class="selectedMachineForQuote === type.id 
+                        ? 'border-deep-teal bg-light-gray text-deep-teal' 
+                        : 'border-medium-gray hover:border-medium-gray/70 text-medium-gray'"
+                    >
+                      {{ type.label }}
+                    </button>
+                  </div>
+                </div>
+
+                <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 flex gap-4 items-start">
+                  <div class="bg-action-teal/20 p-2 rounded-full text-deep-teal mt-1">
+                    <i data-lucide="settings" style="width:20px; height:20px;"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-900">Ready to customize?</h4>
+                    <p class="text-sm text-slate-600">Continue to our full configuration tool to select spindles, axis details, and more.</p>
+                  </div>
+                </div>
+
+                <button class="w-full bg-action-teal hover:bg-action-teal/90 text-charcoal text-lg font-bold py-4 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center">
+                  Continue to Build & Price <i data-lucide="arrow-right" style="width:20px; height:20px;" class="ml-2"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <!-- Summary -->
-        <aside class="card-gradient rounded-xl p-6 border border-slate-800">
-          <h3 class="text-xl font-semibold">Quote Summary</h3>
-          <div id="summaryContent" class="mt-4 text-slate-300 space-y-2">
-            <p>No machine selected yet.</p>
+      <!-- --- Contact Section --- -->
+      <section id="contact" class="py-20 md:py-32 bg-slate-50">
+        <div class="container mx-auto px-4 md:px-8">
+          <div class="mb-12 text-center text-slate-900">
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Get In Touch</h2>
+            <p class="mt-4 text-lg max-w-2xl mx-auto text-slate-600">
+              Have a general inquiry or need emergency support? Reach out to our team.
+            </p>
+            <div class="mt-4 mx-auto h-1 w-24 rounded bg-deep-teal"></div>
           </div>
-          <div class="mt-6">
-            <button id="resetQuote" class="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg">
-              Reset
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 4v6h6M20 20v-6h-6M4 14a8 8 0 0114-5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-            </button>
+
+          <div class="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+            <!-- Contact Info -->
+            <div class="space-y-8">
+              <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
+                <div class="bg-action-teal/20 p-3 rounded-lg text-deep-teal">
+                  <i data-lucide="phone" style="width:24px; height:24px;"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-lg text-slate-900">Call Us</h4>
+                  <p class="text-slate-600">Mon-Fri from 8am to 6pm.</p>
+                  <a href="tel:+1234567890" class="text-deep-teal font-semibold mt-1 block hover:underline">+213 (0) 555 123 456</a>
+                </div>
+              </div>
+              <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
+                <div class="bg-action-teal/20 p-3 rounded-lg text-deep-teal">
+                  <i data-lucide="mail" style="width:24px; height:24px;"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-lg text-slate-900">Email Us</h4>
+                  <p class="text-slate-600">We'll respond within 24 hours.</p>
+                  <a href="mailto:contact@aliyet.net" class="text-deep-teal font-semibold mt-1 block hover:underline">contact@aliyet.net</a>
+                </div>
+              </div>
+              <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
+                <div class="bg-action-teal/20 p-3 rounded-lg text-deep-teal">
+                  <i data-lucide="map-pin" style="width:24px; height:24px;"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-lg text-slate-900">Visit Us</h4>
+                  <p class="text-slate-600">Industrial Zone, Algiers, Algeria</p>
+                  <a href="#" class="text-deep-teal font-semibold mt-1 block hover:underline">Get Directions</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100">
+              <h3 class="text-2xl font-bold mb-6 text-slate-900">Send a Message</h3>
+              <form class="space-y-6">
+                <div class="grid sm:grid-cols-2 gap-6">
+                  <div>
+                    <label for="name" class="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
+                    <input type="text" id="name" class="w-full px-4 py-3 rounded-md border-slate-200 focus:ring-deep-teal focus:border-deep-teal">
+                  </div>
+                  <div>
+                    <label for="email" class="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                    <input type="email" id="email" class="w-full px-4 py-3 rounded-md border-slate-200 focus:ring-deep-teal focus:border-deep-teal">
+                  </div>
+                </div>
+                <div>
+                  <label for="subject" class="block text-sm font-medium text-slate-700 mb-2">Subject</label>
+                  <input type="text" id="subject" class="w-full px-4 py-3 rounded-md border-slate-200 focus:ring-deep-teal focus:border-deep-teal">
+                </div>
+                <div>
+                  <label for="message" class="block text-sm font-medium text-slate-700 mb-2">Message</label>
+                  <textarea id="message" rows="4" class="w-full px-4 py-3 rounded-md border-slate-200 focus:ring-deep-teal focus:border-deep-teal"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-deep-teal hover:bg-deep-teal/90 text-white font-bold py-4 rounded-lg transition-colors">
+                  Send Message
+                </button>
+              </form>
+            </div>
           </div>
-        </aside>
-      </div>
-    </div>
-  </section>
+        </div>
+      </section>
+    </main>
 
-  <!-- Contact -->
-  <section id="contact" class="relative bg-slate-900">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <h2 class="font-brand text-3xl font-extrabold">Contact</h2>
-      <div class="grid lg:grid-cols-2 gap-8 mt-6">
-        <form class="card-gradient rounded-xl p-6 border border-slate-800 space-y-4" onsubmit="openContactEmail(event)">
-          <input id="cName" type="text" placeholder="Full Name" required class="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2" />
-          <input id="cEmail" type="email" placeholder="Email" required class="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2" />
-          <input id="cTel" type="tel" placeholder="Telephone" class="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2" />
-          <textarea id="cMsg" rows="5" placeholder="Your message" required class="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"></textarea>
-          <button type="submit" class="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-5 py-3 rounded-lg">
-            Send Email
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 7l8 6 8-6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-          </button>
-        </form>
+    <!-- --- Footer --- -->
+    <footer class="bg-charcoal text-slate-400">
+      <div class="container mx-auto px-4 md:px-8 py-16">
+        <div class="grid md:grid-cols-4 lg:grid-cols-5 gap-12">
+          <div class="lg:col-span-2">
+            <a href="#hero" class="flex items-center gap-2 mb-4">
+              <div class="bg-deep-teal text-white p-2 rounded-md">
+                <i data-lucide="cog" style="width:28px; height:28px;"></i>
+              </div>
+              <span class="text-2xl font-extrabold tracking-tight text-white">ALIYET</span>
+            </a>
+            <p class="text-slate-400 max-w-sm">
+              Your partner in industrial maintenance and machine procurement, ensuring your operations run smoothly and efficiently.
+            </p>
+          </div>
 
-        <div class="card-gradient rounded-xl p-0 border border-slate-800 overflow-hidden">
-          <iframe title="Aliyet Location" class="w-full h-[380px]" src="https://maps.google.com/maps?q=Casablanca&z=12&output=embed"></iframe>
-          <div class="p-4 text-sm text-slate-300 border-t border-slate-800">
-            Address, Phone, Email will be finalized during content integration. Map shows a placeholder location.
+          <div>
+            <h4 class="font-bold text-white mb-4">Company</h4>
+            <ul class="space-y-3">
+              <li><a href="#about" class="hover:text-white">About Us</a></li>
+              <li><a href="#services" class="hover:text-white">Services</a></li>
+              <li><a href="#products" class="hover:text-white">Products</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold text-white mb-4">Support</h4>
+            <ul class="space-y-3">
+              <li><a href="#contact" class="hover:text-white">Contact Us</a></li>
+              <li><a href="#" class="hover:text-white">FAQ</a></li>
+              <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold text-white mb-4">Follow Us</h4>
+            <div class="flex gap-4">
+              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md"><i data-lucide="twitter" style="width:20px; height:20px;"></i></a>
+              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md"><i data-lucide="linkedin" style="width:20px; height:20px;"></i></a>
+              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md"><i data-lucide="facebook" style="width:20px; height:20px;"></i></a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-slate-950 border-t border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div class="flex items-center gap-3">
-          <img src="logo.svg" alt="Aliyet logo" class="h-6 w-6" />
-          <span class="font-brand font-extrabold tracking-tight">Aliyet</span>
-        </div>
-        <div class="text-slate-400 text-sm">
-          © <span id="year"></span> Aliyet. All rights reserved. Aliyet acts as a broker in machine procurement.
-        </div>
-        <div class="flex items-center gap-3">
-          <a href="#build-price" class="text-brand-300 hover:text-brand-200">Get a Quote</a>
-          <a href="#services" class="text-slate-300 hover:text-white">Services</a>
-          <a href="#contact" class="text-slate-300 hover:text-white">Contact</a>
+      <div class="bg-charcoal py-4">
+        <div class="container mx-auto px-4 md:px-8 text-center text-sm">
+          <p>&copy; 2024 Aliyet. All Rights Reserved.</p>
         </div>
       </div>
-    </div>
-  </footer>
+    </footer>
+  </div>
 
   <script>
-    // Data derived to match PRD intent
-    const catalog = {
-      'Turning Center': {
-        main: ['Bed Length', 'Chuck Size', 'Spindle Speed', 'Control System'],
-        optional: ['Live Tooling', 'Y-axis', 'Chip Conveyor', 'Parts Catcher', 'Tool Probe']
-      },
-      'Machining Center': {
-        main: ['Table Size', 'Spindle Speed', 'Axis Count', 'Control System'],
-        optional: ['Tool Changer', 'Coolant Through Spindle', 'Chip Conveyor', 'Renishaw Probe', '4th Axis']
-      },
-      'EDM Machine': {
-        main: ['Work Tank Size', 'Wire Diameter', 'Generator Power', 'Control System'],
-        optional: ['Auto Wire Threading', 'Submerged Cutting', 'Automatic Flush', 'Dry Run Simulation']
-      }
-    };
+    const { createApp, ref, onMounted, onUpdated, computed } = Vue;
 
-    const state = {
-      step: 1,
-      machine: null,
-      main: {},
-      optional: {},
-      details: { fullName: '', email: '', phone: '', company: '', message: '' }
-    };
+    createApp({
+      setup() {
+        const isScrolled = ref(false);
+        const mobileMenuOpen = ref(false);
 
-    const el = {
-      stepPanels: [
-        document.getElementById('step1Panel'),
-        document.getElementById('step2Panel'),
-        document.getElementById('step3Panel'),
-        document.getElementById('step4Panel'),
-      ],
-      indicators: [
-        document.getElementById('step1Indicator'),
-        document.getElementById('step2Indicator'),
-        document.getElementById('step3Indicator'),
-        document.getElementById('step4Indicator'),
-      ],
-      summary: document.getElementById('summaryContent'),
-      mainOptions: document.getElementById('mainOptions'),
-      optionalOptions: document.getElementById('optionalOptions'),
-    };
+        const navLinks = ref([
+          { name: 'About', href: '#about' },
+          { name: 'Services', href: '#services' },
+          { name: 'Products', href: '#products' },
+          { name: 'Contact', href: '#contact' },
+        ]);
 
-    function updateIndicators() {
-      el.indicators.forEach((ind, i) => {
-        ind.classList.remove('step-active', 'step-done');
-        if (i + 1 === state.step) ind.classList.add('step-active');
-        if (i + 1 < state.step) ind.classList.add('step-done');
-      });
-    }
+        const services = ref([
+          { title: 'Corrective Maintenance', description: 'Rapid, on-site emergency repairs to minimize operational downtime and restore functionality.', icon: 'Wrench' },
+          { title: 'Preventive Maintenance', description: 'Scheduled inspections and servicing to prevent failures and extend the lifespan of your machinery.', icon: 'ShieldCheck' },
+          { title: 'Procurement Support', description: 'Expert assistance in sourcing, vetting, and acquiring the ideal machinery for your specific needs.', icon: 'ShoppingCart' },
+          { title: 'Technical Consultation', description: 'Strategic advice on optimizing your production line, improving efficiency, and long-term planning.', icon: 'BrainCircuit' },
+          { title: 'Operator Training', description: 'Comprehensive training programs to ensure your team can operate new machinery safely and effectively.', icon: 'Users' },
+        ]);
+        
+        const machineTypes = ref([
+          { id: 'turning', label: 'Turning Center' },
+          { id: 'machining', label: 'Machining Center' },
+          { id: 'edm', label: 'EDM Machine' },
+        ]);
+        
+        const selectedMachineForQuote = ref('turning');
 
-    function showStep(step) {
-      state.step = step;
-      el.stepPanels.forEach((p, i) => p.classList.toggle('hidden', i + 1 !== step));
-      updateIndicators();
-      renderSummary();
-    }
+        const handleScroll = () => {
+          isScrolled.value = window.scrollY > 50;
+        };
+        
+        const closeMobileMenu = () => {
+          mobileMenuOpen.value = false;
+        };
 
-    function renderMainOptions() {
-      const opts = catalog[state.machine]?.main || [];
-      el.mainOptions.innerHTML = opts.map(label => `
-        <label class="flex items-center gap-3 border border-slate-800 rounded-lg p-4 hover:border-brand-500 cursor-pointer">
-          <input type="text" data-key="${label}" placeholder="${label}" class="w-full rounded-md bg-slate-800 border border-slate-700 px-3 py-2" />
-        </label>
-      `).join('');
-      el.mainOptions.querySelectorAll('input').forEach(input => {
-        input.addEventListener('input', (e) => {
-          state.main[e.target.dataset.key] = e.target.value;
-          renderSummary();
-          persistState();
+        const toKebabCase = (str) => {
+          return str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+        };
+
+        onMounted(() => {
+          window.addEventListener('scroll', handleScroll);
+          lucide.createIcons();
         });
-      });
-    }
-
-    function renderOptionalOptions() {
-      const opts = catalog[state.machine]?.optional || [];
-      el.optionalOptions.innerHTML = opts.map(label => `
-        <label class="flex items-center justify-between gap-3 border border-slate-800 rounded-lg p-4 hover:border-brand-500 cursor-pointer">
-          <span>${label}</span>
-          <input type="checkbox" data-key="${label}" class="w-5 h-5 rounded bg-slate-800 border border-slate-700" />
-        </label>
-      `).join('');
-      el.optionalOptions.querySelectorAll('input[type="checkbox"]').forEach(chk => {
-        chk.addEventListener('change', (e) => {
-          state.optional[e.target.dataset.key] = e.target.checked;
-          renderSummary();
-          persistState();
+        
+        onUpdated(() => {
+          lucide.createIcons();
         });
-      });
-    }
 
-    function renderSummary() {
-      const main = Object.entries(state.main).filter(([_, v]) => v && v.trim().length);
-      const optional = Object.entries(state.optional).filter(([_, v]) => v);
-
-      el.summary.innerHTML = `
-        <div class="space-y-1">
-          <div><span class="text-slate-400">Machine:</span> <span class="font-semibold">${state.machine || '—'}</span></div>
-          <div class="pt-2"><span class="text-slate-400">Main Characteristics:</span></div>
-          <ul class="list-disc list-inside">
-            ${main.length ? main.map(([k, v]) => `<li><span class="text-slate-400">${k}:</span> ${v}</li>`).join('') : '<li>—</li>'}
-          </ul>
-          <div class="pt-2"><span class="text-slate-400">Optional Add-ons:</span></div>
-          <ul class="list-disc list-inside">
-            ${optional.length ? optional.map(([k]) => `<li>${k}</li>`).join('') : '<li>—</li>'}
-          </ul>
-          <div class="pt-2"><span class="text-slate-400">Contact:</span></div>
-          <ul class="list-disc list-inside">
-            <li>${state.details.fullName || '—'}</li>
-            <li>${state.details.email || '—'}</li>
-            <li>${state.details.phone || '—'}</li>
-            <li>${state.details.company || '—'}</li>
-          </ul>
-        </div>
-      `;
-    }
-
-    function persistState() {
-      try { localStorage.setItem('aliyetQuote', JSON.stringify(state)); } catch {}
-    }
-    function restoreState() {
-      try {
-        const saved = JSON.parse(localStorage.getItem('aliyetQuote') || '{}');
-        if (saved && saved.machine) {
-          Object.assign(state, saved);
-          // Re-render inputs if coming back
-          if (state.step >= 2) renderMainOptions();
-          if (state.step >= 3) renderOptionalOptions();
-          // Restore details
-          document.getElementById('fullName').value = state.details.fullName || '';
-          document.getElementById('email').value = state.details.email || '';
-          document.getElementById('phone').value = state.details.phone || '';
-          document.getElementById('company').value = state.details.company || '';
-          document.getElementById('message').value = state.details.message || '';
-          renderSummary();
-          updateIndicators();
-          el.stepPanels.forEach((p, i) => p.classList.toggle('hidden', i + 1 !== state.step));
-        }
-      } catch {}
-    }
-
-    // Event wiring
-    document.getElementById('toStep2').addEventListener('click', () => {
-      const selected = document.querySelector('input[name="machine"]:checked');
-      if (!selected) return alert('Please choose a machine type.');
-      state.machine = selected.value;
-      renderMainOptions();
-      showStep(2);
-      persistState();
-    });
-    document.getElementById('backTo1').addEventListener('click', () => showStep(1));
-    document.getElementById('toStep3').addEventListener('click', () => {
-      renderOptionalOptions();
-      showStep(3);
-    });
-    document.getElementById('backTo2').addEventListener('click', () => showStep(2));
-    document.getElementById('toStep4').addEventListener('click', () => showStep(4));
-    document.getElementById('backTo3').addEventListener('click', () => showStep(3));
-
-    document.getElementById('submitQuote').addEventListener('click', () => {
-      const fullName = document.getElementById('fullName').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const company = document.getElementById('company').value.trim();
-      const message = document.getElementById('message').value.trim();
-
-      if (!fullName || !email) return alert('Please provide your name and email.');
-
-      Object.assign(state.details, { fullName, email, phone, company, message });
-      persistState();
-
-      const main = Object.entries(state.main).filter(([_, v]) => v && v.trim().length);
-      const optional = Object.entries(state.optional).filter(([_, v]) => v);
-
-      const subject = encodeURIComponent(`Quote Request — ${state.machine || 'Machine'}`);
-      const body = encodeURIComponent(
-        `Machine Type: ${state.machine || '—'}\n\n` +
-        `Main Characteristics:\n${main.length ? main.map(([k, v]) => `- ${k}: ${v}`).join('\n') : '- —'}\n\n` +
-        `Optional Add-ons:\n${optional.length ? optional.map(([k]) => `- ${k}`).join('\n') : '- —'}\n\n` +
-        `Contact Details:\n- Name: ${fullName}\n- Email: ${email}\n- Phone: ${phone || '—'}\n- Company: ${company || '—'}\n\n` +
-        `Notes:\n${message || '—'}\n\n` +
-        `Sent via Aliyet Build & Price`
-      );
-      const mailto = `mailto:contact@aliyet.net?subject=${subject}&body=${body}`;
-      window.location.href = mailto;
-    });
-
-    document.getElementById('resetQuote').addEventListener('click', () => {
-      state.step = 1;
-      state.machine = null;
-      state.main = {};
-      state.optional = {};
-      state.details = { fullName: '', email: '', phone: '', company: '', message: '' };
-      localStorage.removeItem('aliyetQuote');
-
-      // Reset UI
-      document.querySelectorAll('input[name="machine"]').forEach(r => r.checked = false);
-      document.getElementById('fullName').value = '';
-      document.getElementById('email').value = '';
-      document.getElementById('phone').value = '';
-      document.getElementById('company').value = '';
-      document.getElementById('message').value = '';
-
-      showStep(1);
-      el.mainOptions.innerHTML = '';
-      el.optionalOptions.innerHTML = '';
-    });
-
-    // CTA buttons
-    ['openQuoteTop', 'openQuoteMobile', 'openQuoteHero'].forEach(id => {
-      const btn = document.getElementById(id);
-      if (btn) btn.addEventListener('click', () => {
-        document.getElementById('mobileMenu')?.classList.add('hidden');
-        window.location.hash = '#build-price';
-        showStep(1);
-      });
-    });
-
-    // Mobile menu toggle
-    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.toggle('hidden');
-    });
-
-    // Card "Configure & Quote" buttons
-    function startQuoteFromCard(elm) {
-      const machine = elm?.dataset?.machine;
-      if (machine) {
-        state.machine = machine;
-        // Check the corresponding radio
-        document.querySelectorAll('input[name="machine"]').forEach(r => {
-          r.checked = r.value === machine;
-        });
-        window.location.hash = '#build-price';
-        renderMainOptions();
-        showStep(2);
-        persistState();
+        return {
+          isScrolled,
+          mobileMenuOpen,
+          navLinks,
+          services,
+          machineTypes,
+          selectedMachineForQuote,
+          closeMobileMenu,
+          toKebabCase,
+        };
       }
-    }
-    window.startQuoteFromCard = startQuoteFromCard;
-
-    // Intersection animation
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
-
-    // Footer year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Theme initialization and toggle
-    (function() {
-      const root = document.documentElement;
-      function applyTheme(t) {
-        if (t === 'dark') root.classList.add('dark'); else root.classList.remove('dark');
-      }
-      try {
-        const saved = localStorage.getItem('theme');
-        if (saved === 'dark' || saved === 'light') {
-          applyTheme(saved);
-        } else {
-          applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        }
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-          if (!localStorage.getItem('theme')) applyTheme(e.matches ? 'dark' : 'light');
-        });
-      } catch {
-        applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      }
-      function toggleTheme() {
-        const next = root.classList.contains('dark') ? 'light' : 'dark';
-        applyTheme(next);
-        try { localStorage.setItem('theme', next); } catch {}
-      }
-      document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
-      document.getElementById('themeToggleMobile')?.addEventListener('click', toggleTheme);
-    })();
-
-    // Restore state on load
-    restoreState();
+    }).mount('#app');
   </script>
 </body>
 </html>
