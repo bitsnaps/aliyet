@@ -173,31 +173,36 @@
       <section id="hero" class="relative min-h-[90vh] flex items-center pt-20">
         <!-- Background Image Placeholder -->
         <div class="absolute inset-0 bg-charcoal">
-           <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1565035051432-57b00135d404?q=80&w=2940&auto=format&fit=crop')] bg-cover bg-center opacity-40 mix-blend-overlay"></div>
+           <div class="absolute inset-0 bg-[url('./images/background.jpg')] bg-cover bg-center opacity-40 mix-blend-overlay"></div>
            <div class="absolute inset-0 bg-gradient-to-r from-charcoal via-deep-teal/70 to-transparent"></div>
         </div>
 
         <div class="container mx-auto px-4 md:px-8 relative z-10">
-          <div class="max-w-3xl animate-fade-in-right">
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight font-heading">
-              Keep Your Factory <span class="text-action-teal">Running.</span>
-            </h1>
-            <p class="mt-6 text-xl text-slate-300 max-w-xl leading-relaxed">
-              Your trusted partner for expert industrial maintenance and seamless machine procurement. Minimize downtime, maximize efficiency.
-            </p>
-            <div class="mt-10 flex flex-col sm:flex-row gap-4">
-              <a 
-                href="#services"
-                class="bg-deep-teal hover:bg-deep-teal/90 text-white px-8 py-4 rounded-md font-bold text-lg flex items-center justify-center gap-2 transition-all"
-              >
-                Explore Services <i data-lucide="arrow-right" style="width:20px; height:20px;"></i>
-              </a>
-              <a 
-                href="#build-price"
-                class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 rounded-md font-bold text-lg flex items-center justify-center gap-2 transition-all"
-              >
-                Get Machine Quote
-              </a>
+          <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div class="max-w-3xl animate-fade-in-right">
+              <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight font-heading">
+                Keep Your Factory <span class="text-action-teal">Running.</span>
+              </h1>
+              <p class="mt-6 text-xl text-slate-300 max-w-xl leading-relaxed">
+                Your trusted partner for expert industrial maintenance and seamless machine procurement. Minimize downtime, maximize efficiency.
+              </p>
+              <div class="mt-10 flex flex-col sm:flex-row gap-4">
+                <a
+                  href="#services"
+                  class="bg-deep-teal hover:bg-deep-teal/90 text-white px-8 py-4 rounded-md font-bold text-lg flex items-center justify-center gap-2 transition-all"
+                >
+                  Explore Services <i data-lucide="arrow-right" style="width:20px; height:20px;"></i>
+                </a>
+                <a
+                  href="#build-price"
+                  class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 rounded-md font-bold text-lg flex items-center justify-center gap-2 transition-all"
+                >
+                  Get Machine Quote
+                </a>
+              </div>
+            </div>
+            <div class="hidden md:block">
+                <img src="./images/machine01.jpg" alt="Industrial Machine" class="rounded-lg shadow-2xl" width="80%">
             </div>
           </div>
         </div>
