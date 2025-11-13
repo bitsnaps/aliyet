@@ -428,7 +428,7 @@
                 <div>
                   <h4 class="font-bold text-lg text-slate-900">Call Us</h4>
                   <p class="text-slate-600">Mon-Fri from 8am to 6pm.</p>
-                  <a href="tel:+1234567890" class="text-deep-teal font-semibold mt-1 block hover:underline">+213 (0) 555 123 456</a>
+				  <a :href="`tel:${contacts.tel.replaceAll(' ','').replaceAll('(0)','')}`" class="text-deep-teal font-semibold mt-1 block hover:underline">{{ contacts.tel }}</a>                  
                 </div>
               </div>
               <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
@@ -438,7 +438,7 @@
                 <div>
                   <h4 class="font-bold text-lg text-slate-900">Email Us</h4>
                   <p class="text-slate-600">We'll respond within 24 hours.</p>
-                  <a href="mailto:contact@aliyet.net" class="text-deep-teal font-semibold mt-1 block hover:underline">contact@aliyet.net</a>
+                  <a href="mailto:contact@aliyet.net" class="text-deep-teal font-semibold mt-1 block hover:underline">{{ contacts.email }}</a>
                 </div>
               </div>
               <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
@@ -447,8 +447,8 @@
                 </div>
                 <div>
                   <h4 class="font-bold text-lg text-slate-900">Visit Us</h4>
-                  <p class="text-slate-600">Coop. El Amel Lot 77, Gue de Constantine, Algiers, Algeria</p>
-                  <a href="https://maps.app.goo.gl/hT4EHyToxyobWgqr5" class="text-deep-teal font-semibold mt-1 block hover:underline">Get Directions</a>
+                  <p class="text-slate-600">{{ contacts.address }}</p>
+                  <a :href="contacts.maps" class="text-deep-teal font-semibold mt-1 block hover:underline">Get Directions</a>
                 </div>
               </div>
             </div>
@@ -521,8 +521,11 @@
               Your partner in industrial maintenance and machine procurement, ensuring your operations run smoothly and efficiently.
             </p>
             <p class="text-slate-400 max-w-sm mt-4">
-              <strong>Email:</strong> contact@aliyet.net
+              <strong>Email:</strong> <a href="mailto:contact@aliyet.net" class="hover:underline">{{ contacts.email }}</a>
             </p>
+            <p class="text-slate-400 max-w-sm mt-4">			
+				<strong>Tel:</strong> <a :href="`tel:${contacts.tel.replaceAll(' ','').replaceAll('(0)','')}`" class="hover:underline">{{ contacts.tel }}</a>
+			</p>
           </div>
 
           <div>
@@ -557,7 +560,7 @@
       </div>
       <div class="bg-charcoal py-4">
         <div class="container mx-auto px-4 md:px-8 text-center text-sm">
-          <p>&copy; {{new Date().getFullYear()}} Aliyet. All Rights Reserved.</p>
+          <p>&copy; {{ new Date().getFullYear() }} Aliyet. All Rights Reserved.</p>
         </div>
       </div>
     </footer>
@@ -605,6 +608,13 @@
         ]);
         
         const selectedMachineForQuote = ref('turning');
+		
+		const contacts = ref({
+			email: 'contact@aliyet.net',
+			tel: '+213 (0) 555 123 456',
+			address: 'Coop. El Amel Lot 77, Gue de Constantine, Algiers, Algeria',
+			maps: 'https://maps.app.goo.gl/hT4EHyToxyobWgqr5'
+		});
 
         const handleScroll = () => {
           isScrolled.value = window.scrollY > 50;
@@ -634,6 +644,7 @@
           services,
           machineTypes,
           selectedMachineForQuote,
+          contacts,
           closeMobileMenu,
           scrollToTop
         };
