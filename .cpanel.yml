@@ -1,6 +1,0 @@
----
-deployment:
- tasks:
- - export DEPLOYPATH=/home/sqabynnr/public_html/
- - /bin/cp index.html $DEPLOYPATH
- - /bin/cp logo.svg $DEPLOYPATH
