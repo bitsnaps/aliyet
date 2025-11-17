@@ -1,0 +1,338 @@
+/* Nuxt-like UI baseline CSS (generic default theme) */
+
+/* Palette and sizing variables */
+:root {
+  --nuxt-color-primary: #4f46e5;
+  --nuxt-color-primary-500: #6366f1;
+  --nuxt-color-primary-400: #818cf8;
+  --nuxt-color-primary-600: #4338ca;
+  --nuxt-color-secondary: #64748b;
+  --nuxt-color-success: #10b981;
+  --nuxt-color-info: #3b82f6;
+  --nuxt-color-warning: #f59e0b;
+  --nuxt-color-danger: #ef4444;
+
+  --nuxt-bg: #f7f7fb;
+  --nuxt-surface: #ffffff;
+  --nuxt-border: #e5e7eb;
+  --nuxt-text: #1f2937;
+  --nuxt-subtext: #6b7280;
+
+  --nuxt-radius: 12px;
+  --nuxt-radius-sm: 8px;
+  --nuxt-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  --nuxt-shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+  --nuxt-focus-ring: 0 0 0 6px rgba(99, 102, 241, 0.15);
+  --nuxt-gram: 1px solid var(--nuxt-border);
+}
+
+/* Global resets and base typography */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body, #__nuxt {
+  height: 100%;
+}
+
+html {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--nuxt-bg);
+  color: var(--nuxt-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.25;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--nuxt-bg);
+  color: var(--nuxt-text);
+}
+
+a { color: var(--nuxt-color-primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { display: block; max-width: 100%; height: auto; }
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--nuxt-text);
+}
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: .95rem; }
+
+p { margin: 0 0 0.75rem; color: var(--nuxt-subtext); }
+
+/* Layout containers */
+.nuxt-container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.nuxt-section {
+  padding: 2rem 0;
+}
+
+/* Cards and surfaces */
+.nuxt-card {
+  background: var(--nuxt-surface);
+  border: 1px solid var(--nuxt-border);
+  border-radius: var(--nuxt-radius);
+  padding: 1rem;
+  box-shadow: var(--nuxt-shadow-soft);
+}
+
+.nuxt-card.soft {
+  border-radius: var(--nuxt-radius-sm);
+  box-shadow: 0 2px 6px rgba(0,0,0,.04);
+}
+
+.nuxt-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--nuxt-border);
+  margin-bottom: 0.75rem;
+}
+
+.nuxt-card-actions {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
+
+.nuxt-card-content {
+  color: var(--nuxt-text);
+}
+
+/* Buttons (primary, secondary, ghost, etc.) */
+.nuxt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .02s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
+  user-select: none;
+  background: var(--nuxt-color-primary);
+  color: #fff;
+  box-shadow: 0 1px 0 rgba(0,0,0,.04);
+}
+.nuxt-btn:hover { transform: translateY(-1px); background: #4338ca; }
+.nuxt-btn:active { transform: translateY(0); }
+
+.nuxt-btn.primary { background: var(--nuxt-color-primary); }
+.nuxt-btn.primary:hover { background: var(--nuxt-color-primary-600); }
+
+.nuxt-btn.secondary {
+  background: #f3f4f6;
+  color: var(--nuxt-text);
+  border: 1px solid #e5e7eb;
+}
+.nuxt-btn.secondary:hover {
+  background: #e5e7eb;
+}
+
+.nuxt-btn.ghost {
+  background: transparent;
+  color: var(--nuxt-color-primary);
+  border: 1px solid rgba(99,102,241,.6);
+}
+.nuxt-btn.ghost:hover {
+  background: rgba(99,102,241,.08);
+}
+
+.nuxt-btn.block {
+  width: 100%;
+}
+
+.nuxt-btn.sm { padding: 0.5rem 0.75rem; font-size: .875rem; border-radius: 6px; }
+.nuxt-btn.lg { padding: 0.9rem 1.25rem; font-size: 1rem; border-radius: 10px; }
+
+/* Form controls */
+.nuxt-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.nuxt-input {
+  display: grid;
+  gap: .25rem;
+}
+
+.nuxt-label {
+  font-size: .85rem;
+  color: var(--nuxt-subtext);
+  display: block;
+}
+
+.nuxt-input input,
+.nuxt-input textarea,
+.nuxt-input select {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--nuxt-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--nuxt-text);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.nuxt-input input:focus,
+.nuxt-input textarea:focus,
+.nuxt-input select:focus {
+  border-color: var(--nuxt-color-primary);
+  box-shadow: var(--nuxt-focus-ring);
+}
+.nuxt-input textarea { min-height: 120px; resize: vertical; }
+
+/* Simple global helpers for spacing (optional utility-like) */
+.mt-1 { margin-top: .25rem; }
+.mt-2 { margin-top: .5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+.mb-1 { margin-bottom: .25rem; }
+.mb-2 { margin-bottom: .5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+
+/* Grid system (generic) */
+.nuxt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+@media (max-width: 640px) {
+  .nuxt-grid { grid-template-columns: 1fr; }
+}
+
+/* Navbar / header */
+.nuxt-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  border-bottom: 1px solid var(--nuxt-border);
+  box-shadow: 0 2px 6px rgba(0,0,0,.04);
+}
+.nuxt-navbar .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-weight: 700;
+  color: var(--nuxt-text);
+  text-decoration: none;
+}
+.nuxt-navbar .brand .brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: inline-block;
+  background: linear-gradient(135deg, var(--nuxt-color-primary), #4f46e5);
+}
+.nuxt-navbar .nav {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.nuxt-navbar .nav a {
+  padding: .5rem .75rem;
+  border-radius: 6px;
+  color: var(--nuxt-text);
+}
+.nuxt-navbar .nav a:hover {
+  background: rgba(99,102,241,.08);
+  text-decoration: none;
+}
+
+/* Footer */
+.nuxt-footer {
+  padding: 1rem;
+  border-top: 1px solid var(--nuxt-border);
+  background: #fff;
+  color: var(--nuxt-subtext);
+  text-align: center;
+}
+
+/* Badges / pills */
+.nuxt-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25em 0.6em;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 600;
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+.nuxt-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+
+/* Avatar / avatar group */
+.nuxt-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-block;
+  background: #e5e7eb;
+}
+.nuxt-avatar.sm { width: 24px; height: 24px; }
+
+/* Modals / overlays (basic) */
+.nuxt-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(2, 6, 23, 0.6);
+  z-index: 100;
+}
+.nuxt-modal.open { display: grid; }
+.nuxt-modal .dialog {
+  width: min(92vw, 640px);
+  max-width: 92vw;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid var(--nuxt-border);
+  box-shadow: 0 20px 40px rgba(0,0,0,.15);
+  padding: 1rem;
+}
+.nuxt-modal .dialog-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: .75rem; border-bottom: 1px solid var(--nuxt-border);
+}
+.nuxt-modal .dialog-content { padding: .5rem 0; }
+
+/* Light helper: visually-hidden for accessibility */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}

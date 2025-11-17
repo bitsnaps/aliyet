@@ -28,11 +28,28 @@ dist/uploads/*
 
 # var env
 .env
-api/.env
-api/.env.*
 
 # docs
 docs/
 
 # uploads
 public/uploads
+
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.fleet
+.idea
