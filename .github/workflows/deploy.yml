@@ -62,33 +62,35 @@ jobs:
       - name: Build Nuxt app
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
   # Deployment job
-  # deploy:
-  #   needs: build
-  #   name: Deploy Nuxt app to FTP server
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Download build artifact
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: nuxt-dist
-  #         path: .      
-  #     - name: Deploy to FTP server
-  #     uses: pontago/lftp-deploy-action@v1.0.1
-  #     with:
-  #       host: ${{ secrets.FTP_SERVER }}
-  #       username: ${{ secrets.FTP_USERNAME }}
-  #       password: ${{ secrets.FTP_PASSWORD }}
-  #       port: 21
-  #       protocol: 'ftp'
-  #       local_dir: './.nuxt/dist'
-  #       remote_dir: "/home/${{ secrets.USERNAME }}/public_html"
-  #       script: |
-  #         ls -la
-  #       # You can check the operation. Not upload and create remote directory.
-  #       dry_run: # optional
-  #       # Debug mode. Output lftp log and upload verbose.
-  #       debug: # optional
-  #       # Timeout in seconds.
-  #       timeout: # optional, default is 30
-  #       # Max retries. 0 is unlimited. 1 means no retries.
-  #       max_retries: # optional, default is 5
+  deploy:
+    name: Deploy Nuxt app to FTP server
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: write    
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: nuxt-dist
+          path: . 
+      - name: Deploy to FTP server
+        uses: pontago/lftp-deploy-action@v1.0.1
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 21
+          protocol: 'ftp'
+          local_dir: './.nuxt/dist'
+          remote_dir: "~/public_html"
+          script: |
+            ls -la
+          # You can check the operation. Not upload and create remote directory.
+          # dry_run: # optional
+          # Debug mode. Output lftp log and upload verbose.
+          # debug: # optional
+          # Timeout in seconds.
+          # timeout: # optional, default is 30
+          # Max retries. 0 is unlimited. 1 means no retries.
+          # max_retries: # optional, default is 5
