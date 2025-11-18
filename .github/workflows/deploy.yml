@@ -61,36 +61,29 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build Nuxt app
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
-
   # Deployment job
   # deploy:
-  #   - name: FTP Deploy Action via lftp (FTP, SFTP, FTPS)
-  #     # You may pin to the exact commit or the version.
-  #     # uses: pontago/lftp-deploy-action@47debd112419af76b6b7c0ee7861dc506a26f01b
+  #   needs: build
+  #   name: Deploy Nuxt app to FTP server
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Download build artifact
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: nuxt-dist
+  #         path: .      
+  #     - name: Deploy to FTP server
   #     uses: pontago/lftp-deploy-action@v1.0.1
   #     with:
-  #       # Sever Hostname or IP
-  #       host: # default is 
-  #       # Login Username
-  #       username: # default is 
-  #       # Login Password
-  #       password: # optional, default is 
-  #       # Default port are FTP(21), SFTP(22).
-  #       port: # optional, default is 
-  #       # Transfer protocol (ftp, ftps, sftp)
-  #       protocol: # optional, default is ftp
-  #       # If you want to use SSH Private Key, protocol parameter should be sftp.
-  #       ssh_private_key: # optional, default is 
-  #       # If you want to no SSL verification, false. (FTPS)
-  #       verify_cert: # optional, default is true
-  #       # Upload source directory.
-  #       local_dir: # optional, default is 
-  #       # Upload remote directory.
-  #       remote_dir: # optional, default is 
-  #       # If doesn't exists, create remote directory.
-  #       create_remote_dir: # optional, default is true
-  #       # Support lftp commands. If you input local_dir and remote_dir, the script will be executed after mirror command.
-  #       script: # optional, default is 
+  #       host: ${{ secrets.FTP_SERVER }}
+  #       username: ${{ secrets.FTP_USERNAME }}
+  #       password: ${{ secrets.FTP_PASSWORD }}
+  #       port: 21
+  #       protocol: 'ftp'
+  #       local_dir: './.nuxt/dist'
+  #       remote_dir: "/home/${{ secrets.USERNAME }}/public_html"
+  #       script: |
+  #         ls -la
   #       # You can check the operation. Not upload and create remote directory.
   #       dry_run: # optional
   #       # Debug mode. Output lftp log and upload verbose.
