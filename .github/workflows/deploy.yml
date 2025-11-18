@@ -19,19 +19,47 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Detect package manager
+        id: detect-package-manager
+        run: |
+          if [ -f "${{ github.workspace }}/yarn.lock" ]; then
+            echo "manager=yarn" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/package-lock.json" ]; then
+            echo "manager=npm" >> $GITHUB_OUTPUT
+            echo "command=ci" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/pnpm-lock.yaml" ]; then
+            echo "manager=pnpm" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            exit 0
+          else
+            echo "Unable to determine package manager"
+            exit 1
+          fi        
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          package-manager-cache: true
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Enable Corepack and install pnpm
         run: |
           corepack enable
-          corepack prepare pnpm@latest --activate          
+          corepack prepare pnpm@latest --activate
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist
+            .nuxt
+          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('dist') }}
+          restore-keys: |
+            ${{ runner.os }}-nuxt-build-          
       - name: Install dependencies
-        run: pnpm install
-      - name: Static HTML export with Nuxt
-        run: pnpm run build
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Build Nuxt app
+        run: ${{ steps.detect-package-manager.outputs.manager }} run build
 
   # Deployment job
   # deploy:
