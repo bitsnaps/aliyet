@@ -62,7 +62,6 @@ jobs:
       - name: Build Nuxt app
         run: |
           ${{ steps.detect-package-manager.outputs.manager }} run build
-          ${{ steps.detect-package-manager.outputs.manager }} run generate
       - name: Update frontend files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
