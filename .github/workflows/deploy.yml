@@ -67,7 +67,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: nuxt-dist
-          path: ${{ runner.os }}-nuxt-build-${{ hashFiles('dist') }}        
+          path: ./output/public       
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
