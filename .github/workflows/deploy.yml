@@ -59,7 +59,7 @@ jobs:
             ${{ runner.os }}-nuxt-build-          
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-      - name: Build Nuxt app
+      - name: Generate SPA
         run: |
           ${{ steps.detect-package-manager.outputs.manager }} run generate
       - name: Update frontend files
@@ -75,3 +75,18 @@ jobs:
             **/.git*
             **/.git*/**
             **/node_modules/**
+      - name: Build server
+        run: |
+          ${{ steps.detect-package-manager.outputs.manager }} run build
+      - name: Update server files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./.output/server/
+          server-dir: ./api/
+          # dangerous-clean-slate: true # this will make the deployment very slow...
+          exclude: |
+            **/.git*
+            **/.git*/**
