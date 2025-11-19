@@ -17,6 +17,12 @@ const machineTypes = ref([
 ]);
 
 const selectedMachineForQuote = ref('turning');
+
+const showInfo = async () => {
+  const { timestamp } = await $fetch('/api/health');
+  console.log(timestamp);
+}
+
 </script>
 <template>
     <main>
@@ -46,6 +52,7 @@ const selectedMachineForQuote = ref('turning');
                 </a>
                 <a
                   href="#build-price"
+                  @click.prevent="showInfo"
                   class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 rounded-md font-bold text-lg flex items-center justify-center gap-2 transition-all"
                 >
                   Get Machine Quote
