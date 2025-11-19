@@ -69,21 +69,8 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
+          local-dir: ./.output/public/
           server-dir: ./public_html/
-          # dangerous-clean-slate: true # this will make the deployment very slow...
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-      - name: Update api files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./.output/server/
-          server-dir: ./api/
           # dangerous-clean-slate: true # this will make the deployment very slow...
           exclude: |
             **/.git*
