@@ -15,10 +15,10 @@ const mobileMenuOpen = useState('mobileMenuOpen', () => false);
 </script>
 
 <template>
-  <div>
-    <NuxtLayout>
+  <div class="min-h-screen bg-light-gray font-sans text-charcoal overflow-x-hidden">
+    <UApp>
       <NuxtPage />
-    </NuxtLayout>
+    </UApp>
 
     <GoToTop />
   </div>

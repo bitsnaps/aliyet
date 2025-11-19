@@ -64,15 +64,12 @@ jobs:
           ${{ steps.detect-package-manager.outputs.manager }} run build
           ${{ steps.detect-package-manager.outputs.manager }} run generate
       - name: Update files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        uses: pontago/lftp-deploy-action@master
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
-          server-dir: ./public_html/
-          # dangerous-clean-slate: true # this will make the deployment very slow...
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
+          local_dir: ./dist/
+          remote_dir: ./public_html/
+          script: |
+            ls -l .
