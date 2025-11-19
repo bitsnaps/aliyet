@@ -61,7 +61,7 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Generate SPA
         run: |
-          ${{ steps.detect-package-manager.outputs.manager }} run generate
+          ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Update frontend files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
@@ -75,9 +75,6 @@ jobs:
             **/.git*
             **/.git*/**
             **/node_modules/**
-      - name: Build server
-        run: |
-          ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Update server files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
@@ -85,7 +82,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./.output/server/
-          server-dir: ./api/
+          server-dir: ./app/.output/server/
           # dangerous-clean-slate: true # this will make the deployment very slow...
           exclude: |
             **/.git*

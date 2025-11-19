@@ -2,7 +2,11 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: false },
-  // ssr: false, // for Client-side Only Rendering
+  ssr: true, // Enable Server Side Rendering (Full Stack)
+
+  nitro: {
+    preset: 'node-server', // Builds a standalone Node server
+  },
   modules: [
     '@nuxt/ui'
   ],
@@ -20,14 +24,16 @@ export default defineNuxtConfig({
   //     //
   //   },
   // },
-  runtimeConfig: {
+  // runtimeConfig: {
     // Keys within public are also exposed client-side
-    public: {
-      apiBase: '/api',
-    },    
-  },
+    // public: {
+    //   apiBase: '/api',
+    // },    
+  // },
   css: ['~/assets/main.css'],
   app: {
+    baseURL: '/', // Keep this as root
+    buildAssetsDir: '/_nuxt/', // Standard assets directory    
     head: {
       title: 'Ailyaat',
       htmlAttrs: {
