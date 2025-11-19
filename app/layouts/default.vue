@@ -4,10 +4,12 @@ const route = useRoute()
 useHead({
   meta: [{ property: 'og:title', content: `Aliyaat - ${route.meta.title}` }],
 })
+
 </script>
 <template>
-  <div>
+  <div class="antialiased">
     <AppHeader />
+    <MobileOverlay />
     <slot />
     <AppFooter />
   </div>

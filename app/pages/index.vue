@@ -1,9 +1,359 @@
-<script setup lang="ts">
+<script setup>
+
+const contacts = useState('contacts');
+
+const services = ref([
+    { title: 'Corrective Maintenance', description: 'Rapid, on-site emergency repairs to minimize operational downtime and restore functionality.', icon: 'wrench' },
+    { title: 'Preventive Maintenance', description: 'Scheduled inspections and servicing to prevent failures and extend the lifespan of your machinery.', icon: 'shield-check' },
+    { title: 'Procurement Support', description: 'Expert assistance in sourcing, vetting, and acquiring the ideal machinery for your specific needs.', icon: 'shopping-cart' },
+    { title: 'Technical Consultation', description: 'Strategic advice on optimizing your production line, improving efficiency, and long-term planning.', icon: 'brain-circuit' },
+    { title: 'Operator Training', description: 'Comprehensive training programs to ensure your team can operate new machinery safely and effectively.', icon: 'users' },
+]);
+
+const machineTypes = ref([
+    { id: 'turning', label: 'Turning Center' },
+    { id: 'machining', label: 'Machining Center' },
+    { id: 'edm', label: 'EDM Machine' },
+]);
+
+const selectedMachineForQuote = ref('turning');
 </script>
 <template>
-    <div>
-        <h1>الموقع قيد طور الإنجاز...</h1>
-        <p>Email: <a href="mailto:contact@aliyaat.net">contact@aliyaat.net</a></p>
-        <p>Tel: +213 (0) 555 123 456</p>
-    </div>    
+    <main>
+      <!-- Hero Section -->
+      <section id="hero" class="relative min-h-[90vh] flex items-center pt-20">
+        <!-- Background Image Placeholder -->
+        <div class="absolute inset-0 bg-charcoal">
+           <div class="absolute inset-0 bg-[url('./images/background.jpg')] bg-cover bg-center opacity-40 mix-blend-overlay"></div>
+           <div class="absolute inset-0 bg-gradient-to-r from-charcoal via-deep-teal/70 to-transparent"></div>
+        </div>
+
+        <div class="container mx-auto px-4 md:px-8 relative z-10">
+          <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div class="max-w-3xl animate-fade-in-right">
+              <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight font-heading">
+                Keep Your Factory <span class="text-action-teal">Running.</span>
+              </h1>
+              <p class="mt-6 text-xl text-slate-300 max-w-xl leading-relaxed">
+                Your trusted partner for expert industrial maintenance and seamless machine procurement. Minimize downtime, maximize efficiency.
+              </p>
+              <div class="mt-10 flex flex-col sm:flex-row gap-4">
+                <a
+                  href="#services"
+                  class="bg-deep-teal hover:bg-deep-teal/90 text-white px-8 py-4 rounded-md font-bold text-lg flex items-center justify-center gap-2 transition-all"
+                >
+                  Explore Services <i data-lucide="arrow-right" style="width:20px; height:20px;"></i>
+                </a>
+                <a
+                  href="#build-price"
+                  class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 rounded-md font-bold text-lg flex items-center justify-center gap-2 transition-all"
+                >
+                  Get Machine Quote
+                </a>
+              </div>
+            </div>
+            <div class="hidden md:block">
+                <img src="/images/machine01.jpg" alt="Industrial Machine" class="rounded-lg shadow-2xl" width="80%">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Trust Signals -->
+      <div class="bg-white py-8 border-b border-slate-200">
+        <div class="container mx-auto px-4 md:px-8">
+          <p class="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-6">Trusted by industry leaders</p>
+          <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale">
+            <!-- Logo Placeholders -->
+            <div v-for="i in 5" :key="i" class="h-8 w-32 bg-slate-300 rounded-md animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- About Us Section -->
+      <section id="about" class="py-20 md:py-32 bg-white">
+        <div class="container mx-auto px-4 md:px-8 grid md:grid-cols-2 gap-16 items-center">
+          <div>
+            <h4 class="text-deep-teal font-bold uppercase tracking-wider mb-4">About Aliyaat</h4>
+            <h2 class="text-4xl font-bold text-slate-900 mb-6 leading-tight">Ensuring Industrial Excellence Through Reliability.</h2>
+            <p class="text-lg text-slate-600 mb-6 leading-relaxed">
+              Aliyaat was founded with a clear mission: to bridge the gap between top-tier industrial machinery and the workshops that rely on them. We are more than just a service provider; we are your technical partner on the factory floor.
+            </p>
+            <ul class="space-y-3">
+              <li class="flex items-center gap-3 text-slate-700 font-medium">
+                <i data-lucide="check-circle-2" class="text-action-teal" style="width:20px; height:20px;"></i>
+                Certified expert technicians
+              </li>
+              <li class="flex items-center gap-3 text-slate-700 font-medium">
+                <i data-lucide="check-circle-2" class="text-action-teal" style="width:20px; height:20px;"></i>
+                Rapid response for corrective maintenance
+              </li>
+              <li class="flex items-center gap-3 text-slate-700 font-medium">
+                <i data-lucide="check-circle-2" class="text-action-teal" style="width:20px; height:20px;"></i>
+                Transparent procurement facilitation
+              </li>
+            </ul>
+          </div>
+          <div class="relative h-96 bg-slate-200 rounded-2xl overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2730&auto=format&fit=crop" 
+              alt="Industrial technicians working"
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section id="services" class="py-20 md:py-32 bg-slate-50">
+        <div class="container mx-auto px-4 md:px-8">
+          <!-- Section Heading Inline -->
+          <div class="mb-12 text-center text-slate-900">
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
+              Comprehensive Maintenance Services
+            </h2>
+            <p class="mt-4 text-lg max-w-2xl mx-auto text-slate-600">
+              From emergency fixes to long-term optimization, our diverse range of services ensures your machinery operates at peak performance.
+            </p>
+            <div class="mt-4 mx-auto h-1 w-24 rounded bg-deep-teal"></div>
+          </div>
+
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Service Cards Loop -->
+            <div 
+              v-for="(service, idx) in services" 
+              :key="idx"
+              class="bg-white p-6 rounded-xl shadow-md border border-slate-100 hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
+            >
+              <div class="h-12 w-12 bg-action-teal/20 text-deep-teal rounded-lg flex items-center justify-center mb-6">
+                <!-- <component :is="service.icon" :size="24" /> -->
+                 <i :data-lucide="service.icon" style="width:24px; height:24px;"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mb-3">{{ service.title }}</h3>
+              <p class="text-slate-600 flex-grow">{{ service.description }}</p>
+              <a href="#contact" class="mt-6 text-deep-teal font-semibold flex items-center group">
+                Inquire Now 
+                <i data-lucide="arrow-right" style="width:16px; height:16px;" class="ml-2 group-hover:translate-x-1 transition-transform"></i>
+              </a>
+            </div>
+
+            <!-- CTA Card -->
+            <div class="bg-deep-teal p-6 rounded-xl shadow-md flex flex-col justify-center items-center text-center text-white">
+              <h3 class="text-2xl font-bold mb-4">Need Custom Service?</h3>
+              <p class="text-light-gray mb-8">Contact our technical team to discuss your specific factory requirements.</p>
+              <a href="#contact" class="bg-action-teal hover:bg-action-teal/90 text-charcoal font-bold px-6 py-3 rounded-md w-full transition-colors">
+                Contact Us
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Products Catalog Teaser -->
+      <section id="products" class="py-20 md:py-32 bg-white">
+        <div class="container mx-auto px-4 md:px-8">
+          <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+            <div>
+              <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Machine Procurement</h2>
+              <p class="text-lg text-slate-600 max-w-2xl">We facilitate the sourcing of high-quality industrial machines tailored to your production needs.</p>
+            </div>
+            <a href="#" class="hidden md:flex items-center font-bold text-deep-teal hover:text-action-teal transition-colors mt-4 md:mt-0">
+              View Full Catalog <i data-lucide="arrow-right" style="width:20px; height:20px;" class="ml-2"></i>
+            </a>
+          </div>
+
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Machine Cards -->
+            <div 
+              v-for="(machine, idx) in ['Turning Centers', 'Machining Centers', 'EDM Machines']" 
+              :key="idx"
+              class="group relative overflow-hidden rounded-2xl bg-charcoal aspect-[4/3]"
+            >
+              <div class="absolute inset-0 bg-slate-800 flex items-center justify-center text-slate-600">
+                 <i data-lucide="factory" style="width:48px; height:48px;" class="opacity-20"></i>
+              </div>
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 md:opacity-60 group-hover:opacity-90 transition-opacity duration-300"></div>
+              
+              <div class="absolute bottom-0 left-0 p-6 w-full">
+                <h3 class="text-white text-2xl font-bold mb-2">{{ machine }}</h3>
+                <div class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 transition-all duration-300">
+                  <button class="bg-action-teal hover:bg-action-teal/90 text-charcoal font-bold py-2 px-4 rounded-md flex items-center text-sm">
+                    Configure & Price <i data-lucide="arrow-right" style="width:16px; height:16px;" class="ml-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 md:hidden">
+            <a href="#" class="flex items-center justify-center font-bold text-deep-teal border-2 border-deep-teal rounded-md py-3">
+              View Full Catalog <i data-lucide="arrow-right" style="width:20px; height:20px;" class="ml-2"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Build & Price Feature Section -->
+      <section id="build-price" class="py-20 bg-charcoal text-white relative overflow-hidden">
+        <!-- Abstract industrial background shapes -->
+        <div class="absolute top-0 right-0 -mt-24 -mr-24 text-deep-teal/20">
+          <i data-lucide="cog" style="width:400px; height:400px;"></i>
+        </div>
+        
+        <div class="container mx-auto px-4 md:px-8 relative z-10">
+          <div class="grid lg:grid-cols-5 gap-12 items-center">
+            <div class="lg:col-span-2">
+              <span class="inline-block py-1 px-3 rounded-full bg-action-teal/20 text-action-teal text-sm font-bold mb-6">
+                Interactive Quote Tool
+              </span>
+              <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Build Your Perfect Machine.</h2>
+              <p class="text-lg text-light-gray mb-8">
+                Know what you need? Use our streamlined "Build & Price" tool to configure your machine's characteristics and get a rapid quote directly to your inbox.
+              </p>
+              <ul class="space-y-4 text-light-gray mb-8">
+                <li class="flex items-center gap-3"><div class="bg-charcoal p-1 rounded-full text-action-teal font-bold w-6 h-6 flex items-center justify-center text-xs">1</div> Select Machine Type</li>
+                <li class="flex items-center gap-3"><div class="bg-charcoal p-1 rounded-full text-action-teal font-bold w-6 h-6 flex items-center justify-center text-xs">2</div> Choose Main Characteristics</li>
+                <li class="flex items-center gap-3"><div class="bg-charcoal p-1 rounded-full text-action-teal font-bold w-6 h-6 flex items-center justify-center text-xs">3</div> Add Optional Features</li>
+              </ul>
+            </div>
+
+            <!-- Interactive Widget Entry Point -->
+            <div class="lg:col-span-3 bg-white text-slate-900 rounded-2xl p-6 md:p-8 shadow-2xl">
+              <h3 class="text-2xl font-bold mb-6">Start Your Configuration</h3>
+              
+              <div class="space-y-6">
+                <div>
+                  <label class="block text-sm font-bold text-slate-700 mb-2">Step 1: Select Machine Category</label>
+                  <div class="grid sm:grid-cols-3 gap-3">
+                    <button
+                      v-for="type in machineTypes"
+                      :key="type.id"
+                      @click="selectedMachineForQuote = type.id"
+                      class="py-4 px-3 rounded-lg border-2 font-medium text-sm transition-all"
+                      :class="selectedMachineForQuote === type.id 
+                        ? 'border-deep-teal bg-light-gray text-deep-teal' 
+                        : 'border-medium-gray hover:border-medium-gray/70 text-medium-gray'"
+                    >
+                      {{ type.label }}
+                    </button>
+                  </div>
+                </div>
+
+                <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 flex gap-4 items-start">
+                  <div class="bg-action-teal/20 p-2 rounded-full text-deep-teal mt-1">
+                    <i data-lucide="settings" style="width:20px; height:20px;"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-900">Ready to customize?</h4>
+                    <p class="text-sm text-slate-600">Continue to our full configuration tool to select spindles, axis details, and more.</p>
+                  </div>
+                </div>
+
+                <button class="w-full bg-action-teal hover:bg-action-teal/90 text-charcoal text-lg font-bold py-4 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center">
+                  Continue to Build & Price <i data-lucide="arrow-right" style="width:20px; height:20px;" class="ml-2"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="py-20 md:py-32 bg-slate-50">
+        <div class="container mx-auto px-4 md:px-8">
+          <div class="mb-12 text-center text-slate-900">
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Get In Touch</h2>
+            <p class="mt-4 text-lg max-w-2xl mx-auto text-slate-600">
+              Have a general inquiry or need emergency support? Reach out to our team.
+            </p>
+            <div class="mt-4 mx-auto h-1 w-24 rounded bg-deep-teal"></div>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+            <!-- Contact Info -->
+            <div class="space-y-8">
+              <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
+                <div class="bg-action-teal/20 p-3 rounded-lg text-deep-teal">
+                  <i data-lucide="phone" style="width:24px; height:24px;"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-lg text-slate-900">Call Us</h4>
+                  <p class="text-slate-600">Mon-Fri from 8am to 6pm.</p>
+				  <a :href="`tel:${contacts.tel.replaceAll(' ','').replaceAll('(0)','')}`" class="text-deep-teal font-semibold mt-1 block hover:underline">{{ contacts.tel }}</a>                  
+                </div>
+              </div>
+              <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
+                <div class="bg-action-teal/20 p-3 rounded-lg text-deep-teal">
+                  <i data-lucide="mail" style="width:24px; height:24px;"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-lg text-slate-900">Email Us</h4>
+                  <p class="text-slate-600">We'll respond within 24 hours.</p>
+                  <a href="mailto:contact@aliyaat.net" class="text-deep-teal font-semibold mt-1 block hover:underline">{{ contacts.email }}</a>
+                </div>
+              </div>
+              <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
+                <div class="bg-action-teal/20 p-3 rounded-lg text-deep-teal">
+                  <i data-lucide="map-pin" style="width:24px; height:24px;"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-lg text-slate-900">Visit Us</h4>
+                  <p class="text-slate-600">{{ contacts.address }}</p>
+                  <a :href="contacts.maps" class="text-deep-teal font-semibold mt-1 block hover:underline">Get Directions</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100">
+              <h3 class="text-2xl font-bold mb-6 text-slate-900">Send a Message</h3>
+              <form class="space-y-6">
+                <div class="grid sm:grid-cols-2 gap-6">
+                  <div>
+                    <label for="name" class="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
+                    <input type="text" id="name" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal">
+                  </div>
+                  <div>
+                    <label for="email" class="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                    <input type="email" id="email" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal">
+                  </div>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-6">
+                  <div>
+                    <label for="tel" class="block text-sm font-medium text-slate-700 mb-2">Telephone</label>
+                    <input type="tel" id="tel" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal">
+                  </div>
+                  <div>
+                    <label for="subject" class="block text-sm font-medium text-slate-700 mb-2">Subject</label>
+                    <select id="subject" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal bg-white">
+                      <option>Maintenance</option>
+                      <option>Installation</option>
+                      <option>Sales</option>
+                      <option>Others</option>
+                    </select>
+                  </div>
+                </div>
+                 <div class="grid sm:grid-cols-2 gap-6">
+                  <div>
+                    <label for="company" class="block text-sm font-medium text-slate-700 mb-2">Company</label>
+                    <input type="text" id="company" placeholder="(Optional)" class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal">
+                  </div>
+                  <div>
+                    <label for="job-title" class="block text-sm font-medium text-slate-700 mb-2">Job Title</label>
+                    <input type="text" id="job-title" placeholder="(Optional)" class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal">
+                  </div>
+                </div>
+                <div>
+                  <label for="message" class="block text-sm font-medium text-slate-700 mb-2">Message</label>
+                  <textarea id="message" rows="4" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-deep-teal hover:bg-deep-teal/90 text-white font-bold py-4 rounded-lg transition-colors">
+                  Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
 </template>
