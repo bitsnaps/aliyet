@@ -24,7 +24,7 @@ const selectedMachineForQuote = ref('turning');
       <section id="hero" class="relative min-h-[90vh] flex items-center pt-20">
         <!-- Background Image Placeholder -->
         <div class="absolute inset-0 bg-charcoal">
-           <div class="absolute inset-0 bg-[url('./images/background.jpg')] bg-cover bg-center opacity-40 mix-blend-overlay"></div>
+           <div class="absolute inset-0 bg-[url('/images/background.jpg')] bg-cover bg-center opacity-40 mix-blend-overlay"></div>
            <div class="absolute inset-0 bg-gradient-to-r from-charcoal via-deep-teal/70 to-transparent"></div>
         </div>
 

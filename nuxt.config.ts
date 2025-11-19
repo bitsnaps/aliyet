@@ -3,8 +3,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: false },
   // ssr: false, // for Client-side Only Rendering
-  // modules: [
-  // ],
+  modules: [
+    '@nuxt/ui'
+  ],
   // You can configure fully typed, per-environment overrides here:
   $production: {
     routeRules: {

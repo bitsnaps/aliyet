@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
 /* Simple Fade Transition for Vue */
 .fade-enter-active,
 .fade-leave-active {
