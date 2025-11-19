@@ -2,9 +2,6 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: false },
-  nitro: {
-    preset: 'node-server' 
-  },  
   // ssr: false, // for Client-side Only Rendering
   modules: [
     '@nuxt/ui'
