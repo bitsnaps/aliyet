@@ -68,7 +68,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
+          local-dir: ./.output/public/
           server-dir: ./public_html/
           # dangerous-clean-slate: true # this will make the deployment very slow...
           exclude: |
