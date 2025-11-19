@@ -62,13 +62,14 @@ jobs:
       - name: Build Nuxt app
         run: |
           ${{ steps.detect-package-manager.outputs.manager }} run build
+          ${{ steps.detect-package-manager.outputs.manager }} run generate
       - name: Update frontend files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./.output/public/
+          local-dir: ./dist/
           server-dir: ./public_html/
           # dangerous-clean-slate: true # this will make the deployment very slow...
           exclude: |
