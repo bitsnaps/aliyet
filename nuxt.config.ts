@@ -7,19 +7,19 @@ export default defineNuxtConfig({
     '@nuxt/ui'
   ],
   // You can configure fully typed, per-environment overrides here:
-  $production: {
-    routeRules: {
-      '/**': { isr: true },
-    }
-  },
-  $development: {
-    //
-  },
-  $env: {
-    staging: {
-      //
-    },
-  },
+  // $production: {
+  //   routeRules: {
+  //     '/**': { isr: true },
+  //   }
+  // },
+  // $development: {
+  //   //
+  // },
+  // $env: {
+  //   staging: {
+  //     //
+  //   },
+  // },
   runtimeConfig: {
     // Keys within public are also exposed client-side
     public: {
