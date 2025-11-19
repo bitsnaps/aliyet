@@ -56,20 +56,34 @@ jobs:
             .nuxt
           key: ${{ runner.os }}-nuxt-build-${{ hashFiles('dist') }}
           restore-keys: |
-            ${{ runner.os }}-nuxt-build-          
+            ${{ runner.os }}-nuxt-build-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build Nuxt app
         run: |
           ${{ steps.detect-package-manager.outputs.manager }} run build
           ${{ steps.detect-package-manager.outputs.manager }} run generate
-      - name: Update files
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuxt-dist
+          path: ${{ runner.os }}-nuxt-build-${{ hashFiles('dist') }}        
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: write
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: nuxt-dist
+      - name: Upload to CDN using lftp
         uses: pontago/lftp-deploy-action@master
         with:
           host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local_dir: ./dist/
-          remote_dir: ./public_html/
           script: |
             ls -l .
