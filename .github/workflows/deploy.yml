@@ -48,36 +48,6 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
         env:
           NITRO_PRESET: node-server   # Forces correct preset even if not in config
-
-      # =============================================
-      # 1. Deploy Frontend (public assets only)
-      # =============================================
-      - name: Deploy Frontend → public_html
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./.output/public/
-          server-dir: ./public_html/
-          dangerous-clean-slate: false
-          exclude: |
-            **/node_modules/**
-            **/.git**
-
-      # =============================================
-      # 2. Deploy Backend + CJS Wrapper → ~/app/
-      # =============================================
-      - name: Deploy Backend Server + Wrapper
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./deploy-files/app/          # ← We'll generate this folder
-          server-dir: ./app/
-          dangerous-clean-slate: true             # Yes! We want full control here
-
       # =============================================
       # 3. Generate the exact files needed in ~/app/
       # =============================================
@@ -128,3 +98,32 @@ jobs:
             }
           }
           EOF
+                
+      # =============================================
+      # 1. Deploy Frontend (public assets only)
+      # =============================================
+      - name: Deploy Frontend → public_html
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./.output/public/
+          server-dir: ./public_html/
+          dangerous-clean-slate: false
+          exclude: |
+            **/node_modules/**
+            **/.git**
+
+      # =============================================
+      # 2. Deploy Backend + CJS Wrapper → ~/app/
+      # =============================================
+      - name: Deploy Backend Server + Wrapper
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./deploy-files/app/          # ← We'll generate this folder
+          server-dir: ./app/
+          dangerous-clean-slate: true             # Yes! We want full control here
