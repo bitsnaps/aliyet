@@ -33,7 +33,7 @@ export default defineNuxtConfig({
   css: ['~/assets/main.css'],
   app: {
     baseURL: '/', // Keep this as root
-    // buildAssetsDir: '/_nuxt/', // Standard assets directory    
+    buildAssetsDir: '/_nuxt/', // Standard assets directory    
     head: {
       title: 'Ailyaat',
       htmlAttrs: {

@@ -1,17 +1,24 @@
-name: Build and Deploy Nuxt
+# Sample workflow for building and deploying a Nuxt site to GitHub Pages
+#
+# To get started with Nuxt see: https://nuxtjs.org/docs/get-started/installation
+#
+name: Build Nuxt
 
 on:
+  # Runs on pushes targeting the default branch
   push:
     branches: ["master"]
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
+  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -31,25 +38,31 @@ jobs:
             echo "Unable to determine package manager"
             exit 1
           fi
-
       - name: Enable Corepack and install pnpm
         run: |
           corepack enable
           corepack prepare pnpm@latest --activate          
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
 
-      - name: Install dependencies (Local Build)
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist
+            .nuxt
+          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('dist') }}
+          restore-keys: |
+            ${{ runner.os }}-nuxt-build-          
+      - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-
-      - name: Build Nuxt
-        run: ${{ steps.detect-package-manager.outputs.manager }} run build
-
-      - name: Deploy Frontend (public_html)
+      - name: Generate SPA
+        run: |
+          ${{ steps.detect-package-manager.outputs.manager }} run build
+      - name: Update frontend files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -57,20 +70,21 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./.output/public/
           server-dir: ./public_html/
+          # dangerous-clean-slate: true # this will make the deployment very slow...
           exclude: |
             **/.git*
+            **/.git*/**
             **/node_modules/**
-
-      - name: Deploy Backend Code (app)
+      - name: Update server files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # Uploads only the lightweight folder created by our script
           local-dir: ./.output/server/
-          server-dir: ./app/
-          # Ensure we don't upload node_modules even if they somehow snuck in
+          server-dir: ./app/.output/server/
+          # dangerous-clean-slate: true # this will make the deployment very slow...
           exclude: |
             **/.git*
+            **/.git*/**
             **/node_modules/**
