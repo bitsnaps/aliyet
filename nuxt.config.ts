@@ -33,7 +33,10 @@ export default defineNuxtConfig({
     //   apiBase: '/api',
     // },    
   // },
-  css: ['~/assets/main.css'],
+  routeRules: {
+    '/api/**': { cors: true, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS' } }
+  },
+  css: ['~/assets/main.css'],  
   app: {
     baseURL: '/', // Keep this as root
     // buildAssetsDir: '/_nuxt/', // Standard assets directory    
