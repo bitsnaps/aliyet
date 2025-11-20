@@ -12,20 +12,40 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'pnpm'  # change to npm/yarn if you use them
+      - name: Detect package manager
+        id: detect-package-manager
+        run: |
+          if [ -f "${{ github.workspace }}/yarn.lock" ]; then
+            echo "manager=yarn" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/package-lock.json" ]; then
+            echo "manager=npm" >> $GITHUB_OUTPUT
+            echo "command=ci" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/pnpm-lock.yaml" ]; then
+            echo "manager=pnpm" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            exit 0
+          else
+            echo "Unable to determine package manager"
+            exit 1
+          fi
 
       - name: Install pnpm
         run: corepack enable && corepack prepare pnpm@latest --activate
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: ${{ steps.detect-package-manager.outputs.manager }}        
+
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: ${{ steps.detect-package-manager.outputs.manager }} install --frozen-lockfile
 
       - name: Build Nuxt (Full SSR Node Server)
-        run: pnpm run build
+        run: ${{ steps.detect-package-manager.outputs.manager }} run build
         env:
           NITRO_PRESET: node-server   # Forces correct preset even if not in config
 
@@ -38,7 +58,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: .output/public/
+          local-dir: ./.output/public/
           server-dir: ./public_html/
           dangerous-clean-slate: false
           exclude: |
