@@ -68,13 +68,12 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./.output/public/
+          local-dir: ../public_html/
           server-dir: ./public_html/
           # dangerous-clean-slate: true # this will make the deployment very slow...
           exclude: |
             **/.git*
             **/.git*/**
-            **/node_modules/**
       - name: Update server files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
