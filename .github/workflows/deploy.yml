@@ -68,8 +68,8 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           # Uploads only the lightweight folder created by our script
-          local-dir: ./.deploy-backend/
-          server-dir: ./app/ 
+          local-dir: ./.output/server/
+          server-dir: ./app/
           # Ensure we don't upload node_modules even if they somehow snuck in
           exclude: |
             **/.git*
