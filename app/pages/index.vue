@@ -18,6 +18,15 @@ const machineTypes = ref([
 
 const selectedMachineForQuote = ref('turning');
 
+const clients = ref([
+  { name: 'amm', logo: '/images/clients/amm.png' },
+  { name: 'condor', logo: '/images/clients/condor.png' },
+  { name: 'snap', logo: '/images/clients/snap.png' },
+  { name: 'technonum', logo: '/images/clients/technonum.png' },
+  { name: 'gralcome', logo: '/images/clients/gralcome.png' },
+  { name: 'euromoteur', logo: '/images/clients/euromoteur.png' },
+])
+
 const showInfo = async () => {
   const { timestamp } = await $fetch('/api/health');
   console.log(timestamp);
@@ -72,7 +81,9 @@ const showInfo = async () => {
           <p class="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-6">Trusted by industry leaders</p>
           <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale">
             <!-- Logo Placeholders -->
-            <div v-for="i in 5" :key="i" class="h-8 w-32 bg-slate-300 rounded-md animate-pulse"></div>
+            <div v-for="client in clients" :key="client.name" class="h-32 w-32 bg-white rounded-md">
+              <img :src="client.logo" :alt="client.name">
+            </div>
           </div>
         </div>
       </div>
