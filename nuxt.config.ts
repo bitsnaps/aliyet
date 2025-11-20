@@ -6,6 +6,9 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'node-server', // Builds a standalone Node server
+    output: {
+      publicDir: '.output/public'  // default anyway
+    }    
   },
   modules: [
     '@nuxt/ui'
@@ -32,8 +35,8 @@ export default defineNuxtConfig({
   // },
   css: ['~/assets/main.css'],
   app: {
-    baseURL: '/', // Keep this as root
-    buildAssetsDir: '/_nuxt/', // Standard assets directory    
+    // baseURL: '/', // Keep this as root
+    // buildAssetsDir: '/_nuxt/', // Standard assets directory    
     head: {
       title: 'Ailyaat',
       htmlAttrs: {
