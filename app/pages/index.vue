@@ -38,9 +38,9 @@ const showInfo = async () => {
       <!-- Hero Section -->
       <section id="hero" class="relative min-h-[90vh] flex items-center pt-20">
         <!-- Background Image Placeholder -->
-        <div class="absolute inset-0 bg-charcoal">
+        <div class="absolute inset-0 bg-charcoal-500">
            <div class="absolute inset-0 bg-[url('/images/background.jpg')] bg-cover bg-center opacity-40 mix-blend-overlay"></div>
-           <div class="absolute inset-0 bg-gradient-to-r from-charcoal via-deep-teal/70 to-transparent"></div>
+           <div class="absolute inset-0 bg-gradient-to-r from-charcoal-500 via-deep-teal/70 to-transparent"></div>
         </div>
 
         <div class="container mx-auto px-4 md:px-8 relative z-10">
@@ -55,7 +55,7 @@ const showInfo = async () => {
               <div class="mt-10 flex flex-col sm:flex-row gap-4">
                 <a
                   href="#services"
-                  class="bg-deep-teal hover:bg-deep-teal/90 text-white px-8 py-4 rounded-md font-bold text-lg flex items-center justify-center gap-2 transition-all"
+                  class="bg-deep-teal-500 hover:bg-deep-teal/90 text-white px-8 py-4 rounded-md font-bold text-lg flex items-center justify-center gap-2 transition-all"
                 >
                   Explore Services <i data-lucide="arrow-right" style="width:20px; height:20px;"></i>
                 </a>
@@ -92,7 +92,7 @@ const showInfo = async () => {
       <section id="about" class="py-20 md:py-32 bg-white">
         <div class="container mx-auto px-4 md:px-8 grid md:grid-cols-2 gap-16 items-center">
           <div>
-            <h4 class="text-deep-teal font-bold uppercase tracking-wider mb-4">About Aliyaat</h4>
+            <h4 class="text-deep-teal-500 font-bold uppercase tracking-wider mb-4">About Aliyaat</h4>
             <h2 class="text-4xl font-bold text-slate-900 mb-6 leading-tight">Ensuring Industrial Excellence Through Reliability.</h2>
             <p class="text-lg text-slate-600 mb-6 leading-relaxed">
               Aliyaat was founded with a clear mission: to bridge the gap between top-tier industrial machinery and the workshops that rely on them. We are more than just a service provider; we are your technical partner on the factory floor.
@@ -143,23 +143,23 @@ const showInfo = async () => {
               :key="idx"
               class="bg-white p-6 rounded-xl shadow-md border border-slate-100 hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
             >
-              <div class="h-12 w-12 bg-action-teal/20 text-deep-teal rounded-lg flex items-center justify-center mb-6">
+              <div class="h-12 w-12 bg-action-teal/20 text-deep-teal-500 rounded-lg flex items-center justify-center mb-6">
                 <!-- <component :is="service.icon" :size="24" /> -->
                  <i :data-lucide="service.icon" style="width:24px; height:24px;"></i>
               </div>
               <h3 class="text-xl font-bold text-slate-900 mb-3">{{ service.title }}</h3>
               <p class="text-slate-600 flex-grow">{{ service.description }}</p>
-              <a href="#contact" class="mt-6 text-deep-teal font-semibold flex items-center group">
+              <a href="#contact" class="mt-6 text-deep-teal-500 font-semibold flex items-center group">
                 Inquire Now 
                 <i data-lucide="arrow-right" style="width:16px; height:16px;" class="ml-2 group-hover:translate-x-1 transition-transform"></i>
               </a>
             </div>
 
             <!-- CTA Card -->
-            <div class="bg-deep-teal p-6 rounded-xl shadow-md flex flex-col justify-center items-center text-center text-white">
+            <div class="bg-deep-teal-500 p-6 rounded-xl shadow-md flex flex-col justify-center items-center text-center text-white">
               <h3 class="text-2xl font-bold mb-4">Need Custom Service?</h3>
-              <p class="text-light-gray mb-8">Contact our technical team to discuss your specific factory requirements.</p>
-              <a href="#contact" class="bg-action-teal hover:bg-action-teal/90 text-charcoal font-bold px-6 py-3 rounded-md w-full transition-colors">
+              <p class="text-light-gray-200 mb-8">Contact our technical team to discuss your specific factory requirements.</p>
+              <a href="#contact" class="bg-action-teal-500 hover:bg-action-teal/90 text-charcoal-500 font-bold px-6 py-3 rounded-md w-full transition-colors">
                 Contact Us
               </a>
             </div>
@@ -175,7 +175,7 @@ const showInfo = async () => {
               <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Machine Procurement</h2>
               <p class="text-lg text-slate-600 max-w-2xl">We facilitate the sourcing of high-quality industrial machines tailored to your production needs.</p>
             </div>
-            <a href="#" class="hidden md:flex items-center font-bold text-deep-teal hover:text-action-teal transition-colors mt-4 md:mt-0">
+            <a href="#" class="hidden md:flex items-center font-bold text-deep-teal-500 hover:text-action-teal-500 transition-colors mt-4 md:mt-0">
               View Full Catalog <i data-lucide="arrow-right" style="width:20px; height:20px;" class="ml-2"></i>
             </a>
           </div>
@@ -185,7 +185,7 @@ const showInfo = async () => {
             <div 
               v-for="(machine, idx) in ['Turning Centers', 'Machining Centers', 'EDM Machines']" 
               :key="idx"
-              class="group relative overflow-hidden rounded-2xl bg-charcoal aspect-[4/3]"
+              class="group relative overflow-hidden rounded-2xl bg-charcoal-500 aspect-[4/3]"
             >
               <div class="absolute inset-0 bg-slate-800 flex items-center justify-center text-slate-600">
                  <i data-lucide="factory" style="width:48px; height:48px;" class="opacity-20"></i>
@@ -195,7 +195,7 @@ const showInfo = async () => {
               <div class="absolute bottom-0 left-0 p-6 w-full">
                 <h3 class="text-white text-2xl font-bold mb-2">{{ machine }}</h3>
                 <div class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 transition-all duration-300">
-                  <button class="bg-action-teal hover:bg-action-teal/90 text-charcoal font-bold py-2 px-4 rounded-md flex items-center text-sm">
+                  <button class="bg-action-teal-500 hover:bg-action-teal/90 text-charcoal-500 font-bold py-2 px-4 rounded-md flex items-center text-sm">
                     Configure & Price <i data-lucide="arrow-right" style="width:16px; height:16px;" class="ml-2"></i>
                   </button>
                 </div>
@@ -204,7 +204,7 @@ const showInfo = async () => {
           </div>
 
           <div class="mt-8 md:hidden">
-            <a href="#" class="flex items-center justify-center font-bold text-deep-teal border-2 border-deep-teal rounded-md py-3">
+            <a href="#" class="flex items-center justify-center font-bold text-deep-teal-500 border-2 border-deep-teal-500 rounded-md py-3">
               View Full Catalog <i data-lucide="arrow-right" style="width:20px; height:20px;" class="ml-2"></i>
             </a>
           </div>
@@ -212,7 +212,7 @@ const showInfo = async () => {
       </section>
 
       <!-- Build & Price Feature Section -->
-      <section id="build-price" class="py-20 bg-charcoal text-white relative overflow-hidden">
+      <section id="build-price" class="py-20 bg-charcoal-500 text-white relative overflow-hidden">
         <!-- Abstract industrial background shapes -->
         <div class="absolute top-0 right-0 -mt-24 -mr-24 text-deep-teal/20">
           <i data-lucide="cog" style="width:400px; height:400px;"></i>
@@ -221,17 +221,17 @@ const showInfo = async () => {
         <div class="container mx-auto px-4 md:px-8 relative z-10">
           <div class="grid lg:grid-cols-5 gap-12 items-center">
             <div class="lg:col-span-2">
-              <span class="inline-block py-1 px-3 rounded-full bg-action-teal/20 text-action-teal text-sm font-bold mb-6">
+              <span class="inline-block py-1 px-3 rounded-full bg-action-teal/20 text-action-teal-500 text-sm font-bold mb-6">
                 Interactive Quote Tool
               </span>
               <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Build Your Perfect Machine.</h2>
-              <p class="text-lg text-light-gray mb-8">
+              <p class="text-lg text-light-gray-200 mb-8">
                 Know what you need? Use our streamlined "Build & Price" tool to configure your machine's characteristics and get a rapid quote directly to your inbox.
               </p>
-              <ul class="space-y-4 text-light-gray mb-8">
-                <li class="flex items-center gap-3"><div class="bg-charcoal p-1 rounded-full text-action-teal font-bold w-6 h-6 flex items-center justify-center text-xs">1</div> Select Machine Type</li>
-                <li class="flex items-center gap-3"><div class="bg-charcoal p-1 rounded-full text-action-teal font-bold w-6 h-6 flex items-center justify-center text-xs">2</div> Choose Main Characteristics</li>
-                <li class="flex items-center gap-3"><div class="bg-charcoal p-1 rounded-full text-action-teal font-bold w-6 h-6 flex items-center justify-center text-xs">3</div> Add Optional Features</li>
+              <ul class="space-y-4 text-light-gray-200 mb-8">
+                <li class="flex items-center gap-3"><div class="bg-charcoal-500 p-1 rounded-full text-action-teal-500 font-bold w-6 h-6 flex items-center justify-center text-xs">1</div> Select Machine Type</li>
+                <li class="flex items-center gap-3"><div class="bg-charcoal-500 p-1 rounded-full text-action-teal-500 font-bold w-6 h-6 flex items-center justify-center text-xs">2</div> Choose Main Characteristics</li>
+                <li class="flex items-center gap-3"><div class="bg-charcoal-500 p-1 rounded-full text-action-teal-500 font-bold w-6 h-6 flex items-center justify-center text-xs">3</div> Add Optional Features</li>
               </ul>
             </div>
 
@@ -249,8 +249,8 @@ const showInfo = async () => {
                       @click="selectedMachineForQuote = type.id"
                       class="py-4 px-3 rounded-lg border-2 font-medium text-sm transition-all"
                       :class="selectedMachineForQuote === type.id 
-                        ? 'border-deep-teal bg-light-gray text-deep-teal' 
-                        : 'border-medium-gray hover:border-medium-gray/70 text-medium-gray'"
+                        ? 'border-deep-teal-500 bg-light-gray-200 text-deep-teal' 
+                        : 'border-medium-gray-500 hover:border-medium-gray/70 text-medium-gray'"
                     >
                       {{ type.label }}
                     </button>
@@ -258,7 +258,7 @@ const showInfo = async () => {
                 </div>
 
                 <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 flex gap-4 items-start">
-                  <div class="bg-action-teal/20 p-2 rounded-full text-deep-teal mt-1">
+                  <div class="bg-action-teal/20 p-2 rounded-full text-deep-teal-500 mt-1">
                     <i data-lucide="settings" style="width:20px; height:20px;"></i>
                   </div>
                   <div>
@@ -267,7 +267,7 @@ const showInfo = async () => {
                   </div>
                 </div>
 
-                <button class="w-full bg-action-teal hover:bg-action-teal/90 text-charcoal text-lg font-bold py-4 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center">
+                <button class="w-full bg-action-teal-500 hover:bg-action-teal/90 text-charcoal-500 text-lg font-bold py-4 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center">
                   Continue to Build & Price <i data-lucide="arrow-right" style="width:20px; height:20px;" class="ml-2"></i>
                 </button>
               </div>
@@ -297,7 +297,7 @@ const showInfo = async () => {
                 <div>
                   <h4 class="font-bold text-lg text-slate-900">Call Us</h4>
                   <p class="text-slate-600">Mon-Fri from 8am to 6pm.</p>
-				  <a :href="`tel:${contacts.tel.replaceAll(' ','').replaceAll('(0)','')}`" class="text-deep-teal font-semibold mt-1 block hover:underline">{{ contacts.tel }}</a>                  
+				  <a :href="`tel:${contacts.tel.replaceAll(' ','').replaceAll('(0)','')}`" class="text-deep-teal-500 font-semibold mt-1 block hover:underline">{{ contacts.tel }}</a>                  
                 </div>
               </div>
               <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
@@ -307,7 +307,7 @@ const showInfo = async () => {
                 <div>
                   <h4 class="font-bold text-lg text-slate-900">Email Us</h4>
                   <p class="text-slate-600">We'll respond within 24 hours.</p>
-                  <a href="mailto:contact@aliyaat.net" class="text-deep-teal font-semibold mt-1 block hover:underline">{{ contacts.email }}</a>
+                  <a href="mailto:contact@aliyaat.net" class="text-deep-teal-500 font-semibold mt-1 block hover:underline">{{ contacts.email }}</a>
                 </div>
               </div>
               <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
@@ -317,7 +317,7 @@ const showInfo = async () => {
                 <div>
                   <h4 class="font-bold text-lg text-slate-900">Visit Us</h4>
                   <p class="text-slate-600">{{ contacts.address }}</p>
-                  <a :href="contacts.maps" class="text-deep-teal font-semibold mt-1 block hover:underline">Get Directions</a>
+                  <a :href="contacts.maps" class="text-deep-teal-500 font-semibold mt-1 block hover:underline">Get Directions</a>
                 </div>
               </div>
             </div>
@@ -329,21 +329,21 @@ const showInfo = async () => {
                 <div class="grid sm:grid-cols-2 gap-6">
                   <div>
                     <label for="name" class="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
-                    <input type="text" id="name" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal">
+                    <input type="text" id="name" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal">
                   </div>
                   <div>
                     <label for="email" class="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
-                    <input type="email" id="email" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal">
+                    <input type="email" id="email" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal">
                   </div>
                 </div>
                 <div class="grid sm:grid-cols-2 gap-6">
                   <div>
                     <label for="tel" class="block text-sm font-medium text-slate-700 mb-2">Telephone</label>
-                    <input type="tel" id="tel" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal">
+                    <input type="tel" id="tel" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal">
                   </div>
                   <div>
                     <label for="subject" class="block text-sm font-medium text-slate-700 mb-2">Subject</label>
-                    <select id="subject" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal bg-white">
+                    <select id="subject" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal-500 bg-white">
                       <option>Maintenance</option>
                       <option>Installation</option>
                       <option>Sales</option>
@@ -354,18 +354,18 @@ const showInfo = async () => {
                  <div class="grid sm:grid-cols-2 gap-6">
                   <div>
                     <label for="company" class="block text-sm font-medium text-slate-700 mb-2">Company</label>
-                    <input type="text" id="company" placeholder="(Optional)" class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal">
+                    <input type="text" id="company" placeholder="(Optional)" class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal">
                   </div>
                   <div>
                     <label for="job-title" class="block text-sm font-medium text-slate-700 mb-2">Job Title</label>
-                    <input type="text" id="job-title" placeholder="(Optional)" class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal">
+                    <input type="text" id="job-title" placeholder="(Optional)" class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal">
                   </div>
                 </div>
                 <div>
                   <label for="message" class="block text-sm font-medium text-slate-700 mb-2">Message</label>
-                  <textarea id="message" rows="4" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal focus:border-deep-teal"></textarea>
+                  <textarea id="message" rows="4" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal"></textarea>
                 </div>
-                <button type="submit" class="w-full bg-deep-teal hover:bg-deep-teal/90 text-white font-bold py-4 rounded-lg transition-colors">
+                <button type="submit" class="w-full bg-deep-teal-500 hover:bg-deep-teal/90 text-white font-bold py-4 rounded-lg transition-colors">
                   Send Message
                 </button>
               </form>

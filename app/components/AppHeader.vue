@@ -18,8 +18,9 @@ const navLinks = ref([
       <div class="container mx-auto px-4 md:px-8 flex items-center justify-between">
         <!-- Logo -->
         <a href="#hero" class="flex items-center gap-2">
-          <div class="bg-deep-teal text-white p-2 rounded-md">
+          <div class="text-white p-2 rounded-md">
             <i data-lucide="cog" style="width:28px; height:28px;"></i>
+            <img src="/logo.svg" alt="Logo" />
           </div>
           <span 
             class="text-2xl font-extrabold tracking-tight transition-colors"
@@ -35,7 +36,7 @@ const navLinks = ref([
             v-for="link in navLinks" 
             :key="link.name" 
             :href="link.href" 
-            class="text-sm font-medium hover:text-action-teal transition-colors"
+            class="text-sm font-medium hover:text-action-teal-500 transition-colors"
             :class="isScrolled ? 'text-charcoal' : 'text-slate-200'"
           >
             {{ link.name }}
@@ -53,7 +54,7 @@ const navLinks = ref([
           </button>
           <a 
             href="#build-price"
-            class="bg-action-teal hover:bg-action-teal/90 text-charcoal px-5 py-2.5 rounded-md font-bold text-sm transition-colors shadow-lg shadow-action-teal/20"
+            class="bg-action-teal-500 hover:bg-action-teal/90 text-charcoal-500 px-5 py-2.5 rounded-md font-bold text-sm transition-colors shadow-lg shadow-action-teal/20"
           >
             Build & Price
           </a>

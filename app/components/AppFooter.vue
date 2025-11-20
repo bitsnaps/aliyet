@@ -5,12 +5,12 @@ const contacts = useState('contacts');
 </script>
 <template>
     <!-- Footer -->
-    <footer class="bg-charcoal text-slate-400">
+    <footer class="bg-charcoal-500 text-slate-400">
       <div class="container mx-auto px-4 md:px-8 py-16">
         <div class="grid md:grid-cols-4 lg:grid-cols-5 gap-12">
           <div class="lg:col-span-2">
             <a href="#hero" class="flex items-center gap-2 mb-4">
-              <div class="bg-deep-teal text-white p-2 rounded-md">
+              <div class="bg-deep-teal-500 text-white p-2 rounded-md">
                 <i data-lucide="cog" style="width:28px; height:28px;"></i>
               </div>
               <span class="text-2xl font-extrabold tracking-tight text-white">ALIYET</span>
@@ -56,7 +56,7 @@ const contacts = useState('contacts');
           </div>
         </div>
       </div>
-      <div class="bg-charcoal py-4">
+      <div class="bg-charcoal-500 py-4">
         <div class="container mx-auto px-4 md:px-8 text-center text-sm">
           <p>&copy; {{ new Date().getFullYear() }} Aliyaat. All Rights Reserved.</p>
         </div>

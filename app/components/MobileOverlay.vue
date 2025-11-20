@@ -6,7 +6,7 @@ const mobileMenuOpen = useState('mobileMenuOpen', () => false);
     <Transition name="fade">
       <div 
         v-if="mobileMenuOpen"
-        class="fixed inset-0 z-40 bg-charcoal/95 pt-24 px-6 md:hidden"
+        class="fixed inset-0 z-40 bg-charcoal-500/95 pt-24 px-6 md:hidden"
       >
         <nav class="flex flex-col gap-6 text-center">
           <a 
@@ -25,7 +25,7 @@ const mobileMenuOpen = useState('mobileMenuOpen', () => false);
           <a 
             href="#build-price" 
             @click="closeMobileMenu"
-            class="bg-action-teal text-charcoal py-3 rounded-md font-bold text-xl mt-4"
+            class="bg-action-teal-500 text-charcoal-500 py-3 rounded-md font-bold text-xl mt-4"
           >
             Build & Price Quote
           </a>

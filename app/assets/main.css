@@ -1,6 +1,86 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+@theme {
+  /* Font families */
+  --font-sans: 'Roboto', sans-serif;
+  --font-heading: 'Montserrat', sans-serif;
+  
+  /* Custom colors - need all shades from 50 to 950 */
+  --color-deep-teal-50: #e6f5f7;
+  --color-deep-teal-100: #cceaef;
+  --color-deep-teal-200: #99d5df;
+  --color-deep-teal-300: #66c0cf;
+  --color-deep-teal-400: #33abbf;
+  --color-deep-teal-500: #006978;
+  --color-deep-teal-600: #005460;
+  --color-deep-teal-700: #003f48;
+  --color-deep-teal-800: #002a30;
+  --color-deep-teal-900: #001518;
+  --color-deep-teal-950: #000a0c;
+
+  --color-action-teal-50: #e0f7fa;
+  --color-action-teal-100: #b2ebf2;
+  --color-action-teal-200: #80deea;
+  --color-action-teal-300: #4dd0e1;
+  --color-action-teal-400: #26c6da;
+  --color-action-teal-500: #00bcd4;
+  --color-action-teal-600: #00acc1;
+  --color-action-teal-700: #0097a7;
+  --color-action-teal-800: #00838f;
+  --color-action-teal-900: #006064;
+  --color-action-teal-950: #004d50;
+
+  --color-light-gray-50: #fafbfc;
+  --color-light-gray-100: #f7f9fa;
+  --color-light-gray-200: #f0f4f5;
+  --color-light-gray-300: #e8edef;
+  --color-light-gray-400: #e0e6e9;
+  --color-light-gray-500: #d8dfe3;
+  --color-light-gray-600: #c0c9cd;
+  --color-light-gray-700: #a8b3b7;
+  --color-light-gray-800: #909da1;
+  --color-light-gray-900: #78878b;
+  --color-light-gray-950: #607175;
+
+  --color-charcoal-50: #e8e9ea;
+  --color-charcoal-100: #d1d3d5;
+  --color-charcoal-200: #a3a7ab;
+  --color-charcoal-300: #757b81;
+  --color-charcoal-400: #474f57;
+  --color-charcoal-500: #212529;
+  --color-charcoal-600: #1a1e21;
+  --color-charcoal-700: #141619;
+  --color-charcoal-800: #0d0f11;
+  --color-charcoal-900: #070809;
+  --color-charcoal-950: #030404;
+
+  --color-medium-gray-50: #f2f3f4;
+  --color-medium-gray-100: #e5e7e9;
+  --color-medium-gray-200: #cbcfd3;
+  --color-medium-gray-300: #b1b7bd;
+  --color-medium-gray-400: #979fa7;
+  --color-medium-gray-500: #6c757d;
+  --color-medium-gray-600: #565e64;
+  --color-medium-gray-700: #41464b;
+  --color-medium-gray-800: #2b2f32;
+  --color-medium-gray-900: #161719;
+  --color-medium-gray-950: #0b0c0d;
+
+  --color-success-green-50: #e8f5e9;
+  --color-success-green-100: #c8e6c9;
+  --color-success-green-200: #a5d6a7;
+  --color-success-green-300: #81c784;
+  --color-success-green-400: #66bb6a;
+  --color-success-green-500: #4caf50;
+  --color-success-green-600: #43a047;
+  --color-success-green-700: #388e3c;
+  --color-success-green-800: #2e7d32;
+  --color-success-green-900: #1b5e20;
+  --color-success-green-950: #0d3f10;
+}
+
+
 /* Simple Fade Transition for Vue */
 .fade-enter-active,
 .fade-leave-active {
