@@ -49,11 +49,6 @@ jobs:
       - name: Build Nuxt
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
 
-      # --- RUN PREPARATION SCRIPT ---
-      - name: Prepare Deployment Files
-        run: node scripts/prepare-deploy.mjs
-      # ------------------------------
-
       - name: Deploy Frontend (public_html)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
