@@ -295,7 +295,7 @@ const showInfo = async () => {
 
       <!-- Contact Section -->
       <section id="contact" class="py-20 md:py-32 bg-slate-50">
-        <div class="container mx-auto px-4 md:px-8">
+        <UCard class="container mx-auto px-4 md:px-8">
           <div class="mb-12 text-center text-slate-900">
             <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Get In Touch</h2>
             <p class="mt-4 text-lg max-w-2xl mx-auto text-slate-600">
@@ -340,8 +340,8 @@ const showInfo = async () => {
             </div>
             
             <!-- Contact Form -->
-            <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100">
-              <h3 class="text-2xl font-bold mb-6 text-slate-900">Send a Message</h3>
+            <div class="p-8 rounded-xl shadow-sm border border-slate-100 bg-deep-teal-500">
+              <h3 class="text-2xl font-bold mb-6 text-slate-50">Send a Message</h3>
 
               <form class="space-y-6">
                 <div class="grid sm:grid-cols-2 gap-6">
@@ -373,12 +373,10 @@ const showInfo = async () => {
                     <UTextarea v-model="formData.message" :rows="4" />
                   </UFormField>
                 </div>
-                <div class="w-full">
+                <div class="sm:col-span-2 flex justify-end">
                   <UButton
                     type="submit"
-                    color="deep-teal"
-                    variant="solid"
-                    class="w-full text-white hover:bg-action-teal-600 bg-action-teal-500 cursor-pointer"
+                    class="text-white hover:bg-action-teal-600 bg-action-teal-500 cursor-pointer"
                     size="xl"
                     :ui="{ rounded: 'rounded-md' }"
                   >
@@ -390,7 +388,7 @@ const showInfo = async () => {
               </form>
             </div>
           </div>
-        </div>
+        </UCard>
       </section>
     </main>
 </template>
