@@ -1,35 +1,40 @@
 <script setup>
-const mobileMenuOpen = useState('mobileMenuOpen', () => false);
+const { navLinks } = useSiteData();
+const { isOpen, close } = useMobileMenu();
 </script>
 <template>
     <!-- Mobile Menu Overlay -->
     <Transition name="fade">
-      <div 
-        v-if="mobileMenuOpen"
+      <div
+        v-if="isOpen"
         class="fixed inset-0 z-40 bg-charcoal-500/95 pt-24 px-6 md:hidden"
       >
         <nav class="flex flex-col gap-6 text-center">
-          <a 
-            v-for="link in navLinks" 
-            :key="link.name" 
-            :href="link.href" 
-            @click="closeMobileMenu"
-            class="text-2xl text-white font-semibold hover:text-action-teal"
+          <a
+            v-for="link in navLinks"
+            :key="link.name"
+            :href="link.href"
+            @click="close"
+            class="text-2xl text-white font-semibold hover:text-action-teal-500"
           >
             {{ link.name }}
           </a>
           <hr class="border-slate-700 my-4" />
           <button class="text-white flex items-center justify-center gap-2 text-xl">
-            <i data-lucide="globe" style="width:20px; height:20px;"></i> EN / FR / AR
+            <UIcon name="i-lucide-globe" class="w-5 h-5" /> EN / FR / AR
           </button>
-          <a 
-            href="#build-price" 
-            @click="closeMobileMenu"
-            class="bg-action-teal-500 text-charcoal-500 py-3 rounded-md font-bold text-xl mt-4"
+          <UButton
+            to="#build-price"
+            @click="close"
+            color="action-teal"
+            variant="solid"
+            class="font-bold text-charcoal-500 text-xl mt-4 justify-center py-3"
+            size="xl"
+            block
           >
             Build & Price Quote
-          </a>
+          </UButton>
         </nav>
       </div>
-    </Transition>    
+    </Transition>
 </template>

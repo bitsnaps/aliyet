@@ -1,17 +1,24 @@
 <script setup>
-const mobileMenuOpen = useState('mobileMenuOpen', () => false);
+const { navLinks } = useSiteData();
+const { isOpen, toggle } = useMobileMenu();
 const isScrolled = ref(false);
-const navLinks = ref([
-    { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Products', href: '#products' },
-    { name: 'Contact', href: '#contact' },
-]);
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 50;
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
     <!-- Navigation -->
-    <header 
+    <header
       class="fixed w-full z-50 transition-all duration-300"
       :class="isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-md py-3' : 'bg-transparent py-5'"
     >
@@ -19,12 +26,11 @@ const navLinks = ref([
         <!-- Logo -->
         <a href="#hero" class="flex items-center gap-2">
           <div class="text-white p-2 rounded-md">
-            <i data-lucide="cog" style="width:28px; height:28px;"></i>
-            <img src="/logo.svg" alt="Logo" />
+            <UIcon name="i-lucide-cog" class="w-7 h-7 text-deep-teal-500" />
           </div>
-          <span 
+          <span
             class="text-2xl font-extrabold tracking-tight transition-colors"
-            :class="isScrolled ? 'text-deep-teal' : 'text-white'"
+            :class="isScrolled ? 'text-deep-teal-500' : 'text-white'"
           >
             ALIYET
           </span>
@@ -32,12 +38,12 @@ const navLinks = ref([
 
         <!-- Desktop Nav -->
         <nav class="hidden md:flex items-center gap-8">
-          <a 
-            v-for="link in navLinks" 
-            :key="link.name" 
-            :href="link.href" 
+          <a
+            v-for="link in navLinks"
+            :key="link.name"
+            :href="link.href"
             class="text-sm font-medium hover:text-action-teal-500 transition-colors"
-            :class="isScrolled ? 'text-charcoal' : 'text-slate-200'"
+            :class="isScrolled ? 'text-charcoal-500' : 'text-slate-200'"
           >
             {{ link.name }}
           </a>
@@ -45,28 +51,31 @@ const navLinks = ref([
 
         <div class="hidden md:flex items-center gap-4">
           <!-- Language Switcher -->
-          <button 
+          <button
             class="flex items-center gap-1 text-sm font-medium"
-            :class="isScrolled ? 'text-charcoal' : 'text-slate-200'"
+            :class="isScrolled ? 'text-charcoal-500' : 'text-slate-200'"
           >
-            <i data-lucide="globe" style="width:18px; height:18px;"></i>
+            <UIcon name="i-lucide-globe" class="w-5 h-5" />
             <span>EN</span>
           </button>
-          <a 
-            href="#build-price"
-            class="bg-action-teal-500 hover:bg-action-teal/90 text-charcoal-500 px-5 py-2.5 rounded-md font-bold text-sm transition-colors shadow-lg shadow-action-teal/20"
+          <UButton
+            to="#build-price"
+            color="action-teal"
+            variant="solid"
+            :class="(isScrolled ? 'text-charcoal-500' : 'text-slate-200')+' font-bold shadow-lg shadow-action-teal-500/20'"
+            size="lg"
           >
             Build & Price
-          </a>
+          </UButton>
         </div>
 
         <!-- Mobile Menu Toggle -->
-        <button 
-          class="md:hidden text-action-teal"
-          @click="mobileMenuOpen = !mobileMenuOpen"
+        <button
+          class="md:hidden text-action-teal-500"
+          @click="toggle"
         >
-          <i v-if="!mobileMenuOpen" data-lucide="menu" style="width:28px; height:28px;"></i>
-          <i v-else data-lucide="x" style="width:28px; height:28px;"></i>
+          <UIcon v-if="!isOpen" name="i-lucide-menu" class="w-7 h-7" />
+          <UIcon v-else name="i-lucide-x" class="w-7 h-7" />
         </button>
       </div>
     </header>

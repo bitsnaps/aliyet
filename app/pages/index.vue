@@ -1,37 +1,21 @@
 <script setup>
-
-const contacts = useState('contacts');
-
-const services = ref([
-    { title: 'Corrective Maintenance', description: 'Rapid, on-site emergency repairs to minimize operational downtime and restore functionality.', icon: 'wrench' },
-    { title: 'Preventive Maintenance', description: 'Scheduled inspections and servicing to prevent failures and extend the lifespan of your machinery.', icon: 'shield-check' },
-    { title: 'Procurement Support', description: 'Expert assistance in sourcing, vetting, and acquiring the ideal machinery for your specific needs.', icon: 'shopping-cart' },
-    { title: 'Technical Consultation', description: 'Strategic advice on optimizing your production line, improving efficiency, and long-term planning.', icon: 'brain-circuit' },
-    { title: 'Operator Training', description: 'Comprehensive training programs to ensure your team can operate new machinery safely and effectively.', icon: 'users' },
-]);
-
-const machineTypes = ref([
-    { id: 'turning', label: 'Turning Center' },
-    { id: 'machining', label: 'Machining Center' },
-    { id: 'edm', label: 'EDM Machine' },
-]);
-
+const { services, machineTypes, clients, contacts } = useSiteData();
 const selectedMachineForQuote = ref('turning');
 
-const clients = ref([
-  { name: 'amm', logo: '/images/clients/amm.png' },
-  { name: 'condor', logo: '/images/clients/condor.png' },
-  { name: 'snap', logo: '/images/clients/snap.png' },
-  { name: 'technonum', logo: '/images/clients/technonum.png' },
-  { name: 'gralcome', logo: '/images/clients/gralcome.png' },
-  { name: 'euromoteur', logo: '/images/clients/euromoteur.png' },
-])
+const formData = ref({
+  name: '',
+  email: '',
+  tel: '',
+  subject: 'Maintenance',
+  company: '',
+  jobTitle: '',
+  message: ''
+})
 
 const showInfo = async () => {
   const { timestamp } = await $fetch('/api/health');
   console.log(timestamp);
 }
-
 </script>
 <template>
     <main>
@@ -40,32 +24,39 @@ const showInfo = async () => {
         <!-- Background Image Placeholder -->
         <div class="absolute inset-0 bg-charcoal-500">
            <div class="absolute inset-0 bg-[url('/images/background.jpg')] bg-cover bg-center opacity-40 mix-blend-overlay"></div>
-           <div class="absolute inset-0 bg-gradient-to-r from-charcoal-500 via-deep-teal/70 to-transparent"></div>
+           <div class="absolute inset-0 bg-gradient-to-r from-charcoal-500 via-deep-teal-500/70 to-transparent"></div>
         </div>
 
         <div class="container mx-auto px-4 md:px-8 relative z-10">
           <div class="grid md:grid-cols-2 gap-8 items-center">
             <div class="max-w-3xl animate-fade-in-right">
               <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight font-heading">
-                Keep Your Factory <span class="text-action-teal">Running.</span>
+                Keep Your Factory <span class="text-action-teal-500">Running.</span>
               </h1>
               <p class="mt-6 text-xl text-slate-300 max-w-xl leading-relaxed">
                 Your trusted partner for expert industrial maintenance and seamless machine procurement. Minimize downtime, maximize efficiency.
               </p>
-              <div class="mt-10 flex flex-col sm:flex-row gap-4">
-                <a
-                  href="#services"
-                  class="bg-deep-teal-500 hover:bg-deep-teal/90 text-white px-8 py-4 rounded-md font-bold text-lg flex items-center justify-center gap-2 transition-all"
+              <div class="mt-10 mb-2 flex flex-col sm:flex-row gap-4">
+                <UButton
+                  to="#services"
+                  size="xl"
+                  color="deep-teal"
+                  variant="solid"
+                  class="font-bold text-white text-lg px-8 py-4 hover:text-slate-900 hover:bg-slate-100 border-2"
+                  :ui="{ rounded: 'rounded-md' }"
                 >
-                  Explore Services <i data-lucide="arrow-right" style="width:20px; height:20px;"></i>
-                </a>
-                <a
-                  href="#build-price"
-                  @click.prevent="showInfo"
-                  class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 rounded-md font-bold text-lg flex items-center justify-center gap-2 transition-all"
+                  Explore Services <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+                </UButton>
+                <UButton
+                  to="#build-price"
+                  size="xl"
+                  color="white"
+                  variant="outline"
+                  class="font-bold text-lg px-8 py-4 text-white hover:text-slate-900 hover:bg-slate-100 border-2"
+                  :ui="{ rounded: 'rounded-md' }"
                 >
                   Get Machine Quote
-                </a>
+                </UButton>
               </div>
             </div>
             <div class="hidden md:block">
@@ -81,8 +72,8 @@ const showInfo = async () => {
           <p class="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-6">Trusted by industry leaders</p>
           <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale">
             <!-- Logo Placeholders -->
-            <div v-for="client in clients" :key="client.name" class="h-32 w-32 bg-white rounded-md">
-              <img :src="client.logo" :alt="client.name">
+            <div v-for="client in clients" :key="client.name" class="h-32 w-32 bg-white rounded-md flex items-center justify-center">
+              <img :src="client.logo" :alt="client.name" class="max-h-full max-w-full object-contain">
             </div>
           </div>
         </div>
@@ -99,22 +90,22 @@ const showInfo = async () => {
             </p>
             <ul class="space-y-3">
               <li class="flex items-center gap-3 text-slate-700 font-medium">
-                <i data-lucide="check-circle-2" class="text-action-teal" style="width:20px; height:20px;"></i>
+                <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-action-teal-500" />
                 Certified expert technicians
               </li>
               <li class="flex items-center gap-3 text-slate-700 font-medium">
-                <i data-lucide="check-circle-2" class="text-action-teal" style="width:20px; height:20px;"></i>
+                <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-action-teal-500" />
                 Rapid response for corrective maintenance
               </li>
               <li class="flex items-center gap-3 text-slate-700 font-medium">
-                <i data-lucide="check-circle-2" class="text-action-teal" style="width:20px; height:20px;"></i>
+                <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-action-teal-500" />
                 Transparent procurement facilitation
               </li>
             </ul>
           </div>
           <div class="relative h-96 bg-slate-200 rounded-2xl overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2730&auto=format&fit=crop" 
+            <img
+              src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2730&auto=format&fit=crop"
               alt="Industrial technicians working"
               class="absolute inset-0 w-full h-full object-cover"
             />
@@ -133,25 +124,24 @@ const showInfo = async () => {
             <p class="mt-4 text-lg max-w-2xl mx-auto text-slate-600">
               From emergency fixes to long-term optimization, our diverse range of services ensures your machinery operates at peak performance.
             </p>
-            <div class="mt-4 mx-auto h-1 w-24 rounded bg-deep-teal"></div>
+            <div class="mt-4 mx-auto h-1 w-24 rounded bg-deep-teal-500"></div>
           </div>
 
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Service Cards Loop -->
-            <div 
-              v-for="(service, idx) in services" 
+            <div
+              v-for="(service, idx) in services"
               :key="idx"
               class="bg-white p-6 rounded-xl shadow-md border border-slate-100 hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
             >
-              <div class="h-12 w-12 bg-action-teal/20 text-deep-teal-500 rounded-lg flex items-center justify-center mb-6">
-                <!-- <component :is="service.icon" :size="24" /> -->
-                 <i :data-lucide="service.icon" style="width:24px; height:24px;"></i>
+              <div class="h-12 w-12 bg-action-teal-500/20 text-deep-teal-500 rounded-lg flex items-center justify-center mb-6">
+                 <UIcon :name="service.icon" class="w-6 h-6" />
               </div>
               <h3 class="text-xl font-bold text-slate-900 mb-3">{{ service.title }}</h3>
               <p class="text-slate-600 flex-grow">{{ service.description }}</p>
               <a href="#contact" class="mt-6 text-deep-teal-500 font-semibold flex items-center group">
-                Inquire Now 
-                <i data-lucide="arrow-right" style="width:16px; height:16px;" class="ml-2 group-hover:translate-x-1 transition-transform"></i>
+                Inquire Now
+                <UIcon name="i-lucide-arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
 
@@ -159,9 +149,15 @@ const showInfo = async () => {
             <div class="bg-deep-teal-500 p-6 rounded-xl shadow-md flex flex-col justify-center items-center text-center text-white">
               <h3 class="text-2xl font-bold mb-4">Need Custom Service?</h3>
               <p class="text-light-gray-200 mb-8">Contact our technical team to discuss your specific factory requirements.</p>
-              <a href="#contact" class="bg-action-teal-500 hover:bg-action-teal/90 text-charcoal-500 font-bold px-6 py-3 rounded-md w-full transition-colors">
+              <UButton
+                to="#contact"
+                color="action-teal"
+                variant="solid"
+                class="font-bold text-charcoal-500 w-full justify-center py-3 border border-action-teal-500 hover:bg-action-teal-500/90"
+                size="lg"
+              >
                 Contact Us
-              </a>
+              </UButton>
             </div>
           </div>
         </div>
@@ -175,38 +171,53 @@ const showInfo = async () => {
               <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Machine Procurement</h2>
               <p class="text-lg text-slate-600 max-w-2xl">We facilitate the sourcing of high-quality industrial machines tailored to your production needs.</p>
             </div>
-            <a href="#" class="hidden md:flex items-center font-bold text-deep-teal-500 hover:text-action-teal-500 transition-colors mt-4 md:mt-0">
-              View Full Catalog <i data-lucide="arrow-right" style="width:20px; height:20px;" class="ml-2"></i>
-            </a>
+            <UButton
+              to="#"
+              variant="ghost"
+              color="deep-teal"
+              class="hidden md:flex items-center font-bold text-deep-teal-500 hover:text-action-teal-500 transition-colors mt-4 md:mt-0"
+            >
+              View Full Catalog <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+            </UButton>
           </div>
 
           <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Machine Cards -->
-            <div 
-              v-for="(machine, idx) in ['Turning Centers', 'Machining Centers', 'EDM Machines']" 
+            <div
+              v-for="(machine, idx) in ['Turning Centers', 'Machining Centers', 'EDM Machines']"
               :key="idx"
               class="group relative overflow-hidden rounded-2xl bg-charcoal-500 aspect-[4/3]"
             >
               <div class="absolute inset-0 bg-slate-800 flex items-center justify-center text-slate-600">
-                 <i data-lucide="factory" style="width:48px; height:48px;" class="opacity-20"></i>
+                 <UIcon name="i-lucide-factory" class="w-12 h-12 opacity-20" />
               </div>
               <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 md:opacity-60 group-hover:opacity-90 transition-opacity duration-300"></div>
               
               <div class="absolute bottom-0 left-0 p-6 w-full">
                 <h3 class="text-white text-2xl font-bold mb-2">{{ machine }}</h3>
                 <div class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 transition-all duration-300">
-                  <button class="bg-action-teal-500 hover:bg-action-teal/90 text-charcoal-500 font-bold py-2 px-4 rounded-md flex items-center text-sm">
-                    Configure & Price <i data-lucide="arrow-right" style="width:16px; height:16px;" class="ml-2"></i>
-                  </button>
+                  <UButton
+                    color="action-teal"
+                    variant="solid"
+                    class="font-bold light:text-charcoal-500 text-action-teal-500"
+                    size="sm"
+                  >
+                    Configure & Price <UIcon name="i-lucide-arrow-right" class="w-4 h-4 ml-2" />
+                  </UButton>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="mt-8 md:hidden">
-            <a href="#" class="flex items-center justify-center font-bold text-deep-teal-500 border-2 border-deep-teal-500 rounded-md py-3">
-              View Full Catalog <i data-lucide="arrow-right" style="width:20px; height:20px;" class="ml-2"></i>
-            </a>
+            <UButton
+              to="#"
+              variant="outline"
+              color="deep-teal"
+              class="flex items-center justify-center font-bold w-full py-3"
+            >
+              View Full Catalog <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+            </UButton>
           </div>
         </div>
       </section>
@@ -214,14 +225,14 @@ const showInfo = async () => {
       <!-- Build & Price Feature Section -->
       <section id="build-price" class="py-20 bg-charcoal-500 text-white relative overflow-hidden">
         <!-- Abstract industrial background shapes -->
-        <div class="absolute top-0 right-0 -mt-24 -mr-24 text-deep-teal/20">
-          <i data-lucide="cog" style="width:400px; height:400px;"></i>
+        <div class="absolute top-0 right-0 -mt-24 -mr-24 text-deep-teal-500/20">
+          <UIcon name="i-lucide-cog" class="w-[400px] h-[400px]" />
         </div>
         
         <div class="container mx-auto px-4 md:px-8 relative z-10">
           <div class="grid lg:grid-cols-5 gap-12 items-center">
             <div class="lg:col-span-2">
-              <span class="inline-block py-1 px-3 rounded-full bg-action-teal/20 text-action-teal-500 text-sm font-bold mb-6">
+              <span class="inline-block py-1 px-3 rounded-full bg-action-teal-500/20 text-action-teal-500 text-sm font-bold mb-6">
                 Interactive Quote Tool
               </span>
               <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Build Your Perfect Machine.</h2>
@@ -247,10 +258,10 @@ const showInfo = async () => {
                       v-for="type in machineTypes"
                       :key="type.id"
                       @click="selectedMachineForQuote = type.id"
-                      class="py-4 px-3 rounded-lg border-2 font-medium text-sm transition-all"
-                      :class="selectedMachineForQuote === type.id 
-                        ? 'border-deep-teal-500 bg-light-gray-200 text-deep-teal' 
-                        : 'border-medium-gray-500 hover:border-medium-gray/70 text-medium-gray'"
+                      class="py-4 px-3 rounded-lg border-2 font-medium text-sm transition-all cursor-pointer"
+                      :class="selectedMachineForQuote === type.id
+                        ? 'border-deep-teal-500 bg-light-gray-200 text-deep-teal-500'
+                        : 'border-medium-gray-500 hover:border-medium-gray-500/70 text-medium-gray-500'"
                     >
                       {{ type.label }}
                     </button>
@@ -258,8 +269,8 @@ const showInfo = async () => {
                 </div>
 
                 <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 flex gap-4 items-start">
-                  <div class="bg-action-teal/20 p-2 rounded-full text-deep-teal-500 mt-1">
-                    <i data-lucide="settings" style="width:20px; height:20px;"></i>
+                  <div class="bg-action-teal-500/20 p-2 rounded-full text-deep-teal-500 mt-1">
+                    <UIcon name="i-lucide-settings" class="w-5 h-5" />
                   </div>
                   <div>
                     <h4 class="font-bold text-slate-900">Ready to customize?</h4>
@@ -267,9 +278,15 @@ const showInfo = async () => {
                   </div>
                 </div>
 
-                <button class="w-full bg-action-teal-500 hover:bg-action-teal/90 text-charcoal-500 text-lg font-bold py-4 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center">
-                  Continue to Build & Price <i data-lucide="arrow-right" style="width:20px; height:20px;" class="ml-2"></i>
-                </button>
+                <UButton
+                  color="action-teal"
+                  variant="solid"
+                  class="font-bold text-charcoal-500 text-lg w-full justify-center py-4 border-2 border-charcoal-500 cursor-pointer"
+                  size="xl"
+                  @click="showInfo"
+                >
+                  Continue to Build & Price <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+                </UButton>
               </div>
             </div>
           </div>
@@ -284,35 +301,35 @@ const showInfo = async () => {
             <p class="mt-4 text-lg max-w-2xl mx-auto text-slate-600">
               Have a general inquiry or need emergency support? Reach out to our team.
             </p>
-            <div class="mt-4 mx-auto h-1 w-24 rounded bg-deep-teal"></div>
+            <div class="mt-4 mx-auto h-1 w-24 rounded bg-deep-teal-500"></div>
           </div>
 
           <div class="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
             <!-- Contact Info -->
             <div class="space-y-8">
               <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
-                <div class="bg-action-teal/20 p-3 rounded-lg text-deep-teal">
-                  <i data-lucide="phone" style="width:24px; height:24px;"></i>
+                <div class="bg-action-teal-500/20 p-3 rounded-lg text-deep-teal-500">
+                  <UIcon name="i-lucide-phone" class="w-6 h-6" />
                 </div>
                 <div>
                   <h4 class="font-bold text-lg text-slate-900">Call Us</h4>
                   <p class="text-slate-600">Mon-Fri from 8am to 6pm.</p>
-				  <a :href="`tel:${contacts.tel.replaceAll(' ','').replaceAll('(0)','')}`" class="text-deep-teal-500 font-semibold mt-1 block hover:underline">{{ contacts.tel }}</a>                  
+      <a :href="`tel:${contacts.tel.replaceAll(' ','').replaceAll('(0)','')}`" class="text-deep-teal-500 font-semibold mt-1 block hover:underline">{{ contacts.tel }}</a>
                 </div>
               </div>
               <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
-                <div class="bg-action-teal/20 p-3 rounded-lg text-deep-teal">
-                  <i data-lucide="mail" style="width:24px; height:24px;"></i>
+                <div class="bg-action-teal-500/20 p-3 rounded-lg text-deep-teal-500">
+                  <UIcon name="i-lucide-mail" class="w-6 h-6" />
                 </div>
                 <div>
                   <h4 class="font-bold text-lg text-slate-900">Email Us</h4>
                   <p class="text-slate-600">We'll respond within 24 hours.</p>
-                  <a href="mailto:contact@aliyaat.net" class="text-deep-teal-500 font-semibold mt-1 block hover:underline">{{ contacts.email }}</a>
+                  <a :href="`mailto:${contacts.email}`" class="text-deep-teal-500 font-semibold mt-1 block hover:underline">{{ contacts.email }}</a>
                 </div>
               </div>
               <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
-                <div class="bg-action-teal/20 p-3 rounded-lg text-deep-teal">
-                  <i data-lucide="map-pin" style="width:24px; height:24px;"></i>
+                <div class="bg-action-teal-500/20 p-3 rounded-lg text-deep-teal-500">
+                  <UIcon name="i-lucide-map-pin" class="w-6 h-6" />
                 </div>
                 <div>
                   <h4 class="font-bold text-lg text-slate-900">Visit Us</h4>
@@ -325,49 +342,51 @@ const showInfo = async () => {
             <!-- Contact Form -->
             <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100">
               <h3 class="text-2xl font-bold mb-6 text-slate-900">Send a Message</h3>
+
               <form class="space-y-6">
                 <div class="grid sm:grid-cols-2 gap-6">
-                  <div>
-                    <label for="name" class="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
-                    <input type="text" id="name" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal">
-                  </div>
-                  <div>
-                    <label for="email" class="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
-                    <input type="email" id="email" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal">
-                  </div>
+                  <UFormField label="Full Name" name="name" required size="lg">
+                    <UInput v-model="formData.name" />
+                  </UFormField>
+                  <UFormField label="Email Address" name="email" required size="lg">
+                    <UInput v-model="formData.email" type="email" />
+                  </UFormField>
                 </div>
                 <div class="grid sm:grid-cols-2 gap-6">
-                  <div>
-                    <label for="tel" class="block text-sm font-medium text-slate-700 mb-2">Telephone</label>
-                    <input type="tel" id="tel" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal">
-                  </div>
-                  <div>
-                    <label for="subject" class="block text-sm font-medium text-slate-700 mb-2">Subject</label>
-                    <select id="subject" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal-500 bg-white">
-                      <option>Maintenance</option>
-                      <option>Installation</option>
-                      <option>Sales</option>
-                      <option>Others</option>
-                    </select>
-                  </div>
+                  <UFormField label="Telephone" name="tel" required size="lg">
+                    <UInput v-model="formData.tel" type="tel" />
+                  </UFormField>
+                  <UFormField label="Subject" name="subject" required size="lg">
+                    <USelect v-model="formData.subject" :options="['Maintenance', 'Installation', 'Sales', 'Others']" />
+                  </UFormField>
                 </div>
                  <div class="grid sm:grid-cols-2 gap-6">
-                  <div>
-                    <label for="company" class="block text-sm font-medium text-slate-700 mb-2">Company</label>
-                    <input type="text" id="company" placeholder="(Optional)" class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal">
-                  </div>
-                  <div>
-                    <label for="job-title" class="block text-sm font-medium text-slate-700 mb-2">Job Title</label>
-                    <input type="text" id="job-title" placeholder="(Optional)" class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal">
-                  </div>
+                  <UFormField label="Company" name="company">
+                    <UInput v-model="formData.company" placeholder="(Optional)" size="lg" />
+                  </UFormField>
+                  <UFormField label="Job Title" name="job-title">
+                    <UInput v-model="formData.jobTitle" placeholder="(Optional)" size="lg" />
+                  </UFormField>
                 </div>
-                <div>
-                  <label for="message" class="block text-sm font-medium text-slate-700 mb-2">Message</label>
-                  <textarea id="message" rows="4" required class="w-full px-4 py-3 rounded-md border-slate-200 border-b focus:ring-deep-teal-500 focus:border-deep-teal"></textarea>
+                <div class="w-full">
+                  <UFormField label="Message" name="message" class="w-full" required size="lg">
+                    <UTextarea v-model="formData.message" :rows="4" />
+                  </UFormField>
                 </div>
-                <button type="submit" class="w-full bg-deep-teal-500 hover:bg-deep-teal/90 text-white font-bold py-4 rounded-lg transition-colors">
-                  Send Message
-                </button>
+                <div class="w-full">
+                  <UButton
+                    type="submit"
+                    color="deep-teal"
+                    variant="solid"
+                    class="w-full text-white hover:bg-action-teal-600 bg-action-teal-500 cursor-pointer"
+                    size="xl"
+                    :ui="{ rounded: 'rounded-md' }"
+                  >
+                    Send Message
+                  </UButton>                  
+                </div>
+                  
+                
               </form>
             </div>
           </div>

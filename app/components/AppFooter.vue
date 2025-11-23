@@ -1,7 +1,5 @@
 <script setup>
-
-const contacts = useState('contacts');
-
+const { contacts } = useSiteData();
 </script>
 <template>
     <!-- Footer -->
@@ -11,7 +9,7 @@ const contacts = useState('contacts');
           <div class="lg:col-span-2">
             <a href="#hero" class="flex items-center gap-2 mb-4">
               <div class="bg-deep-teal-500 text-white p-2 rounded-md">
-                <i data-lucide="cog" style="width:28px; height:28px;"></i>
+                <UIcon name="i-lucide-cog" class="w-7 h-7" />
               </div>
               <span class="text-2xl font-extrabold tracking-tight text-white">ALIYET</span>
             </a>
@@ -19,9 +17,9 @@ const contacts = useState('contacts');
               Your partner in industrial maintenance and machine procurement, ensuring your operations run smoothly and efficiently.
             </p>
             <p class="text-slate-400 max-w-sm mt-4">
-              <strong>Email:</strong> <a href="mailto:contact@aliyaat.net" class="hover:underline">{{ contacts.email }}</a>
+              <strong>Email:</strong> <a :href="`mailto:${contacts.email}`" class="hover:underline">{{ contacts.email }}</a>
             </p>
-            <p class="text-slate-400 max-w-sm mt-4">			
+            <p class="text-slate-400 max-w-sm mt-4">
 				<strong>Tel:</strong> <a :href="`tel:${contacts.tel.replaceAll(' ','').replaceAll('(0)','')}`" class="hover:underline">{{ contacts.tel }}</a>
 			</p>
           </div>
@@ -47,11 +45,11 @@ const contacts = useState('contacts');
           <div>
             <h4 class="font-bold text-white mb-4">Follow Us</h4>
             <div class="flex gap-2">
-              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md"><i data-lucide="twitter" style="width:20px; height:20px;"></i></a>
-              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md"><i data-lucide="linkedin" style="width:20px; height:20px;"></i></a>
-              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md"><i data-lucide="facebook" style="width:20px; height:20px;"></i></a>
-              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md"><i data-lucide="instagram" style="width:20px; height:20px;"></i></a>
-              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md"><i data-lucide="music-2" style="width:20px; height:20px;"></i></a>
+              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-twitter" class="w-5 h-5" /></a>
+              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-linkedin" class="w-5 h-5" /></a>
+              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-facebook" class="w-5 h-5" /></a>
+              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-instagram" class="w-5 h-5" /></a>
+              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-music-2" class="w-5 h-5" /></a>
             </div>
           </div>
         </div>
