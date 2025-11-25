@@ -54,3 +54,6 @@ logs
 # Misc
 .fleet
 .idea
+
+# IA & agents
+AGENTS.md
