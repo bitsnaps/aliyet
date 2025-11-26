@@ -369,8 +369,8 @@ const showInfo = async () => {
                   </UFormField>
                 </div>
                 <div class="w-full">
-                  <UFormField label="Message" name="message" class="w-full" required size="lg">
-                    <UTextarea v-model="formData.message" :rows="4" />
+                  <UFormField label="Message" name="message" required size="lg">
+                    <UTextarea v-model="formData.message" :rows="4" class="w-full" />
                   </UFormField>
                 </div>
                 <div class="sm:col-span-2 flex justify-end">
