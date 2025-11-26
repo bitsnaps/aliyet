@@ -30,7 +30,7 @@ export const useSiteData = () => {
   ]);
 
   const contacts = ref({
-    email: 'contact@aliyaat.net',
+    email: 'contact@aliyaat.com',
     tel: '+213 (0) 555 123 456',
     address: 'Coop. El Amel Lot 77, Ain Naadja, Algiers, Algeria',
     maps: 'https://maps.app.goo.gl/hT4EHyToxyobWgqr5'
