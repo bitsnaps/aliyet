@@ -357,7 +357,7 @@ const showInfo = async () => {
                     <UInput v-model="formData.tel" type="tel" />
                   </UFormField>
                   <UFormField label="Subject" name="subject" required size="lg">
-                    <USelect v-model="formData.subject" :options="['Maintenance', 'Installation', 'Sales', 'Others']" />
+                    <USelect v-model="formData.subject" :items="['Maintenance', 'Installation', 'Sales', 'Others']" placeholder="Select a subject" />
                   </UFormField>
                 </div>
                  <div class="grid sm:grid-cols-2 gap-6">

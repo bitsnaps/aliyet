@@ -1,0 +1,4 @@
+- [x] Modify the contact form component to use a `USelect` for the "Subject" field.
+- [x] Populate the `USelect` with the required options: `['Maintenance', 'Installation', 'Sales', 'Others']`.
+- [x] Ensure the form submission correctly captures the selected subject.
+- [x] Validate the changes with a test.
