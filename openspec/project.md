@@ -50,3 +50,34 @@ The primary objective is to develop a professional, multilingual (Arabic, French
 ## External Dependencies
 - **Google Maps**: Embedded on the Contact page.
 - **Email Service**: For sending quote requests and contact form submissions (to `contact@aliyaat.com` and founders).
+
+## Task Checklist
+
+### Design & UX
+- [ ] Create sitemap and user flow diagrams.
+- [ ] Design wireframes for all 6 pages and the multi-step form.
+- [ ] Develop high-fidelity mockups based on the brand's dark teal color scheme.
+- [ ] Create a responsive design for mobile, tablet, and desktop views.
+
+### Development
+- [ ] Set up the development environment.
+- [ ] Develop the front-end for all pages based on the approved design.
+- [ ] Implement the multilingual functionality (En, Fr, Ar).
+- [ ] Build the Admin Control Panel (CRUD: Machines, Config: Standard/Optional, Services: Title/Description/Image).
+- [ ] Develop the "Products" catalog functionality.
+- [ ] Develop the multi-step "Build & Price" quote request form.
+- [ ] Configure the email notification system for quote requests for admins.
+- [ ] Implement the "Contact Us" form and email functionality.
+- [ ] Implement basic on-page SEO features (meta keywords).
+
+### Content & Data
+- [ ] Receive and process all text and image content from Aliyet.
+- [ ] Import all machine data, including main and optional characteristics.
+- [ ] Populate all pages with the provided content in all three languages.
+
+### Testing & Deployment
+- [ ] Conduct unit testing and functional testing.
+- [ ] Test all forms and email notifications.
+- [ ] Test the Admin Control Panel functionality.
+- [ ] Deploy the website to the client's hosting provider.
+- [ ] Provide final training and handover to the Aliyet team.
