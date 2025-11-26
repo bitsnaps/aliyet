@@ -1,16 +1,24 @@
 <script setup>
-const isScrolled = ref(false);
-    const handleScroll = () => {
-      isScrolled.value = window.scrollY > 50;
-    };
-    
-    const closeMobileMenu = () => {
-      mobileMenuOpen.value = false;
-    };
-    
-    const scrollToTop = () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const isScrolled = ref(false)
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 50
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+  handleScroll()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 </script>
 <template>
     <!-- Go to Top Button -->
