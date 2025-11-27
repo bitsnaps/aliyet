@@ -11,6 +11,9 @@ dependencies:
   nuxt:
     specifier: ^4.2.0
     version: 4.2.1(@vue/compiler-sfc@3.5.25)(typescript@5.9.3)(vite@7.2.4)
+  nuxt-lucide-icons:
+    specifier: 2.0.0
+    version: 2.0.0(vue@3.5.25)
   sequelize:
     specifier: ^6.37.7
     version: 6.37.7
@@ -4750,6 +4753,14 @@ packages:
       yallist: 3.1.1
     dev: false
 
+  /lucide-vue-next@0.555.0(vue@3.5.25):
+    resolution: {integrity: sha512-7hczPsiMD/y+VNLpal5Q5Wv09kQxlHS0l/cM1xagrd+MA3i5umMm+PUXqllvsbgwAl3PHv27fo59h4PN02GM5A==}
+    peerDependencies:
+      vue: '>=3.0.1'
+    dependencies:
+      vue: 3.5.25(typescript@5.9.3)
+    dev: false
+
   /magic-regexp@0.10.0:
     resolution: {integrity: sha512-Uly1Bu4lO1hwHUW0CQeSWuRtzCMNO00CmXtS8N6fyvB3B979GOEEeAkiTUDsmbYLAbvpUS/Kt5c4ibosAzVyVg==}
     dependencies:
@@ -5139,6 +5150,18 @@ packages:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
     dependencies:
       boolbase: 1.0.0
+    dev: false
+
+  /nuxt-lucide-icons@2.0.0(vue@3.5.25):
+    resolution: {integrity: sha512-Y6an4zTf8AKTkIhTczl3jytNxIUk9tMIpxOMNUkn+aFsU8AI6CFy2qMEI8uQ402fkY9vCjhefjue9hQHrHdosg==}
+    dependencies:
+      '@nuxt/kit': 4.2.1(magicast@0.5.1)
+      lucide-vue-next: 0.555.0(vue@3.5.25)
+      pathe: 1.1.2
+      scule: 1.3.0
+    transitivePeerDependencies:
+      - magicast
+      - vue
     dev: false
 
   /nuxt@4.2.1(@vue/compiler-sfc@3.5.25)(typescript@5.9.3)(vite@7.2.4):

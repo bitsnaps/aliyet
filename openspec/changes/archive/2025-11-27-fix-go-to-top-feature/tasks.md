@@ -1,0 +1,5 @@
+- [x] Create a new directory `go-to-top` under `openspec/changes/fix-go-to-top-feature/specs/`.
+- [x] Create the `spec.md` file in the `openspec/changes/fix-go-to-top-feature/specs/go-to-top/` directory with the new requirements.
+- [x] Modify `app/components/GoToTop.vue` to use `document.documentElement` for scroll detection and scrolling to the top.
+- [x] Make sure that `nuxt-lucide-icons` module for Nuxt is installed and configured.
+- [x] Ensure the "Go to Top" button appears after scrolling down and smoothly scrolls to the top when clicked.

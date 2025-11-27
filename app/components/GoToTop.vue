@@ -4,20 +4,20 @@ import { ref, onMounted, onUnmounted } from 'vue'
 const isScrolled = ref(false)
 
 const handleScroll = () => {
-  isScrolled.value = window.scrollY > 50
+  isScrolled.value = document.documentElement.scrollTop > 50
 }
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
+  document.addEventListener('scroll', handleScroll)
   handleScroll()
 })
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
+  document.removeEventListener('scroll', handleScroll)
 })
 
 const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  document.documentElement.scrollTo({ top: 0, behavior: 'smooth' })
 }
 </script>
 <template>
@@ -26,10 +26,10 @@ const scrollToTop = () => {
       <button
         v-if="isScrolled"
         @click="scrollToTop"
-        class="fixed bottom-8 right-8 bg-deep-teal/80 hover:bg-deep-teal-500 text-white p-3 rounded-full shadow-lg transition-all duration-300 z-50"
+        class="fixed bottom-8 right-8 bg-deep-teal-400 hover:bg-deep-teal-500 text-white p-3 rounded-full shadow-lg transition-all duration-300 z-50 cursor-pointer"
         aria-label="Go to top"
       >
-        <i data-lucide="chevron-up" style="width:24px; height:24px;"></i>
+        <Icon name="lucide:chevron-up" class="h-6 w-8" />
       </button>
     </transition>    
 </template>

@@ -7,9 +7,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'node-server', // Builds a standalone Node server
   },
-  modules: [
-    '@nuxt/ui'
-  ],
+  modules: ['@nuxt/ui', 'nuxt-lucide-icons'],
   // You can configure fully typed, per-environment overrides here:
   // $production: {
   //   routeRules: {

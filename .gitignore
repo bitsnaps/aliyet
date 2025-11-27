@@ -57,3 +57,5 @@ logs
 
 # IA & agents
 AGENTS.md
+.gemini
+.qwen
