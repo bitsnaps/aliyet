@@ -1,8 +1,9 @@
-function isAuthenticated (): boolean { return true }
+import { useAuth } from '~/composables/useAuth'
 
 export default defineNuxtRouteMiddleware((to, from) => {
-  // isAuthenticated() is an example method verifying if a user is authenticated
-  if (isAuthenticated() === false) {
+  const { isLoggedIn } = useAuth()
+
+  if (!isLoggedIn() && to.path !== '/login') {
     return navigateTo('/login')
   }
 })
