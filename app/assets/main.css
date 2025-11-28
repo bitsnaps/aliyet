@@ -3,8 +3,8 @@
 
 @theme {
   /* Font families */
-  --font-sans: 'Roboto', sans-serif;
-  --font-heading: 'Montserrat', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
   
   /* Custom colors - need all shades from 50 to 950 */
   --color-deep-teal-50: #e6f5f7;

@@ -7,7 +7,17 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'node-server', // Builds a standalone Node server
   },
-  modules: ['@nuxt/ui', 'nuxt-lucide-icons'],
+  modules: ['@nuxt/ui', 'nuxt-lucide-icons', '@nuxt/fonts'],
+  fonts: {
+    families: [
+      { name: 'Plus Jakarta Sans', provider: 'google' },
+    ],
+    defaults: {
+      weights: [400, 500, 600, 700],
+      styles: ['normal', 'italic'],
+    },
+    // preload: true,
+  },
   // You can configure fully typed, per-environment overrides here:
   // $production: {
   //   routeRules: {

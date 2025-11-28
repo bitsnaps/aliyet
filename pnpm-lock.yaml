@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@nuxt/fonts':
+    specifier: 0.12.1
+    version: 0.12.1(vite@7.2.4)
   '@nuxt/ui':
     specifier: ^4.2.0
     version: 4.2.1(embla-carousel@8.6.0)(typescript@5.9.3)(vite@7.2.4)(vue-router@4.6.3)(vue@3.5.25)
@@ -25,6 +28,9 @@ dependencies:
     version: 4.6.3(vue@3.5.25)
 
 devDependencies:
+  '@iconify-json/lucide':
+    specifier: ^1.2.76
+    version: 1.2.76
   '@nuxt/test-utils':
     specifier: ^3.20.1
     version: 3.20.1(@vue/test-utils@2.4.6)(happy-dom@20.0.10)(typescript@5.9.3)(vitest@4.0.14)
@@ -601,6 +607,12 @@ packages:
       - vue
     dev: false
 
+  /@iconify-json/lucide@1.2.76:
+    resolution: {integrity: sha512-9eBMZ7baxGpPoEy5/PFk8udvxypWLsBvs32oGuQ9GPsibaE64Ey/5UL32zHDjUrK7lKcGgUdZhcfpHfPjaiKYw==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
   /@iconify/collections@1.0.621:
     resolution: {integrity: sha512-md55k0SUK3ICEsqh9lEUVuu2upGCgzT0AqtLCq/74lE8Jp7G1wl8BtyDBls+YqpSFUeIyN082qmVFqFF6a0KYA==}
     dependencies:
@@ -609,7 +621,6 @@ packages:
 
   /@iconify/types@2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
-    dev: false
 
   /@iconify/utils@3.0.2:
     resolution: {integrity: sha512-EfJS0rLfVuRuJRn4psJHtK2A9TqVnkxPpHY6lYHiB9+8eSuudsxbwMiavocG45ujOo6FJ+CIRlRnlOGinzkaGQ==}

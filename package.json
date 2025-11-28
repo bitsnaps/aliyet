@@ -13,6 +13,7 @@
     "test:dev": "vitest"
   },
   "dependencies": {
+    "@nuxt/fonts": "0.12.1",
     "@nuxt/ui": "^4.2.0",
     "nuxt": "^4.2.0",
     "nuxt-lucide-icons": "2.0.0",
@@ -21,6 +22,7 @@
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
+    "@iconify-json/lucide": "^1.2.76",
     "@nuxt/test-utils": "^3.20.1",
     "@vue/test-utils": "^2.4.6",
     "happy-dom": "^20.0.10",
