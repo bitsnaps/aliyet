@@ -1,28 +1,3 @@
-<template>
-  <div class="flex items-center justify-center h-screen">
-    <UCard class="w-full max-w-sm">
-      <template #header>
-        <h1 class="text-2xl font-bold text-center text-white">
-          Connexion
-        </h1>
-      </template>
-
-      <UForm :state="state" class="space-y-4" @submit="login">
-        <UFormField label="Email" name="email">
-          <UInput v-model="state.email" type="email" required class="w-full" />
-        </UFormField>
-
-        <UFormField label="Password" name="password">
-          <UInput v-model="state.password" type="password" class="w-full" required />
-        </UFormField>
-
-        <UButton type="submit" color="primary" block :loading="loading">
-          Login
-        </UButton>
-      </UForm>
-    </UCard>
-  </div>
-</template>
 
 <script setup>
 import { reactive, ref } from 'vue'
@@ -58,3 +33,35 @@ async function login() {
   }
 }
 </script>
+
+<template>
+  <div class="flex items-center justify-center h-screen">
+    <UCard class="w-full max-w-sm">
+      <template #header>
+        <div class="flex justify-center mb-4">
+          <!-- an icon to back to home -->
+           <UButton to="/">
+            <UIcon name="i-lucide-cog" class="w-12 h-12 text-primary" />
+          </UButton>
+        </div>
+        <h1 class="text-2xl font-bold text-center text-white">
+          Login to your account
+        </h1>
+      </template>
+
+      <UForm :state="state" class="space-y-4" @submit="login">
+        <UFormField label="Email" name="email">
+          <UInput v-model="state.email" type="email" required class="w-full" />
+        </UFormField>
+
+        <UFormField label="Password" name="password">
+          <UInput v-model="state.password" type="password" class="w-full" required />
+        </UFormField>
+
+        <UButton type="submit" color="primary" block :loading="loading">
+          Login
+        </UButton>
+      </UForm>
+    </UCard>
+  </div>
+</template>

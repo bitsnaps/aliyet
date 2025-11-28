@@ -7,7 +7,7 @@ const { contacts } = useSiteData();
       <div class="container mx-auto px-4 md:px-8 py-16">
         <div class="grid md:grid-cols-4 lg:grid-cols-5 gap-12">
           <div class="lg:col-span-2">
-            <a href="#" class="flex items-center gap-2 mb-4">
+            <a href="/" class="flex items-center gap-2 mb-4">
               <div class="bg-deep-teal-500 text-white p-2 rounded-md">
                 <UIcon name="i-lucide-cog" class="w-7 h-7" />
               </div>

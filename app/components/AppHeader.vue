@@ -2,6 +2,7 @@
 const { navLinks } = useSiteData();
 const { isOpen, toggle } = useMobileMenu();
 const isScrolled = ref(false);
+const route = useRoute()
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 50;
@@ -19,6 +20,7 @@ onUnmounted(() => {
 <template>
     <!-- Navigation -->
     <header
+      v-show="route.path!='/login'"
       class="fixed w-full z-50 transition-all duration-300"
       :class="isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-md py-3' : 'bg-transparent py-5'"
     >
