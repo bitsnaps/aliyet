@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+import { useModels } from './models';
 
 /** @type {import('sequelize').Sequelize} */
 let sequelizeInstance = null
@@ -87,5 +88,22 @@ export const useDB = () => {
       console.error('❌ DB Connection Error:', err)
     })
 
-  return sequelizeInstance
-}
+  return sequelizeInstance;
+};
+
+/**
+ * Seeds the database with initial data, like an admin user.
+ */
+export const seedDatabase = async () => {
+  const { Users } = useModels();
+  await Users.sync({ alter: true }); // Ensure table exists
+  const admin = await Users.findOne({ where: { username: 'admin' } });
+  if (!admin) {
+    await Users.create({
+      username: 'admin@aliyaat.com',
+      password: 'password', // In a real app, this should be a hashed password
+      role: 'ADMIN',
+    });
+    console.log('✅ Admin user created');
+  }
+};

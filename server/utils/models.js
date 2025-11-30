@@ -1,4 +1,5 @@
 import { DataTypes } from 'sequelize';
+import { useDB } from './db';
 
 // Helper to prevent re-initialization
 let modelsLoaded = false
@@ -70,8 +71,9 @@ export const useModels = () => {
   // --- 4. Users & Client Sets ---
 
   const Users = sequelize.define('Users', {
-    email: { type: DataTypes.STRING, unique: true, allowNull: false },
-    password_hash: { type: DataTypes.STRING, allowNull: false },
+    username: { type: DataTypes.STRING, unique: true, allowNull: false },
+    email: { type: DataTypes.STRING, unique: false, allowNull: true },
+    password: { type: DataTypes.STRING, allowNull: false },
     name: { type: DataTypes.STRING },
     role: { type: DataTypes.STRING, defaultValue: 'CUSTOMER' }, // ADMIN, SALES, CUSTOMER
     active: { type: DataTypes.BOOLEAN, defaultValue: true },
