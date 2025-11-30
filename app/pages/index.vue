@@ -153,7 +153,7 @@ const showInfo = async () => {
                 to="#contact"
                 color="action-teal"
                 variant="solid"
-                class="font-bold text-charcoal-500 w-full justify-center py-3 border border-action-teal-500 hover:bg-action-teal-500/90"
+                class="font-bold text-white w-full justify-center py-3 border border-action-teal-500 hover:bg-action-teal-500/90"
                 size="lg"
               >
                 Contact Us
@@ -341,7 +341,7 @@ const showInfo = async () => {
             
             <!-- Contact Form -->
             <div class="p-8 rounded-xl shadow-sm border border-slate-100 bg-deep-teal-500">
-              <h3 class="text-2xl font-bold mb-6 text-slate-50">Send a Message</h3>
+              <h3 class="text-2xl font-bold mb-6 text-white">Send a Message</h3>
 
               <form class="space-y-6">
                 <div class="grid sm:grid-cols-2 gap-6">

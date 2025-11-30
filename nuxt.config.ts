@@ -32,12 +32,23 @@ export default defineNuxtConfig({
   //     //
   //   },
   // },
-  // runtimeConfig: {
+  runtimeConfig: {
     // Keys within public are also exposed client-side
     // public: {
     //   apiBase: '/api',
-    // },    
-  // },
+    // },
+    db: {
+      host: process.env.DB_HOST || 'localhost',
+      port: process.env.DB_PORT || 3306,
+      name: process.env.DB_NAME || 'aliyaat_db',
+      user: process.env.DB_USER || 'root',
+      password: process.env.DB_PASSWORD || '',
+      // 'mysql' or 'sqlite'
+      dialect: process.env.DB_DIALECT || 'sqlite', 
+      // Only for sqlite
+      storage: process.env.DB_STORAGE || './server/database.sqlite' 
+    }    
+  },
   css: ['~/assets/main.css'],
   app: {
     baseURL: '/', // Keep this as root
