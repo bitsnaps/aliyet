@@ -233,11 +233,11 @@ const showInfo = async () => {
           <div class="grid lg:grid-cols-5 gap-12 items-center">
             <div class="lg:col-span-2">
               <span class="inline-block py-1 px-3 rounded-full bg-action-teal-500/20 text-action-teal-500 text-sm font-bold mb-6">
-                Interactive Quote Tool
+                Interactive Quote
               </span>
               <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Build Your Perfect Machine.</h2>
               <p class="text-lg text-light-gray-200 mb-8">
-                Know what you need? Use our streamlined "Build & Price" tool to configure your machine's characteristics and get a rapid quote directly to your inbox.
+                Know what you need? Use our streamlined "Build & Price" to configure your machine's characteristics and get a rapid quote directly to your inbox.
               </p>
               <ul class="space-y-4 text-light-gray-200 mb-8">
                 <li class="flex items-center gap-3"><div class="bg-charcoal-500 p-1 rounded-full text-action-teal-500 font-bold w-6 h-6 flex items-center justify-center text-xs">1</div> Select Machine Type</li>
@@ -274,7 +274,7 @@ const showInfo = async () => {
                   </div>
                   <div>
                     <h4 class="font-bold text-slate-900">Ready to customize?</h4>
-                    <p class="text-sm text-slate-600">Continue to our full configuration tool to select spindles, axis details, and more.</p>
+                    <p class="text-sm text-slate-600">Continue to our full configuration to select spindles, axis details, and more.</p>
                   </div>
                 </div>
 

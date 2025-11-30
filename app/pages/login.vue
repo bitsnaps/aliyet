@@ -41,7 +41,7 @@ async function login() {
         <div class="flex justify-center mb-4">
           <!-- an icon to back to home -->
            <UButton to="/">
-            <UIcon name="i-lucide-cog" class="w-12 h-12 text-primary" />
+            <UIcon name="i-lucide-cog" class="w-12 h-12" />
           </UButton>
         </div>
         <h1 class="text-2xl font-bold text-center text-white">
@@ -58,7 +58,7 @@ async function login() {
           <UInput v-model="state.password" type="password" class="w-full" required />
         </UFormField>
 
-        <UButton type="submit" color="primary" block :loading="loading">
+        <UButton type="submit" color="primary" block :loading="loading" size="xl">
           Login
         </UButton>
       </UForm>
