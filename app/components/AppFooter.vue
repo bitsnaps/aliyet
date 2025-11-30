@@ -11,7 +11,7 @@ const { contacts } = useSiteData();
               <div class="bg-deep-teal-500 text-white p-2 rounded-md">
                 <UIcon name="i-lucide-cog" class="w-7 h-7" />
               </div>
-              <span class="text-2xl font-extrabold tracking-tight text-white">ALIYET</span>
+              <span class="text-2xl font-extrabold tracking-tight text-white">Aliyaat</span>
             </a>
             <p class="text-slate-400 max-w-sm">
               Your partner in industrial maintenance and machine procurement, ensuring your operations run smoothly and efficiently.

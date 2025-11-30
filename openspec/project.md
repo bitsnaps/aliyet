@@ -1,11 +1,12 @@
 # Project Context
 
 ## Purpose
-The primary objective is to develop a professional, multilingual (Arabic, French, English) corporate website for "**Aliyet**". The website aims to establish a strong online presence, showcasing expertise in industrial machine maintenance (corrective, preventive, specialized) and generating qualified leads for both maintenance services and new machine procurement. The target audience includes Factory Managers and Workshop Owners.
+The primary objective is to develop a professional, multilingual (Arabic, French, English) corporate website for "**Aliyaat**". The website aims to establish a strong online presence, showcasing expertise in industrial machine maintenance (corrective, preventive, specialized) and generating qualified leads for both maintenance services and new machine procurement. The target audience includes Factory Managers and Workshop Owners.
 
 ## Tech Stack
 - **Framework**: Nuxt v4 (v4.2.1+)
-- **UI Library**: Nuxt UI (built on Tailwind CSS and Reka UI)
+- **UI Library**: Nuxt UI (built on Tailwind CSS and Reka UI) and [@nuxt/fonts](https://fonts.nuxt.com/) for font optimization.
+- **Icons**: Lucide icons via (nuxt-lucide-icons)[https://nuxt.com/modules/lucide-icons] which is a Nuxt module.
 - **Language**: JavaScript with JSDoc annotations
 - **Package Manager**: pnpm
 - **Backend**: Nuxt Server Routes (Nitro Engine) in `/server/api`
@@ -38,7 +39,7 @@ The primary objective is to develop a professional, multilingual (Arabic, French
 ## Domain Context
 - **Services**: Corrective Maintenance, Preventive Maintenance, Programming/Configuring, Hardware Maintenance, Hydraulic/Pneumatic Maintenance.
 - **Products**: Industrial machines (Turning Centers, Machining Centers, EDM machines).
-- **Business Model**: Aliyet acts as a **facilitator/broker** for machine procurement, not a direct seller.
+- **Business Model**: Aliyaat acts as a **facilitator/broker** for machine procurement, not a direct seller.
 - **Key Features**: "Build & Price" quote request system with a fixed workflow.
 
 ## Important Constraints
@@ -71,7 +72,7 @@ The primary objective is to develop a professional, multilingual (Arabic, French
 - [ ] Implement basic on-page SEO features (meta keywords).
 
 ### Content & Data
-- [ ] Receive and process all text and image content from Aliyet.
+- [ ] Receive and process all text and image content from Aliyaat.
 - [ ] Import all machine data, including main and optional characteristics.
 - [ ] Populate all pages with the provided content in all three languages.
 
@@ -80,4 +81,4 @@ The primary objective is to develop a professional, multilingual (Arabic, French
 - [ ] Test all forms and email notifications.
 - [ ] Test the Admin Control Panel functionality.
 - [ ] Deploy the website to the client's hosting provider.
-- [ ] Provide final training and handover to the Aliyet team.
+- [ ] Provide final training and handover to the Aliyaat team.

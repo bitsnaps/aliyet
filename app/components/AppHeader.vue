@@ -34,7 +34,7 @@ onUnmounted(() => {
             class="text-2xl font-extrabold tracking-tight transition-colors"
             :class="isScrolled ? 'text-deep-teal-500' : 'text-white'"
           >
-            ALIYET
+            Aliyaat
           </span>
         </a>
 
