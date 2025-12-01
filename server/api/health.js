@@ -1,6 +1,6 @@
 
 export default defineEventHandler(async (event) => {
-    const db = useDB();
+    // const db = useDB();
     
     return {
         timestamp: new Date().toISOString(),

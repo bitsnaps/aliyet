@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize';
+// import { Sequelize } from 'sequelize';
 // import { useModels } from './models';
 
 /** @type {import('sequelize').Sequelize} */
@@ -9,6 +9,7 @@ let sequelizeInstance = null
  * @returns {import('sequelize').Sequelize}
  */
 export const useDB = () => {
+  /*
   if (sequelizeInstance) {
     return sequelizeInstance
   }
@@ -99,7 +100,8 @@ export const useDB = () => {
       console.error('❌ DB Connection Error:', err)
     })
 
-  return sequelizeInstance;
+  return sequelizeInstance;*/
+  return {};
 };
 
 /**
