@@ -41,7 +41,9 @@ const links = [
         <div class="w-8 h-8 rounded bg-action-teal-500 flex items-center justify-center">
           <UIcon name="i-lucide-wrench" class="text-white w-5 h-5" />
         </div>
-        <span class="font-bold text-xl tracking-tight">Aliyaat Admin</span>
+        <NuxtLink to="/admin" class="text-white">
+          <span class="font-bold text-xl tracking-tight">Admin</span>
+        </NuxtLink>
       </div>
 
       <div class="flex-1 px-4 py-4 overflow-y-auto">
@@ -79,9 +81,11 @@ const links = [
     <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
       <!-- Header -->
       <header class="bg-white dark:bg-charcoal-900 border-b border-light-gray-200 dark:border-charcoal-800 h-16 flex items-center justify-between px-6 shadow-sm">
-        <h1 class="text-lg font-semibold text-charcoal-900 dark:text-white">
-          <slot name="title">Dashboard</slot>
-        </h1>
+        <NuxtLink to="/admin" class="text-white">
+          <h1 class="text-lg font-semibold text-charcoal-900 dark:text-white">
+            <slot name="title">Dashboard</slot>
+          </h1>
+        </NuxtLink>
         
         <div class="flex items-center gap-4">
           <UButton 
@@ -93,7 +97,6 @@ const links = [
           <UButton 
             to="/"
             target="_blank"
-            color="gray" 
             variant="soft" 
             label="View Site"
             icon="i-lucide-external-link"

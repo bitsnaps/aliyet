@@ -4,10 +4,10 @@ definePageMeta({
 })
 
 const stats = [
-  { id: 1, label: 'Total Machines', value: '42', icon: 'i-lucide-monitor-smartphone', color: 'text-action-teal-500', bg: 'bg-action-teal-50' },
-  { id: 2, label: 'Pending Quotes', value: '7', icon: 'i-lucide-inbox', color: 'text-amber-500', bg: 'bg-amber-50' },
-  { id: 3, label: 'Active Users', value: '158', icon: 'i-lucide-users', color: 'text-deep-teal-500', bg: 'bg-deep-teal-50' },
-  { id: 4, label: 'Total Categories', value: '8', icon: 'i-lucide-tags', color: 'text-purple-500', bg: 'bg-purple-50' },
+  { id: 1, label: 'Machines', value: '42', icon: 'i-lucide-monitor-smartphone', color: 'text-action-teal-500', bg: 'bg-action-teal-50' },
+  { id: 2, label: 'Quotes', value: '7', icon: 'i-lucide-inbox', color: 'text-amber-500', bg: 'bg-amber-50' },
+  { id: 3, label: 'Clients', value: '158', icon: 'i-lucide-users', color: 'text-deep-teal-500', bg: 'bg-deep-teal-50' },
+  // { id: 4, label: 'Total Categories', value: '8', icon: 'i-lucide-tags', color: 'text-purple-500', bg: 'bg-purple-50' },
 ]
 
 // Mock data for recent requests
@@ -35,7 +35,7 @@ const columns = [
     </div>
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <UCard v-for="stat in stats" :key="stat.label" class="border-l-4 border-l-deep-teal-500">
         <div class="flex items-center justify-between">
           <div>
@@ -52,10 +52,10 @@ const columns = [
     <!-- Recent Activity -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- Main Activity Table -->
-      <UCard class="lg:col-span-2" title="Recent Quote Requests">
+      <UCard class="lg:col-span-2" title="Recent Quotes">
         <template #header>
           <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-charcoal-900">Recent Quote Requests</h3>
+            <h3 class="font-semibold text-charcoal-900 dark:text-white">Recent Quotes</h3>
             <UButton size="xs" variant="ghost" color="primary" label="View All" to="/admin/quotes" />
           </div>
         </template>
@@ -79,7 +79,7 @@ const columns = [
       <!-- Quick Actions -->
       <UCard>
         <template #header>
-          <h3 class="font-semibold text-charcoal-900">Quick Actions</h3>
+          <h3 class="font-semibold text-charcoal-900 dark:text-white">Quick Actions</h3>
         </template>
         <div class="space-y-3">
           <UButton 
@@ -90,18 +90,18 @@ const columns = [
             variant="solid"
             to="/admin/machines/new"
           />
-          <UButton 
+          <!-- <UButton 
             block 
             icon="i-lucide-folder-plus" 
             label="Create Category" 
-            color="white" 
+            color="secondary" 
             variant="solid"
-          />
+          /> -->
           <UButton 
             block 
             icon="i-lucide-settings" 
             label="System Configuration" 
-            color="gray" 
+            color="secondary" 
             variant="ghost"
           />
         </div>

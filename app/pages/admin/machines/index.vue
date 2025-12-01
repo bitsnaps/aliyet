@@ -12,12 +12,12 @@ const machines = ref([
 ])
 
 const columns = [
-  { key: 'code', label: 'Code', sortable: true },
-  { key: 'name', label: 'Name', sortable: true },
-  { key: 'category', label: 'Category' },
-  { key: 'price', label: 'Base Price', sortable: true },
-  { key: 'available', label: 'Availability' },
-  { key: 'actions', label: 'Actions' }
+  { id: 1, key: 'code', label: 'Code', sortable: true },
+  { id: 2, key: 'name', label: 'Name', sortable: true },
+  { id: 3, key: 'category', label: 'Category' },
+  { id: 4, key: 'price', label: 'Base Price', sortable: true },
+  { id: 5, key: 'available', label: 'Availability' },
+  { id: 6, key: 'actions', label: 'Actions' }
 ]
 
 const search = ref('')
@@ -115,9 +115,9 @@ const items = (row) => [
         </template>
 
         <template #actions-data="{ row }">
-          <UDropdown :items="items(row)">
+          <UDropdownMenu :items="items(row)">
             <UButton color="gray" variant="ghost" icon="i-lucide-more-horizontal" />
-          </UDropdown>
+          </UDropdownMenu>
         </template>
       </UTable>
       
