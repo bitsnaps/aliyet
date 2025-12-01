@@ -78,7 +78,7 @@ export default defineNuxtConfig({
   //     //
   //   },
   // },
-  /*runtimeConfig: {
+  runtimeConfig: {
     // Keys within public are also exposed client-side
     // public: {
     //   apiBase: '/api',
@@ -90,11 +90,11 @@ export default defineNuxtConfig({
       user: process.env.DB_USER || 'root',
       password: process.env.DB_PASSWORD || '',
       // 'mysql' or 'sqlite'
-      dialect: process.env.DB_DIALECT || 'sqlite', 
+      // dialect: process.env.DB_DIALECT || 'sqlite', 
       // Only for sqlite
-      storage: process.env.DB_STORAGE || './server/database.sqlite' 
+      // storage: process.env.DB_STORAGE || './server/database.sqlite' 
     }    
-  },*/
+  },
   css: ['~/assets/main.css'],
   app: {
     baseURL: '/', // Keep this as root
