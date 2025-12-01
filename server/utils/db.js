@@ -1,4 +1,4 @@
-// import { Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize';
 // import { useModels } from './models';
 
 /** @type {import('sequelize').Sequelize} */
@@ -9,11 +9,22 @@ let sequelizeInstance = null
  * @returns {import('sequelize').Sequelize}
  */
 export const useDB = () => {
-  /*if (sequelizeInstance) {
+  if (sequelizeInstance) {
     return sequelizeInstance
   }
 
-  const config = useRuntimeConfig()
+  // const config = useRuntimeConfig()
+  const config = {
+    db: {
+      name: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      storage: process.env.DB_STORAGE || './dev.db'
+    }
+  }
+
   const env = process.env.NODE_ENV || 'development'
   
   // Default options shared across environments
@@ -88,8 +99,7 @@ export const useDB = () => {
       console.error('❌ DB Connection Error:', err)
     })
 
-  return sequelizeInstance;*/
-  return {};
+  return sequelizeInstance;
 };
 
 /**

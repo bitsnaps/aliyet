@@ -59,4 +59,5 @@ logs
 AGENTS.md
 .gemini
 .qwen
-server/*.sqlite
+server/*.db
+*.db

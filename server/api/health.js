@@ -1,7 +1,9 @@
+
 export default defineEventHandler(async (event) => {
+    const db = useDB();
+    
     return {
         timestamp: new Date().toISOString(),
-        env: process.env,
-
+        dbConfig: db.config ?'ok':'error'
     }
 })
