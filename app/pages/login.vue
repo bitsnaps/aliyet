@@ -3,7 +3,7 @@
 import { reactive, ref } from 'vue'
 
 const state = reactive({
-  email: '',
+  username: '',
   password: ''
 })
 
@@ -50,8 +50,8 @@ async function login() {
       </template>
 
       <UForm :state="state" class="space-y-4" @submit="login">
-        <UFormField label="Email" name="email">
-          <UInput v-model="state.email" type="email" required class="w-full" />
+        <UFormField label="Username" name="username">
+          <UInput v-model="state.username" type="email" required class="w-full" />
         </UFormField>
 
         <UFormField label="Password" name="password">
