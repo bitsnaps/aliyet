@@ -45,7 +45,7 @@ const links = [
       </div>
 
       <div class="flex-1 px-4 py-4 overflow-y-auto">
-        <UVerticalNavigation 
+        <UNavigationMenu 
           :links="links" 
           :ui="{
             wrapper: 'space-y-1',

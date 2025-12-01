@@ -128,7 +128,7 @@ const save = async () => {
         <UCard title="Classification">
           <div class="space-y-4">
             <UFormField label="Status" name="available">
-              <UToggle v-model="state.available" />
+              <USwitch v-model="state.available" />
               <span class="ml-2 text-sm text-charcoal-600">{{ state.available ? 'Available for Quote' : 'Hidden/Unavailable' }}</span>
             </UFormField>
 
