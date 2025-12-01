@@ -2,7 +2,7 @@ import { useModels } from '../../utils/models';
 import { defineEventHandler, readBody } from 'h3';
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event);
+/*  const body = await readBody(event);
   const { Users } = useModels();
 
   const user = await Users.findOne({ where: { username: body.username } });
@@ -26,5 +26,17 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Unauthorized',
       message: 'Invalid username or password',
     });
-  }
+  }*/
+
+    return {
+      status: 200,
+      body: {
+        message: 'Login successful',
+        user: {
+          name: 'John Doe',
+          username: 'johndoe',
+          id: 1
+        },
+      },
+    };    
 });

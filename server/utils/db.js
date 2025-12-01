@@ -1,5 +1,5 @@
-import { Sequelize } from 'sequelize';
-import { useModels } from './models';
+// import { Sequelize } from 'sequelize';
+// import { useModels } from './models';
 
 /** @type {import('sequelize').Sequelize} */
 let sequelizeInstance = null
@@ -9,7 +9,7 @@ let sequelizeInstance = null
  * @returns {import('sequelize').Sequelize}
  */
 export const useDB = () => {
-  if (sequelizeInstance) {
+  /*if (sequelizeInstance) {
     return sequelizeInstance
   }
 
@@ -17,7 +17,7 @@ export const useDB = () => {
   const env = process.env.NODE_ENV || 'development'
   
   // Default options shared across environments
-  /** @type {import('sequelize').Options} */
+  // @type {import('sequelize').Options}
   const options = {
     logging: env === 'development' ? console.log : false,
     define: {
@@ -88,14 +88,15 @@ export const useDB = () => {
       console.error('❌ DB Connection Error:', err)
     })
 
-  return sequelizeInstance;
+  return sequelizeInstance;*/
+  return {};
 };
 
 /**
  * Seeds the database with initial data, like an admin user.
  */
 export const seedDatabase = async () => {
-  const { Users } = useModels();
+  /*const { Users } = useModels();
   await Users.sync({ alter: true }); // Ensure table exists
   const admin = await Users.findOne({ where: { username: 'admin' } });
   if (!admin) {
@@ -105,5 +106,5 @@ export const seedDatabase = async () => {
       role: 'ADMIN',
     });
     console.log('✅ Admin user created');
-  }
+  }*/
 };

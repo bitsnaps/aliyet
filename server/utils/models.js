@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+// import { DataTypes } from 'sequelize';
 import { useDB } from './db';
 
 // Helper to prevent re-initialization
@@ -6,7 +6,7 @@ let modelsLoaded = false
 const models = {}
 
 export const useModels = () => {
-  if (modelsLoaded) return models
+  /*if (modelsLoaded) return models
 
   const sequelize = useDB()
 
@@ -174,5 +174,6 @@ export const useModels = () => {
   })
 
   modelsLoaded = true
-  return models
+  */
+  return models;
 }
