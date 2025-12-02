@@ -1,9 +1,21 @@
+import { useDB } from '../utils/db';
 
 export default defineEventHandler(async (event) => {
-    // const db = useDB();
-    
-    return {
-        timestamp: new Date().toISOString(),
-        dbConfig: db.config ?'ok':'error'
+    try {
+        const sequelize = await useDB();
+        await sequelize.authenticate();
+        return {
+            timestamp: new Date().toISOString(),
+            db: true
+        };
+    } catch (error) {
+        console.error('Health check failed:', error);
+        // Set a 503 status code to indicate a service is unavailable
+        event.node.res.statusCode = 503;
+        return {
+            timestamp: new Date().toISOString(),
+            db: false,
+            error: `Database connection failed: ${error || 'Unknown error'}`
+        };
     }
-})
+});

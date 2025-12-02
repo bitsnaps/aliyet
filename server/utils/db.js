@@ -1,5 +1,5 @@
-// import { Sequelize } from 'sequelize';
-// import { useModels } from './models';
+import { Sequelize } from 'sequelize';
+import { useModels } from './models';
 
 /** @type {import('sequelize').Sequelize} */
 let sequelizeInstance = null
@@ -8,8 +8,7 @@ let sequelizeInstance = null
  * Initializes and returns the Singleton Sequelize instance
  * @returns {import('sequelize').Sequelize}
  */
-export const useDB = () => {
-  /*
+export const useDB = async () => {
   if (sequelizeInstance) {
     return sequelizeInstance
   }
@@ -21,8 +20,7 @@ export const useDB = () => {
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      storage: process.env.DB_STORAGE || './dev.db'
+      port: process.env.DB_PORT
     }
   }
 
@@ -69,48 +67,45 @@ export const useDB = () => {
       logging: false // Keep tests clean
     })
   } 
-  // DEVELOPMENT: SQLite File (or MySQL if configured)
+  // DEVELOPMENT: MySQL
   else {
-    if (config.db.dialect === 'mysql') {
-       sequelizeInstance = new Sequelize(
-        config.db.name,
-        config.db.user,
-        config.db.password,
-        {
-          ...options,
-          host: config.db.host,
-          dialect: 'mysql'
-        }
-      )
-    } else {
-      sequelizeInstance = new Sequelize({
+    sequelizeInstance = new Sequelize(
+      config.db.name,
+      config.db.user,
+      config.db.password,
+      {
         ...options,
-        dialect: 'sqlite',
-        storage: config.db.storage
-      })
-    }
+        host: config.db.host,
+        dialect: 'mysql'
+      }
+    )
+    // Initialize models
+    useModels(sequelizeInstance);
+    // Sync all models
+    await sequelizeInstance.sync({ alter: true });
   }
 
   // Test connection purely for logging purposes on startup
-  sequelizeInstance.authenticate()
-    .then(() => {
-      if (env === 'development') console.log(`✅ DB Connected (${env})`)
-    })
-    .catch(err => {
-      console.error('❌ DB Connection Error:', err)
-    })
-
-  return sequelizeInstance;*/
-  return {};
+  try {
+    await sequelizeInstance.authenticate();
+    if (env === 'development') {
+      console.log(`✅ DB Connected (${env})`);
+    }
+  } catch (err) {
+    console.error('❌ DB Connection Error:', err);
+  }
+  return sequelizeInstance;
+  // return {};
 };
 
 /**
  * Seeds the database with initial data, like an admin user.
  */
 export const seedDatabase = async () => {
-  /*const { Users } = useModels();
-  await Users.sync({ alter: true }); // Ensure table exists
-  const admin = await Users.findOne({ where: { username: 'admin' } });
+  const sequelize = await useDB();
+  const { Users } = useModels(sequelize);
+  // await Users.sync({ alter: true }); // No longer needed, sync is handled in useDB
+  const admin = await Users.findOne({ where: { username: 'admin@aliyaat.com' } });
   if (!admin) {
     await Users.create({
       username: 'admin@aliyaat.com',
@@ -118,5 +113,5 @@ export const seedDatabase = async () => {
       role: 'ADMIN',
     });
     console.log('✅ Admin user created');
-  }*/
+  }
 };

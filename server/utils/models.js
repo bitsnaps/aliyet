@@ -1,38 +1,60 @@
-// import { DataTypes } from 'sequelize';
-import { useDB } from './db';
+import { DataTypes } from 'sequelize';
+// import { useDB } from './db'; // No longer needed, breaks with circular dependency
 
 // Helper to prevent re-initialization
 let modelsLoaded = false
 const models = {}
 
-export const useModels = () => {
-  /*if (modelsLoaded) return models
+export const useModels = (sequelize) => {
+  if (modelsLoaded) return models
 
-  const sequelize = useDB()
+  // const sequelize = useDB() // sequelize instance is now passed in
 
   // --- 1. Taxonomy Models ---
 
   const Categories = sequelize.define('Categories', {
-    name: { type: DataTypes.STRING, unique: true, allowNull: false },
+    name: { type: DataTypes.STRING(191), unique: true, allowNull: false },
     description: { type: DataTypes.STRING },
-    metadata: { type: DataTypes.JSON }
+    metadata: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      note: 'Stores the extra data as a JSON blob',
+      get() {
+        const value = this.getDataValue('metadata');
+        return value ? JSON.parse(value) : null;
+      },
+      set(value) {
+        this.setDataValue('metadata', value ? JSON.stringify(value) : null);
+      },
+    }
   })
 
   const ConfigCategories = sequelize.define('ConfigCategories', {
-    name: { type: DataTypes.STRING, unique: true, allowNull: false },
+    name: { type: DataTypes.STRING(191), unique: true, allowNull: false },
     description: { type: DataTypes.STRING }
   })
 
   // --- 2. Machine Core ---
 
   const Machines = sequelize.define('Machines', {
-    code: { type: DataTypes.STRING, unique: true, allowNull: false },
+    code: { type: DataTypes.STRING(191), unique: true, allowNull: false },
     name: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT },
     url: { type: DataTypes.STRING },
     base_price: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0.00 },
     available: { type: DataTypes.BOOLEAN, defaultValue: true },
-    metadata: { type: DataTypes.JSON }
+    metadata: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      note: 'Stores the extra data as a JSON blob',
+      get() {
+        const value = this.getDataValue('metadata');
+        return value ? JSON.parse(value) : null;
+      },
+      set(value) {
+        this.setDataValue('metadata', value ? JSON.stringify(value) : null);
+      },
+    }
   })
 
   const Specifications = sequelize.define('Specifications', {
@@ -45,45 +67,100 @@ export const useModels = () => {
   // --- 3. Configuration & Options ---
 
   const Configurations = sequelize.define('Configurations', {
-    name: { type: DataTypes.STRING, unique: true, allowNull: false },
+    name: { type: DataTypes.STRING(191), unique: true, allowNull: false },
     description: { type: DataTypes.TEXT },
     price: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0.00 },
     available: { type: DataTypes.BOOLEAN, defaultValue: true },
-    metadata: { type: DataTypes.JSON }
+    metadata: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      note: 'Stores the extra data as a JSON blob',
+      get() {
+        const value = this.getDataValue('metadata');
+        return value ? JSON.parse(value) : null;
+      },
+      set(value) {
+        this.setDataValue('metadata', value ? JSON.stringify(value) : null);
+      },
+    }
   })
 
   const OptionalAdditions = sequelize.define('OptionalAdditions', {
-    name: { type: DataTypes.STRING, unique: true, allowNull: false },
+    name: { type: DataTypes.STRING(191), unique: true, allowNull: false },
     description: { type: DataTypes.TEXT },
     price: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0.00 },
     available: { type: DataTypes.BOOLEAN, defaultValue: true },
-    metadata: { type: DataTypes.JSON }
+    metadata: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      note: 'Stores the extra data as a JSON blob',
+      get() {
+        const value = this.getDataValue('metadata');
+        return value ? JSON.parse(value) : null;
+      },
+      set(value) {
+        this.setDataValue('metadata', value ? JSON.stringify(value) : null);
+      },
+    }
   })
 
   const OptionalReplacements = sequelize.define('OptionalReplacements', {
-    name: { type: DataTypes.STRING, unique: true, allowNull: false },
+    name: { type: DataTypes.STRING(191), unique: true, allowNull: false },
     description: { type: DataTypes.TEXT },
     price: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0.00 },
     available: { type: DataTypes.BOOLEAN, defaultValue: true },
-    metadata: { type: DataTypes.JSON }
+    metadata: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      note: 'Stores the extra data as a JSON blob',
+      get() {
+        const value = this.getDataValue('metadata');
+        return value ? JSON.parse(value) : null;
+      },
+      set(value) {
+        this.setDataValue('metadata', value ? JSON.stringify(value) : null);
+      },
+    }
   })
 
   // --- 4. Users & Client Sets ---
 
   const Users = sequelize.define('Users', {
-    username: { type: DataTypes.STRING, unique: true, allowNull: false },
-    email: { type: DataTypes.STRING, unique: false, allowNull: true },
+    username: { type: DataTypes.STRING(191), unique: true, allowNull: false },
+    email: { type: DataTypes.STRING(191), unique: false, allowNull: true },
     password: { type: DataTypes.STRING, allowNull: false },
     name: { type: DataTypes.STRING },
     role: { type: DataTypes.STRING, defaultValue: 'CUSTOMER' }, // ADMIN, SALES, CUSTOMER
     active: { type: DataTypes.BOOLEAN, defaultValue: true },
-    metadata: { type: DataTypes.JSON }
+    metadata: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      note: 'Stores the extra data as a JSON blob',
+      get() {
+        const value = this.getDataValue('metadata');
+        return value ? JSON.parse(value) : null;
+      },
+      set(value) {
+        this.setDataValue('metadata', value ? JSON.stringify(value) : null);
+      },
+    }
   })
 
   const ClientConfigSets = sequelize.define('ClientConfigSets', {
     name: { type: DataTypes.STRING }, // e.g., 'Quote for ACME'
     notes: { type: DataTypes.TEXT },
-    metadata: { type: DataTypes.JSON }
+    metadata: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      note: 'Stores the extra data as a JSON blob',
+      get() {
+        const value = this.getDataValue('metadata');
+        return value ? JSON.parse(value) : null;
+      },
+      set(value) {
+        this.setDataValue('metadata', value ? JSON.stringify(value) : null);
+      },
+    }
   })
 
   // --- 5. Junction Tables (Explicit Definition for Metadata/Ordering) ---
@@ -174,6 +251,5 @@ export const useModels = () => {
   })
 
   modelsLoaded = true
-  */
   return models;
 }
