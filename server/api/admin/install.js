@@ -40,7 +40,6 @@ export default defineEventHandler(async (event) => {
       // await sequelize.authenticate();
       // console.log('Connection has been established successfully.');
     } catch (error) {
-      console.error('Unable to connect to the database:', error);
       return {
         status: 500,
         body: {

@@ -39,7 +39,7 @@ const removeSpec = (index) => {
 
 const save = async () => {
   // Logic to save
-  console.log(state.value)
+  // console.log(state.value)
   navigateTo('/admin/machines')
 }
 </script>

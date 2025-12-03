@@ -111,6 +111,6 @@ export const seedDatabase = async () => {
       password: 'password', // In a real app, this should be a hashed password
       role: 'ADMIN',
     });
-    console.log('✅ Admin user created');
+    // console.log('✅ Admin user created');
   }
 };
