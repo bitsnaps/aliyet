@@ -20,7 +20,7 @@ onUnmounted(() => {
 <template>
     <!-- Navigation -->
     <header
-      v-show="route.path!='/login'"
+      v-show="route.path=='/'"
       class="fixed w-full z-50 transition-all duration-300"
       :class="isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-md py-3' : 'bg-transparent py-5'"
     >
