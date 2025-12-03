@@ -1,12 +1,16 @@
 import { useDB } from '../utils/db';
+import { useModels } from '../utils/models';
 
 export default defineEventHandler(async (event) => {
     try {
         const sequelize = await useDB();
         await sequelize.authenticate();
+        const { Users } = useModels();
+        const user = await Users.findOne({ where: { username: process.env.ADMIN_EMAIL || 'admin@aliyaat.com'} });
         return {
             timestamp: new Date().toISOString(),
-            db: true
+            db: true,
+            admin: user ? true : false,
         };
     } catch (error) {
         // Set a 503 status code to indicate a service is unavailable

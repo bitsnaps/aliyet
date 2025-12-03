@@ -1,4 +1,4 @@
-// import { DataTypes } from 'sequelize';
+import { DataTypes } from 'sequelize';
 // import { useDB } from './db'; // No longer needed, breaks with circular dependency
 
 // Helper to prevent re-initialization
@@ -6,7 +6,7 @@ let modelsLoaded = false
 const models = {}
 
 export const useModels = (sequelize) => {
-  /*if (modelsLoaded) return models
+  if (modelsLoaded) return models
 
   // const sequelize = useDB() // sequelize instance is now passed in
 
@@ -250,6 +250,6 @@ export const useModels = (sequelize) => {
     ConfigSetReplacements
   })
 
-  modelsLoaded = true*/
+  modelsLoaded = true
   return models;
 }
