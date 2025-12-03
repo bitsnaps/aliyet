@@ -1,5 +1,5 @@
-// import { Sequelize } from 'sequelize';
-// import { useModels } from './models';
+import { Sequelize } from 'sequelize';
+import { useModels } from './models';
 
 /** @type {import('sequelize').Sequelize} */
 let sequelizeInstance = null
@@ -9,7 +9,7 @@ let sequelizeInstance = null
  * @returns {import('sequelize').Sequelize}
  */
 export const useDB = async () => {
-  /*if (sequelizeInstance) {
+  if (sequelizeInstance) {
     return sequelizeInstance
   }
 
@@ -32,9 +32,9 @@ export const useDB = async () => {
     logging: env === 'development' ? console.log : false,
     define: {
       // Enforce snake_case in DB columns to match ERD (e.g. categoryId -> category_id)
-      underscored: true, 
+      underscored: true,
       // Disable timestamps if not present in ERD, or keep them if you want created_at/updated_at
-      timestamps: true, 
+      timestamps: true,
       createdAt: 'created_at',
       updatedAt: 'updated_at'
     }
@@ -59,14 +59,14 @@ export const useDB = async () => {
         }
       }
     )
-  } 
+  }
   // TEST: SQLite Memory
   else if (env === 'test') {
     sequelizeInstance = new Sequelize('sqlite::memory:', {
       ...options,
       logging: false // Keep tests clean
     })
-  } 
+  }
   // DEVELOPMENT: MySQL
   else {
     sequelizeInstance = new Sequelize(
@@ -94,15 +94,14 @@ export const useDB = async () => {
   } catch (err) {
     console.error('❌ DB Connection Error:', err);
   }
-  return sequelizeInstance;*/
-  return {};
+  return sequelizeInstance;
 };
 
 /**
  * Seeds the database with initial data, like an admin user.
  */
 export const seedDatabase = async () => {
-  /*const sequelize = await useDB();
+  const sequelize = await useDB();
   const { Users } = useModels(sequelize);
   // await Users.sync({ alter: true }); // No longer needed, sync is handled in useDB
   const admin = await Users.findOne({ where: { username: 'admin@aliyaat.com' } });
@@ -113,5 +112,5 @@ export const seedDatabase = async () => {
       role: 'ADMIN',
     });
     console.log('✅ Admin user created');
-  }*/
+  }
 };
