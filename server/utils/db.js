@@ -1,5 +1,5 @@
-import { Sequelize } from 'sequelize';
-import { useModels } from './models';
+// import { Sequelize } from 'sequelize';
+// import { useModels } from './models';
 
 /** @type {import('sequelize').Sequelize} */
 let sequelizeInstance = null
@@ -9,7 +9,7 @@ let sequelizeInstance = null
  * @returns {import('sequelize').Sequelize}
  */
 export const useDB = async () => {
-  if (sequelizeInstance) {
+  /*if (sequelizeInstance) {
     return sequelizeInstance
   }
 
@@ -94,15 +94,15 @@ export const useDB = async () => {
   } catch (err) {
     console.error('❌ DB Connection Error:', err);
   }
-  return sequelizeInstance;
-  // return {};
+  return sequelizeInstance;*/
+  return {};
 };
 
 /**
  * Seeds the database with initial data, like an admin user.
  */
 export const seedDatabase = async () => {
-  const sequelize = await useDB();
+  /*const sequelize = await useDB();
   const { Users } = useModels(sequelize);
   // await Users.sync({ alter: true }); // No longer needed, sync is handled in useDB
   const admin = await Users.findOne({ where: { username: 'admin@aliyaat.com' } });
@@ -113,5 +113,5 @@ export const seedDatabase = async () => {
       role: 'ADMIN',
     });
     console.log('✅ Admin user created');
-  }
+  }*/
 };
