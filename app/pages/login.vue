@@ -23,7 +23,7 @@ async function login() {
     authLogin(response.body.user) // Assuming the API returns a user object
 
     toast.add({ title: 'Login successful!', color: 'green' })
-    router.push('/dashboard')
+    router.push('/admin')
   }
   catch (error) {
     toast.add({ title: 'Error', description: error.data?.message || 'An error occurred', color: 'red' })

@@ -31,6 +31,12 @@ const links = [
     to: '/admin/settings'
   }
 ]
+
+// perform the logout action according to Nuxt v4
+const handleLogout = async () => {
+  await useAuth().logout();
+  navigateTo('/login')
+}
 </script>
 
 <template>
@@ -89,7 +95,7 @@ const links = [
         
         <div class="flex items-center gap-4">
           <UButton 
-            color="gray" 
+            color="neutral" 
             variant="ghost" 
             icon="i-lucide-bell" 
             class="text-charcoal-500 hover:text-deep-teal-600"
@@ -101,6 +107,14 @@ const links = [
             label="View Site"
             icon="i-lucide-external-link"
             size="sm"
+          />
+          <UButton
+            icon="i-lucide-log-out"
+            color="neutral"
+            variant="outline"
+            label="Logout"
+            size="sm"
+            @click="handleLogout"
           />
         </div>
       </header>
