@@ -1,5 +1,6 @@
 import { Sequelize } from 'sequelize';
-import { useModels } from './models';
+import { useModels } from './models.js';
+import { hashPassword } from './hash.js';
 
 /** @type {import('sequelize').Sequelize} */
 let sequelizeInstance = null
@@ -101,16 +102,27 @@ export const useDB = async () => {
  * Seeds the database with initial data, like an admin user.
  */
 export const seedDatabase = async () => {
+  const adminUser = process.env.ADMIN_EMAIL;
+  const adminPassword = process.env.ADMIN_PASSWORD;
   const sequelize = await useDB();
   const { Users } = useModels(sequelize);
-  // await Users.sync({ alter: true }); // No longer needed, sync is handled in useDB
-  const admin = await Users.findOne({ where: { username: 'admin@aliyaat.com' } });
+  // const NbrOfUsers = await Users.count();
+  // if (NbrOfUsers > 0) {
+  //   console.log('✅ Database already seeded');
+  //   return false;
+  // }
+  // console.log('✅ Seeding database')
+  const admin = await Users.findOne({ where: { email: adminUser } });
   if (!admin) {
+    const hashedPassword = await hashPassword(adminPassword);
     await Users.create({
-      username: 'admin@aliyaat.com',
-      password: 'password', // In a real app, this should be a hashed password
+      username: adminUser,
+      email: adminUser,
+      password: hashedPassword,
       role: 'ADMIN',
     });
-    // console.log('✅ Admin user created');
+    console.log('✅ Admin user created');
+    return true;
   }
+  return false;
 };
