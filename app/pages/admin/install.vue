@@ -15,7 +15,10 @@ const loadingSeed = ref(false)
 async function seedDb() {
   loadingSeed.value = true
   try {
-    const response = await $fetch('/api/admin/seed');
+    const response = await $fetch('/api/admin/seed', {
+      method: 'POST',
+      body: state
+    });
     if (response.body?.result){
       toast.add({ title: response.body?.message, color: 'green' })
     } else {
@@ -34,7 +37,10 @@ async function seedDb() {
 async function checkDb() {
   loadingCheck.value = true
   try {
-    const response = await $fetch('/api/admin/check')
+    const response = await $fetch('/api/admin/check', {
+      method: 'POST',
+      body: state
+    })
     toast.add({ title: response.body?.message, color: 'green' })
   }
   catch (error) {
@@ -73,7 +79,7 @@ async function initDb() {
             <UIcon name="i-lucide-cog" class="w-12 h-12" />
           </UButton>
         </div>
-        <h1 class="text-2xl font-bold text-center text-white">Installation</h1>
+        <h1 class="text-2xl font-bold text-center text-white">Setup</h1>
       </template>
 
       <UForm :state="state" class="space-y-4" @submit="initDb">
@@ -88,9 +94,9 @@ async function initDb() {
         <UCheckbox v-model="state.alter" label="Alter Database" class="w-full cursor-pointer" />
 
         <div class="flex gap-2">
-          <UButton type="submit" color="primary" block :loading="loadingInit" class="cursor-pointer">Initialize Database</UButton>
-          <UButton type="button" @click="checkDb" color="secondary" block :loading="loadingCheck" class="cursor-pointer">Check</UButton>
-          <UButton type="button" @click="seedDb" color="neutral" block :loading="loadingCheck" class="cursor-pointer">Seed</UButton>
+          <UButton type="submit" :disabled="state.username === ''" color="warning" block :loading="loadingInit" class="cursor-pointer">Initialize</UButton>
+          <UButton type="button" :disabled="state.username === ''" @click="checkDb" color="primary" block :loading="loadingCheck" class="cursor-pointer">Check</UButton>
+          <UButton type="button" :disabled="state.username === ''" @click="seedDb" color="secondary" block :loading="loadingSeed" class="cursor-pointer">Seed</UButton>
         </div>
       </UForm>
     </UCard>

@@ -15,6 +15,14 @@ export default defineEventHandler(async (event) => {
             password,
             {
               logging: false,
+              define: {
+                // Enforce snake_case in DB columns to match ERD (e.g. categoryId -> category_id)
+                underscored: true,
+                // Enabled timestamps if you want created_at/updated_at
+                timestamps: true,
+                createdAt: 'created_at',
+                updatedAt: 'updated_at'
+              },
               host: process.env.DB_HOST,
               port: Number(process.env.DB_PORT),
               dialect: 'mysql',
