@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
         if (username !== process.env.DB_USER || (process.env.DB_PASSWORD && password !== process.env.DB_PASSWORD)) {
             throw new Error('Invalid credentials');
         } 
-        const sequelize = await useDB();
+        const { sequelize } = await useDB();
         await sequelize.authenticate();
         return {
             status: 200,

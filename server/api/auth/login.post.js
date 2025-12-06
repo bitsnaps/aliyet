@@ -1,4 +1,3 @@
-import { useModels } from '../../utils/models';
 import { useDB } from '../../utils/db';
 import { defineEventHandler, readBody } from 'h3';
 import { verifyPassword } from '../../utils/hash';
@@ -6,8 +5,8 @@ import { createToken } from '../../utils/token';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
-  const db = useDB();
-  const { Users } = useModels(db);
+  const { models } = await useDB();
+  const { Users } = models;
 
   const user = await Users.findOne({ where: { username: body.username } });
 

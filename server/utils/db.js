@@ -6,15 +6,14 @@ import { hashPassword } from './hash.js';
 let sequelizeInstance = null
 
 /**
- * Initializes and returns the Singleton Sequelize instance
- * @returns {import('sequelize').Sequelize}
+ * Initializes and returns the Singleton Sequelize instance and models
+ * @returns {{sequelize: import('sequelize').Sequelize, models: object}}
  */
 export const useDB = async () => {
   if (sequelizeInstance) {
-    return sequelizeInstance
+    return { sequelize: sequelizeInstance, models: useModels() };
   }
 
-  // const config = useRuntimeConfig()
   const config = {
     db: {
       name: process.env.DB_NAME,
@@ -23,70 +22,49 @@ export const useDB = async () => {
       host: process.env.DB_HOST,
       port: process.env.DB_PORT
     }
-  }
+  };
 
-  const env = process.env.NODE_ENV || 'development'
-  
-  // Default options shared across environments
-  // @type {import('sequelize').Options}
+  const env = process.env.NODE_ENV || 'development';
+
   const options = {
     logging: env === 'development' ? console.log : false,
     define: {
-      // Enforce snake_case in DB columns to match ERD (e.g. categoryId -> category_id)
       underscored: true,
-      // Disable timestamps if not present in ERD, or keep them if you want created_at/updated_at
       timestamps: true,
       createdAt: 'created_at',
       updatedAt: 'updated_at'
     }
-  }
+  };
 
-  // PRODUCTION: MySQL
   if (env === 'production') {
-    sequelizeInstance = new Sequelize(
-      config.db.name,
-      config.db.user,
-      config.db.password,
-      {
-        ...options,
-        host: config.db.host,
-        port: Number(config.db.port),
-        dialect: 'mysql',
-        pool: {
-          max: 5,
-          min: 0,
-          acquire: 30000,
-          idle: 10000
-        }
-      }
-    )
-  }
-  // TEST: SQLite Memory
-  else if (env === 'test') {
+    sequelizeInstance = new Sequelize(config.db.name, config.db.user, config.db.password, {
+      ...options,
+      host: config.db.host,
+      port: Number(config.db.port),
+      dialect: 'mysql',
+      pool: { max: 5, min: 0, acquire: 30000, idle: 10000 }
+    });
+  } else if (env === 'test') {
     sequelizeInstance = new Sequelize('sqlite::memory:', {
       ...options,
-      logging: false // Keep tests clean
-    })
-  }
-  // DEVELOPMENT: MySQL
-  else {
-    sequelizeInstance = new Sequelize(
-      config.db.name,
-      config.db.user,
-      config.db.password,
-      {
-        ...options,
-        host: config.db.host,
-        dialect: 'mysql'
-      }
-    )
-    // Initialize models
-    useModels(sequelizeInstance);
-    // Sync all models
-    await sequelizeInstance.sync({ alter: true });
+      logging: false
+    });
+  } else {
+    sequelizeInstance = new Sequelize(config.db.name, config.db.user, config.db.password, {
+      ...options,
+      host: config.db.host,
+      dialect: 'mysql'
+    });
   }
 
-  // Test connection purely for logging purposes on startup
+  // Initialize models
+  const models = useModels(sequelizeInstance);
+
+  // Sync all models in dev or test
+  if (env !== 'production') {
+    await sequelizeInstance.sync({ alter: env === 'development' });
+  }
+
   try {
     await sequelizeInstance.authenticate();
     if (env === 'development') {
@@ -95,7 +73,8 @@ export const useDB = async () => {
   } catch (err) {
     console.error('❌ DB Connection Error:', err);
   }
-  return sequelizeInstance;
+
+  return { sequelize: sequelizeInstance, models };
 };
 
 /**
@@ -104,8 +83,8 @@ export const useDB = async () => {
 export const seedDatabase = async () => {
   const adminUser = process.env.ADMIN_EMAIL;
   const adminPassword = process.env.ADMIN_PASSWORD;
-  const sequelize = await useDB();
-  const { Users } = useModels(sequelize);
+  const { sequelize, models } = await useDB();
+  const { Users } = models;
   // const NbrOfUsers = await Users.count();
   // if (NbrOfUsers > 0) {
   //   console.log('✅ Database already seeded');

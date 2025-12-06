@@ -6,11 +6,13 @@ let modelsLoaded = false
 const models = {}
 
 export const useModels = (sequelize) => {
-  if (modelsLoaded) return models
-
-  // const sequelize = useDB() // sequelize instance is now passed in
-
-  // --- 1. Taxonomy Models ---
+  if (modelsLoaded && !sequelize) return models;
+  if (modelsLoaded && sequelize) {
+    console.warn('Models already loaded, but a new sequelize instance was provided.');
+  }
+  if (!sequelize) {
+    throw new Error('Sequelize instance must be provided to useModels');
+  }
 
   const Categories = sequelize.define('Categories', {
     name: { type: DataTypes.STRING(191), unique: true, allowNull: false },

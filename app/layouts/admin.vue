@@ -114,6 +114,7 @@ const handleLogout = async () => {
             variant="outline"
             label="Logout"
             size="sm"
+            class="cursor-pointer"
             @click="handleLogout"
           />
         </div>

@@ -38,11 +38,8 @@ vi.mock('h3', async () => {
 
 describe('Authentication API', () => {
   beforeAll(async () => {
-    const sequelize = useDB();
-    // we need to import the models to make sure they are attached to sequelize
-    useModels(sequelize);
+    const { sequelize } = await useDB();
     await sequelize.sync({ force: true });
-    // we use a dynamic import for the seeder because it's not a module
     const { seedDatabase } = await import('../../server/utils/db.js');
     await seedDatabase();
   });

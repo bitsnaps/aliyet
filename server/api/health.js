@@ -3,9 +3,9 @@ import { useModels } from '../utils/models';
 
 export default defineEventHandler(async (event) => {
     try {
-        const sequelize = await useDB();
+        const { sequelize, models } = await useDB();
         await sequelize.authenticate();
-        const { Users } = useModels();
+        const { Users } = models;
         const user = await Users.findOne({ where: { username: process.env.ADMIN_EMAIL || 'admin@aliyaat.com'} });
         return {
             timestamp: new Date().toISOString(),
