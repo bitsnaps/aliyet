@@ -3,8 +3,8 @@
 import { reactive, ref } from 'vue'
 
 const state = reactive({
-  username: '',
-  password: ''
+  username: process.env.NODE_ENV=='development'?process.env.ADMIN_EMAIL:'',
+  password: process.env.NODE_ENV=='development'?process.env.ADMIN_PASSWORD:'',
 })
 
 const toast = useToast()
@@ -16,11 +16,13 @@ async function login() {
   try {
     const response = await $fetch('/api/auth/login', {
       method: 'POST',
-      body: JSON.stringify(state)
-    })
+      body: state
+    });
 
     const { login: authLogin } = useAuth()
-    authLogin(response.body.user) // Assuming the API returns a user object
+    const tokenCookie = useCookie('token')
+    tokenCookie.value = response.token
+    authLogin(response.user)
 
     toast.add({ title: 'Login successful!', color: 'green' })
     router.push('/admin')
@@ -58,7 +60,7 @@ async function login() {
           <UInput v-model="state.password" type="password" class="w-full" required />
         </UFormField>
 
-        <UButton type="submit" color="primary" block :loading="loading" size="xl">
+        <UButton type="submit" color="primary" block :loading="loading" size="xl" class="cursor-pointer">
           Login
         </UButton>
       </UForm>

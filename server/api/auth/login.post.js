@@ -1,23 +1,24 @@
 import { useModels } from '../../utils/models';
+import { useDB } from '../../utils/db';
 import { defineEventHandler, readBody } from 'h3';
+import { verifyPassword } from '../../utils/hash';
+import { createToken } from '../../utils/token';
 
 export default defineEventHandler(async (event) => {
-/*  const body = await readBody(event);
-  const { Users } = useModels();
+  const body = await readBody(event);
+  const db = useDB();
+  const { Users } = useModels(db);
 
   const user = await Users.findOne({ where: { username: body.username } });
 
-  // IMPORTANT: In a real application, you should hash the password
-  if (user && body.password === user.password) {
-    // In a real application, you would create a session or JWT here.
-    // For this example, we'll simulate a successful login and return a user object.
+  if (user && await verifyPassword(body.password, user.password)) {
     const userToReturn = { name: user.name, username: user.username, id: user.id };
+    const token = createToken(userToReturn);
+
     return {
-      status: 200,
-      body: {
         message: 'Login successful',
         user: userToReturn,
-      },
+        token,
     };
   }
   else {
@@ -26,17 +27,5 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Unauthorized',
       message: 'Invalid username or password',
     });
-  }*/
-
-    return {
-      status: 200,
-      body: {
-        message: 'Login successful',
-        user: {
-          name: 'John Doe',
-          username: 'johndoe',
-          id: 1
-        },
-      },
-    };    
+  }
 });
