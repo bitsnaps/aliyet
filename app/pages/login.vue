@@ -18,16 +18,18 @@ async function login() {
       method: 'POST',
       body: state
     });
-
-    const { login: authLogin } = useAuth()
-    const tokenCookie = useCookie('token')
-    tokenCookie.value = response.token
-    authLogin(response.user)
-
-    toast.add({ title: 'Login successful!', color: 'green' })
-    router.push('/admin')
-  }
-  catch (error) {
+    if (!response && response.statusCode !== 200) {
+      toast.add({ title: 'Error', description: response?.message || 'Access denied', color: 'warning' })
+    } else {      
+      const { login: authLogin } = useAuth()
+      const tokenCookie = useCookie('token')
+      tokenCookie.value = response.token
+      authLogin(response.user)
+      
+      toast.add({ title: 'Login successful!', color: 'green' });
+      router.push('/admin')
+    }
+  } catch (error) {
     toast.add({ title: 'Error', description: error.data?.message || 'An error occurred', color: 'red' })
   }
   finally {

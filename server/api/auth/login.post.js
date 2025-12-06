@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
       const token = createToken(userToReturn);
   
       return {
+          statusCode: 200,
           message: 'Login successful',
           user: userToReturn,
           token,
