@@ -12,10 +12,6 @@ const formData = ref({
   message: ''
 })
 
-const showInfo = async () => {
-  const { timestamp } = await $fetch('/api/health');
-  console.log(timestamp);
-}
 </script>
 <template>
     <main>
@@ -279,11 +275,12 @@ const showInfo = async () => {
                 </div>
 
                 <UButton
+                  to="/build-and-price"
+                  :disabled="!selectedMachineForQuote"
                   color="action-teal"
                   variant="solid"
                   class="font-bold text-charcoal-500 text-lg w-full justify-center py-4 border-2 border-charcoal-500 cursor-pointer"
                   size="xl"
-                  @click="showInfo"
                 >
                   Continue to Build & Price <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
                 </UButton>

@@ -26,7 +26,7 @@ onUnmounted(() => {
     >
       <div class="container mx-auto px-4 md:px-8 flex items-center justify-between">
         <!-- Logo -->
-        <a href="#" class="flex items-center gap-2">
+        <a href="/" class="flex items-center gap-2">
           <div class="text-white p-2 rounded-md">
             <UIcon name="i-lucide-cog" class="w-7 h-7 text-deep-teal-500" />
           </div>
