@@ -1,9 +1,8 @@
-import { defineEventHandler } from 'h3';
+import { defineEventHandler, deleteCookie } from 'h3';
 
 export default defineEventHandler(async (event) => {
-  // In a real-world scenario with session-based authentication,
-  // you would invalidate the session here.
-  // For JWT, the client is responsible for deleting the token.
+  deleteCookie(event, 'auth-token');
+
   return {
     status: 200,
     body: {
