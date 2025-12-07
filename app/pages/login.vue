@@ -3,8 +3,8 @@
 import { reactive, ref } from 'vue'
 
 const state = reactive({
-  username: process.env.NODE_ENV=='development'?process.env.ADMIN_EMAIL:'',
-  password: process.env.NODE_ENV=='development'?process.env.ADMIN_PASSWORD:'',
+  username: '',
+  password: '',
 })
 
 const toast = useToast()

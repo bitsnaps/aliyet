@@ -54,21 +54,8 @@ const handleLogout = async () => {
 
       <div class="flex-1 px-4 py-4 overflow-y-auto">
         <UNavigationMenu 
-          :links="links" 
-          :ui="{
-            wrapper: 'space-y-1',
-            base: 'group flex items-center gap-3 px-3 py-2.5 rounded-md font-medium text-sm transition-colors',
-            padding: '',
-            width: '',
-            ring: '',
-            active: 'text-white bg-deep-teal-800 shadow-sm',
-            inactive: 'text-deep-teal-200 hover:text-white hover:bg-deep-teal-800/50',
-            icon: {
-              base: 'flex-shrink-0 w-5 h-5',
-              active: 'text-action-teal-400',
-              inactive: 'text-deep-teal-400 group-hover:text-action-teal-400'
-            }
-          }"
+          :items="links" 
+          orientation="vertical"
         />
       </div>
 

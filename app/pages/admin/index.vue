@@ -1,4 +1,6 @@
 <script setup>
+const { user } = useAuth();
+
 definePageMeta({
   layout: 'admin',
   middleware: 'auth'
@@ -31,7 +33,7 @@ const columns = [
   <div class="space-y-6">
     <!-- Welcome Section -->
     <div>
-      <h2 class="text-2xl font-bold text-charcoal-900 dark:text-white">Welcome back, Admin</h2>
+      <h2 class="text-2xl font-bold text-charcoal-900 dark:text-white">Welcome back, {{ user?.username || 'Admin' }}</h2>
       <p class="text-charcoal-500 dark:text-charcoal-400 mt-1">Here's what's happening with your products today.</p>
     </div>
 
