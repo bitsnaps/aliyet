@@ -33,11 +33,17 @@ vi.mock('h3', async () => {
   return {
     ...actual,
     readBody: vi.fn().mockImplementation(event => event.readBody()),
+    setCookie: vi.fn(),
+    deleteCookie: vi.fn(),
   };
 });
 
 describe('Authentication API', () => {
   beforeAll(async () => {
+    process.env.ADMIN_EMAIL = 'admin@aliyaat.com';
+    process.env.ADMIN_PASSWORD = 'password';
+    process.env.JWT_SECRET = 'test-secret';
+    
     const { sequelize } = await useDB();
     await sequelize.sync({ force: true });
     const { seedDatabase } = await import('../../server/utils/db.js');
@@ -46,29 +52,33 @@ describe('Authentication API', () => {
 
   describe('POST /api/auth/login', () => {
     it('should allow a user to log in with correct credentials and receive a token', async () => {
-      const event = mockPostEvent({ username: 'admin@aliyet.net', password: 'password' });
+      const event = mockPostEvent({ username: 'admin@aliyaat.com', password: 'password' });
       const response = await loginHandler(event);
 
       expect(response.message).toBe('Login successful');
-      expect(response.user.username).toBe('admin@aliyet.net');
+      expect(response.user?.username).toBe('admin@aliyaat.com');
       expect(response.token).toEqual(expect.any(String));
     });
 
     it('should reject login with incorrect password', async () => {
-      const event = mockPostEvent({ username: 'admin@aliyet.net', password: 'wrongpassword' });
-      await expect(loginHandler(event)).rejects.toThrowError('Invalid username or password');
+      const event = mockPostEvent({ username: 'admin@aliyaat.com', password: 'wrongpassword' });
+      const response = await loginHandler(event);
+      expect(response.statusCode).toBe(401);
+      expect(response.message).toBe('Invalid username or password');
     });
 
     it('should reject login for a non-existent user', async () => {
-      const event = mockPostEvent({ username: 'nouser@aliyet.net', password: 'password' });
-      await expect(loginHandler(event)).rejects.toThrowError('Invalid username or password');
+      const event = mockPostEvent({ username: 'nouser@aliyaat.com', password: 'password' });
+      const response = await loginHandler(event);
+      expect(response.statusCode).toBe(401);
+      expect(response.message).toBe('Invalid username or password');
     });
   });
 
   describe('GET /api/auth/me', () => {
     it('should return the user data for a valid token', async () => {
       // First, log in to get a token
-      const loginEvent = mockPostEvent({ username: 'admin@aliyet.net', password: 'password' });
+      const loginEvent = mockPostEvent({ username: 'admin@aliyaat.com', password: 'password' });
       const loginResponse = await loginHandler(loginEvent);
       const token = loginResponse.token;
 
@@ -76,7 +86,7 @@ describe('Authentication API', () => {
       const meEvent = mockGetEvent({ authorization: `Bearer ${token}` });
       const meResponse = await meHandler(meEvent);
 
-      expect(meResponse.user.username).toBe('admin@aliyet.net');
+      expect(meResponse.user.username).toBe('admin@aliyaat.com');
     });
 
     it('should throw an error for an invalid token', async () => {
