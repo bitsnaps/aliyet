@@ -2,6 +2,10 @@
 <script setup>
 import { reactive, ref } from 'vue'
 
+definePageMeta({
+  middleware: 'guest'
+})
+
 const state = reactive({
   username: '',
   password: '',
