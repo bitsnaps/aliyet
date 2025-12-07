@@ -1,5 +1,5 @@
 import { useDB } from '../../utils/db';
-import { defineEventHandler, readBody } from 'h3';
+import { defineEventHandler, readBody, setCookie } from 'h3';
 import { verifyPassword } from '../../utils/hash';
 import { createToken } from '../../utils/token';
 
@@ -14,6 +14,12 @@ export default defineEventHandler(async (event) => {
     if (user && await verifyPassword(body.password, user.password)) {
       const userToReturn = { email: user.email, username: user.username, id: user.id };
       const token = createToken(userToReturn);
+
+      setCookie(event, 'token', token, {
+        httpOnly: false,
+        path: '/',
+        maxAge: 60 * 60 * 24, // 1 day
+      });
   
       return {
           statusCode: 200,

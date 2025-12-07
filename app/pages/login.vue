@@ -22,8 +22,6 @@ async function login() {
       toast.add({ title: 'Error', description: response?.message || 'Access denied', color: 'warning' })
     } else {      
       const { login: authLogin } = useAuth()
-      const tokenCookie = useCookie('token')
-      tokenCookie.value = response.token
       authLogin(response.user)
       
       toast.add({ title: 'Login successful!', color: 'green' });
