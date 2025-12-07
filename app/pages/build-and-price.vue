@@ -1,6 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { object, string } from 'yup'
+import * as v from 'valibot';
 
 const toast = useToast()
 
@@ -29,10 +28,11 @@ const userDetails = ref({
   company: ''
 })
 
-const schema = object({
-  name: string().required('Required'),
-  email: string().email('Invalid email').required('Required'),
-})
+const schema = v.object({
+  name: v.pipe(v.string()),
+  email: v.pipe(v.string(),v.email('Invalid email')),
+});
+
 
 const machines = ref([])
 const loading = ref(true)

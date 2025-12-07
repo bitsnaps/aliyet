@@ -23,9 +23,9 @@
     "nuxt-lucide-icons": "2.0.0",
     "sequelize": "^6.37.7",
     "sqlite3": "^5.1.7",
+    "valibot": "^1.2.0",
     "vue": "^3.5.22",
-    "vue-router": "^4.6.3",
-    "yup": "^1.7.1"
+    "vue-router": "^4.6.3"
   },
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.76",
