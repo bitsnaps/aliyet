@@ -130,7 +130,7 @@ async function submitQuote() {
         <div v-else>
           <!-- Step 1: Choose Machine -->
           <div v-if="currentStep === 1">
-            <h2 class="text-2xl font-semibold mb-4 text-white">Step 1: Choose Your Machine</h2>
+            <h2 class="text-2xl font-semibold mb-4">Step 1: Choose Your Machine</h2>
             <div class="grid grid-cols-2 gap-4">
               <div v-for="machine in machines" :key="machine.id"
                 @click="selectedMachine = machine"

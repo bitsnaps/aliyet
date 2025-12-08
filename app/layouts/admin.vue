@@ -47,7 +47,7 @@ const handleLogout = async () => {
         <div class="w-8 h-8 rounded bg-action-teal-500 flex items-center justify-center">
           <UIcon name="i-lucide-wrench" class="text-white w-5 h-5" />
         </div>
-        <NuxtLink to="/admin" class="text-white">
+        <NuxtLink to="/" class="text-white">
           <span class="font-bold text-xl tracking-tight">Admin</span>
         </NuxtLink>
       </div>

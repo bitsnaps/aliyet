@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeAll, vi } from 'vitest';
 import { useDB } from '../../server/utils/db';
-import { useModels } from '../../server/utils/models.js';
 import loginHandler from '../../server/api/auth/login.post.js';
 import meHandler from '../../server/api/auth/me.get.js';
 import logoutHandler from '../../server/api/auth/logout.post.js';
