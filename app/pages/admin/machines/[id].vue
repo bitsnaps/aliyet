@@ -69,7 +69,7 @@ const save = async () => {
         <UCard title="General Information">
           <div class="space-y-4">
             <UFormField label="Machine Name" name="name" required help="The display name of the machine">
-              <UInput v-model="state.name" placeholder="e.g. High Speed Turning Center" />
+              <UInput v-model="state.name" placeholder="e.g. High Speed Turning Center" class="w-full" />
             </UFormField>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -85,11 +85,11 @@ const save = async () => {
             </div>
 
             <UFormField label="Description" name="description">
-              <UTextarea v-model="state.description" :rows="4" placeholder="Detailed description of the machine capabilities..." />
+              <UTextarea v-model="state.description" :rows="4" placeholder="Detailed description of the machine capabilities..." class="w-full" />
             </UFormField>
 
             <UFormField label="External URL" name="url">
-              <UInput v-model="state.url" icon="i-lucide-link" placeholder="https://..." />
+              <UInput v-model="state.url" icon="i-lucide-link" placeholder="https://..." class="w-full" />
             </UFormField>
           </div>
         </UCard>
