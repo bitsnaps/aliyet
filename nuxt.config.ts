@@ -18,52 +18,12 @@ export default defineNuxtConfig({
     },
     // preload: true,
   },
+  routeRules: {
+    '/admin/*': { ssr: false },
+  },
   ui: {
-    primary: 'deep-teal',
-    gray: 'charcoal',
-    
-    // Global UI Component customization
-    button: {
-      rounded: 'rounded-md',
-      font: 'font-sans font-medium',
-      default: {
-        loadingIcon: 'i-lucide-loader-2'
-      }
-    },
-    input: {
-      rounded: 'rounded-md',
-      color: {
-        white: {
-          outline: 'bg-white dark:bg-charcoal-900 text-charcoal-900 dark:text-white ring-1 ring-inset ring-charcoal-300 dark:ring-charcoal-700 focus:ring-2 focus:ring-deep-teal-500 dark:focus:ring-deep-teal-400'
-        },
-        gray: {
-          outline: 'bg-light-gray-200 dark:bg-charcoal-800 text-charcoal-900 dark:text-white ring-1 ring-inset ring-charcoal-300 dark:ring-charcoal-700 focus:ring-2 focus:ring-deep-teal-500'
-        }
-      }
-    },
-    card: {
-      rounded: 'rounded-lg',
-      background: 'bg-white dark:bg-charcoal-900',
-      ring: 'ring-1 ring-light-gray-300 dark:ring-charcoal-800',
-      shadow: 'shadow-sm'
-    },
-    table: {
-      th: {
-        base: 'text-left rtl:text-right',
-        padding: 'px-4 py-3.5',
-        color: 'text-charcoal-900 dark:text-white',
-        font: 'font-semibold',
-        size: 'text-sm'
-      },
-      td: {
-        base: 'whitespace-nowrap',
-        padding: 'px-4 py-4',
-        color: 'text-charcoal-600 dark:text-charcoal-300',
-        font: 'font-medium',
-        size: 'text-sm'
-      }
-    }
-  },  
+    colorMode: false
+  },
   // You can configure fully typed, per-environment overrides here:
   // $production: {
   //   routeRules: {
