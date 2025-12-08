@@ -1,6 +1,5 @@
 
 export default defineEventHandler(async (event) => {
-  /*
   const { Machines, Categories, Specifications } = useModels()
 
   try {
@@ -30,7 +29,7 @@ export default defineEventHandler(async (event) => {
       statusCode: 500,
       statusMessage: 'Internal Server Error',
     })
-  }*/
+  }
     return {
       success: true,
       data: []

@@ -1,7 +1,9 @@
 <script setup>
+
 definePageMeta({
   layout: 'admin'
 })
+
 
 // Mock Data
 const machines = ref([
@@ -12,12 +14,12 @@ const machines = ref([
 ])
 
 const columns = [
-  { id: 1, key: 'code', label: 'Code', sortable: true },
-  { id: 2, key: 'name', label: 'Name', sortable: true },
-  { id: 3, key: 'category', label: 'Category' },
-  { id: 4, key: 'price', label: 'Base Price', sortable: true },
-  { id: 5, key: 'available', label: 'Availability' },
-  { id: 6, key: 'actions', label: 'Actions' }
+  { accessorKey: 'code', header: 'Code', enableSorting: true },
+  { accessorKey: 'name', header: 'Name', enableSorting: true },
+  { accessorKey: 'category', header: 'Category' },
+  { accessorKey: 'price', header: 'Base Price', enableSorting: true },
+  { accessorKey: 'available', header: 'Availability', cell: ({ row }) => row.getValue('available')?'Yes':'No'  },
+  { accessorKey: 'actions', header: 'Actions' }
 ]
 
 const search = ref('')
@@ -71,7 +73,7 @@ const items = (row) => [
           icon="i-lucide-search"
           placeholder="Search by name or code..."
           class="w-full sm:w-80"
-          color="white"
+          color="neutral"
         />
         <div class="flex gap-2">
            <USelectMenu 
@@ -88,12 +90,9 @@ const items = (row) => [
     <!-- Table -->
     <UCard :ui="{ body: { padding: 'p-0' } }">
       <UTable 
-        :rows="filteredRows" 
+        :data="filteredRows" 
         :columns="columns"
-        :ui="{
-          thead: 'bg-light-gray-50 border-b border-light-gray-200',
-          divide: 'divide-y divide-light-gray-100'
-        }"
+        sticky
       >
         <template #name-data="{ row }">
           <div class="font-medium text-deep-teal-600">{{ row.name }}</div>
@@ -121,10 +120,10 @@ const items = (row) => [
         </template>
       </UTable>
       
-      <!-- Pagination -->
       <div class="flex justify-end p-4 border-t border-light-gray-200">
         <UPagination :model-value="1" :total="50" :ui="{ wrapper: 'gap-1' }" />
       </div>
     </UCard>
+
   </div>
 </template>
