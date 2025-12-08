@@ -1,5 +1,4 @@
 import { useDB } from '../utils/db';
-import { useModels } from '../utils/models';
 
 export default defineEventHandler(async (event) => {
     try {

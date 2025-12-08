@@ -5,32 +5,56 @@ definePageMeta({
 })
 
 
-// Mock Data
-const machines = ref([
-  { id: 1, code: 'TC-200', name: 'Turning Center 200', category: 'Turning Center', price: 45000, available: true },
-  { id: 2, code: 'MC-5X', name: '5-Axis Machining Center', category: 'Machining Center', price: 125000, available: true },
-  { id: 3, code: 'EDM-W', name: 'Wire EDM Pro', category: 'EDM Machine', price: 68000, available: false },
-  { id: 4, code: 'HYD-P', name: 'Hydraulic Press 50T', category: 'Press', price: 32000, available: true },
-])
+const toast = useToast()
+
+// Data
+const { data: machines, pending, error, refresh } = await useFetch('/api/admin/machines', {
+  lazy: true,
+  transform: (response) => response.data,
+  server: false, // We will fetch on client-side
+})
 
 const columns = [
   { accessorKey: 'code', header: 'Code', enableSorting: true },
   { accessorKey: 'name', header: 'Name', enableSorting: true },
-  { accessorKey: 'category', header: 'Category' },
+  { accessorKey: 'category', header: 'Category', enableSorting: true },
   { accessorKey: 'price', header: 'Base Price', enableSorting: true },
-  { accessorKey: 'available', header: 'Availability', cell: ({ row }) => row.getValue('available')?'Yes':'No'  },
+  { accessorKey: 'available', header: 'Availability' },
   { accessorKey: 'actions', header: 'Actions' }
 ]
 
 const search = ref('')
 const selectedStatus = ref([])
+const page = ref(1)
+const pageCount = 10
 
 const filteredRows = computed(() => {
-  if (!search.value) return machines.value
-  return machines.value.filter(m => {
-    return m.name.toLowerCase().includes(search.value.toLowerCase()) || 
-           m.code.toLowerCase().includes(search.value.toLowerCase())
-  })
+  if (!machines.value) return []
+  
+  let filtered = [...machines.value]
+
+  // Search filter
+  if (search.value) {
+    filtered = filtered.filter(m => {
+      return m.name.toLowerCase().includes(search.value.toLowerCase()) ||
+             m.code.toLowerCase().includes(search.value.toLowerCase())
+    })
+  }
+
+  // Status filter
+  if (selectedStatus.value.length > 0) {
+    const availableFilter = selectedStatus.value.includes('Available')
+    const unavailableFilter = selectedStatus.value.includes('Unavailable')
+
+    if (availableFilter && !unavailableFilter) {
+      filtered = filtered.filter(m => m.available)
+    } else if (!availableFilter && unavailableFilter) {
+      filtered = filtered.filter(m => !m.available)
+    }
+    // if both are selected or none are, no status filter is applied
+  }
+
+  return filtered
 })
 
 const items = (row) => [
@@ -42,10 +66,27 @@ const items = (row) => [
   [{
     label: 'Delete',
     icon: 'i-lucide-trash-2',
-    class: 'text-red-600',
-    click: () => console.log('Delete', row.id)
+    labelClass: 'text-red-500 dark:text-red-400',
+    click: () => handleDelete(row)
   }]
 ]
+
+const handleDelete = async (row) => {
+  if (!confirm(`Are you sure you want to delete "${row.name}"? This cannot be undone.`)) {
+    return
+  }
+
+  try {
+    await $fetch(`/api/admin/machines/${row.id}`, {
+      method: 'DELETE',
+    })
+    toast.add({ title: 'Machine Deleted', description: `"${row.name}" has been removed.`, color: 'green' })
+    refresh() // Re-fetch the machine list
+  } catch (err) {
+    const errorMsg = err.data?.statusMessage || 'An unknown error occurred.'
+    toast.add({ title: 'Deletion Failed', description: errorMsg, color: 'red' })
+  }
+}
 </script>
 
 <template>
@@ -90,26 +131,31 @@ const items = (row) => [
     <!-- Table -->
     <UCard :ui="{ body: { padding: 'p-0' } }">
       <UTable 
-        :data="filteredRows" 
+        :data="filteredRows"
         :columns="columns"
-        sticky
+        :loading="pending"
+        :loading-state="{ icon: 'i-lucide-loader-2', label: 'Loading...' }"
+        :empty-state="{ icon: 'i-lucide-database-zap', label: 'No machines found.' }"
+        class="w-full"
       >
         <template #name-data="{ row }">
-          <div class="font-medium text-deep-teal-600">{{ row.name }}</div>
+          <NuxtLink :to="`/admin/machines/${row.id}`" class="font-medium text-deep-teal-600 hover:underline">
+            {{ row.name }}
+          </NuxtLink>
         </template>
         
         <template #price-data="{ row }">
-          <span class="font-mono text-charcoal-700">${{ row.price.toLocaleString() }}</span>
+          <span class="font-mono text-charcoal-700 dark:text-charcoal-300">${{ Number(row.price).toLocaleString() }}</span>
         </template>
 
         <template #available-data="{ row }">
-          <UBadge 
-            :color="row.available ? 'green' : 'red'" 
-            variant="soft" 
+          <UBadge
+            :color="row.available ? 'green' : 'red'"
+            variant="soft"
             size="xs"
             :ui="{ rounded: 'rounded-full' }"
           >
-            {{ row.available ? 'Available' : 'Out of Stock' }}
+            {{ row.available ? 'Available' : 'Unavailable' }}
           </UBadge>
         </template>
 
@@ -121,7 +167,7 @@ const items = (row) => [
       </UTable>
       
       <div class="flex justify-end p-4 border-t border-light-gray-200">
-        <UPagination :model-value="1" :total="50" :ui="{ wrapper: 'gap-1' }" />
+        <UPagination v-model="page" :page-count="pageCount" :total="filteredRows.length" :ui="{ wrapper: 'gap-1' }" />
       </div>
     </UCard>
 

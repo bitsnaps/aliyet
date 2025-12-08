@@ -1,9 +1,9 @@
 export default defineEventHandler(async (event) => {
   const { models } = await useDB();
-  const { Categories } = models;
+  const { ConfigCategories } = models;
 
   try {
-    const categories = await Categories.findAll({
+    const categories = await ConfigCategories.findAll({
       order: [['name', 'ASC']]
     })
 

@@ -7,8 +7,8 @@ definePageMeta({
 })
 
 const state = reactive({
-  username: '',
-  password: '',
+  username: import.meta.env.DEV?'admin@aliyaat.com':'',
+  password: import.meta.env.DEV?'master':'',
 })
 
 const toast = useToast()

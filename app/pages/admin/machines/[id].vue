@@ -6,6 +6,8 @@ definePageMeta({
 const route = useRoute()
 const isNew = route.params.id === 'new'
 
+const loading = ref(false)
+const toast = useToast()
 const state = ref({
   name: '',
   code: '',
@@ -18,16 +20,40 @@ const state = ref({
   specs: [{ parameter: '', value: '', unit: '' }]
 })
 
-const categories = [
-  { label: 'Turning Center', value: 1 },
-  { label: 'Machining Center', value: 2 },
-  { label: 'EDM', value: 3 }
-]
+if (!isNew) {
+  loading.value = true
+  try {
+    const { data: machineData, error } = await useFetch(`/api/admin/machines/${route.params.id}`, {
+      lazy: false, // We need to wait for this data
+    })
+    if (error.value) {
+      toast.add({ title: 'Error fetching machine', description: error.value.data.statusMessage, color: 'red' })
+      navigateTo('/admin/machines')
+    } else {
+      state.value = machineData.value.data
+      // Ensure specs is an array even if empty
+      if (!state.value.specs) {
+        state.value.specs = [{ parameter: '', value: '', unit: '' }]
+      }
+    }
+  } finally {
+    loading.value = false
+  }
+}
 
-const configCategories = [
-  { label: 'Standard Lathe Config', value: 1 },
-  { label: 'Advanced 5-Axis Config', value: 2 }
-]
+// Fetch Categories for the dropdown
+const { data: categories, pending: categoriesPending } = useFetch('/api/admin/categories', {
+  transform: (response) => response.data.map(c => ({ label: c.name, value: c.id })),
+  lazy: true,
+  server: false,
+})
+
+// Fetch ConfigCategories for the dropdown
+const { data: configCategories, pending: configCategoriesPending } = useFetch('/api/admin/config-categories', {
+  transform: (response) => response.data.map(c => ({ label: c.name, value: c.id })),
+  lazy: true,
+  server: false,
+})
 
 const addSpec = () => {
   state.value.specs.push({ parameter: '', value: '', unit: '' })
@@ -38,17 +64,41 @@ const removeSpec = (index) => {
 }
 
 const save = async () => {
-  // Logic to save
-  // console.log(state.value)
-  navigateTo('/admin/machines')
+  loading.value = true
+  try {
+    const method = isNew ? 'POST' : 'PUT'
+    const url = isNew ? '/api/admin/machines' : `/api/admin/machines/${route.params.id}`
+
+    const response = await $fetch(url, {
+      method,
+      body: state.value,
+    })
+
+    if (response.success) {
+      toast.add({ title: `Machine ${isNew ? 'created' : 'updated'}`, description: `The machine details have been saved.`, color: 'green' })
+      navigateTo('/admin/machines')
+    } else {
+      // This path may not be hit if errors are thrown, but as a fallback.
+      toast.add({ title: 'Save Failed', description: 'An unknown error occurred.', color: 'red' })
+    }
+  } catch (err) {
+    const errorMsg = err.data?.statusMessage || 'An unexpected error occurred. Please check the console.'
+    toast.add({ title: 'Save Failed', description: errorMsg, color: 'red' })
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
 <template>
   <div class="max-w-5xl mx-auto space-y-6 pb-20">
-    <!-- Breadcrumb -->
-    <div class="flex items-center gap-2 text-sm text-charcoal-500 mb-4">
-      <NuxtLink to="/admin/machines" class="hover:text-deep-teal-600">Machines</NuxtLink>
+    <div v-if="loading" class="flex justify-center items-center h-64">
+      <UIcon name="i-lucide-loader-2" class="w-12 h-12 animate-spin" />
+    </div>
+    <template v-else>
+      <!-- Breadcrumb -->
+      <div class="flex items-center gap-2 text-sm text-charcoal-500 mb-4">
+        <NuxtLink to="/admin/machines" class="hover:text-deep-teal-600">Machines</NuxtLink>
       <UIcon name="i-lucide-chevron-right" class="w-4 h-4" />
       <span class="text-charcoal-900 font-medium">{{ isNew ? 'New Machine' : 'Edit Machine' }}</span>
     </div>
@@ -59,7 +109,7 @@ const save = async () => {
       </h2>
       <div class="flex gap-3">
         <UButton label="Cancel" color="gray" variant="ghost" to="/admin/machines" />
-        <UButton label="Save Machine" color="primary" icon="i-lucide-save" @click="save" />
+        <UButton label="Save Machine" color="primary" icon="i-lucide-save" @click="save" :loading="loading" />
       </div>
     </div>
 
@@ -133,11 +183,25 @@ const save = async () => {
             </UFormField>
 
             <UFormField label="Category" name="category" required>
-              <USelectMenu v-model="state.categoryId" :options="categories" value-attribute="value" placeholder="Select Category" />
+              <USelectMenu
+                v-model="state.categoryId"
+                :options="categories"
+                value-attribute="value"
+                option-attribute="label"
+                placeholder="Select Category"
+                :loading="categoriesPending"
+              />
             </UFormField>
 
             <UFormField label="Configuration Group" name="configCategory" help="Determines which options appear in the Build & Price tool">
-              <USelectMenu v-model="state.configCategoryId" :options="configCategories" value-attribute="value" placeholder="Select Config Group" />
+              <USelectMenu
+                v-model="state.configCategoryId"
+                :options="configCategories"
+                value-attribute="value"
+                option-attribute="label"
+                placeholder="Select Config Group"
+                :loading="configCategoriesPending"
+              />
             </UFormField>
           </div>
         </UCard>
@@ -151,5 +215,6 @@ const save = async () => {
         </UCard>
       </div>
     </div>
+    </template>
   </div>
 </template>

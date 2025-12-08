@@ -338,7 +338,7 @@ const formData = ref({
             
             <!-- Contact Form -->
             <div class="p-8 rounded-xl shadow-sm border border-slate-100 bg-deep-teal-500">
-              <h3 class="text-2xl font-bold mb-6 text-white">Send a Message</h3>
+              <h3 class="text-2xl font-bold mb-6">Send a Message</h3>
 
               <form class="space-y-6">
                 <div class="grid sm:grid-cols-2 gap-6">
