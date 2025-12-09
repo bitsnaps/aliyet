@@ -42,7 +42,6 @@ watch(isMobile, (newVal) => {
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
-  console.log('Toggling sidebar, new state:', isSidebarOpen.value ? 'open' : 'closed');
 };
 
 // perform the logout action according to Nuxt v4

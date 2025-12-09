@@ -1,5 +1,6 @@
 export default defineEventHandler(async (event) => {
-  const { Machines, Categories } = useModels()
+  const { models } = await useDB();
+  const { Machines, Categories } = models;
 
   try {
     const machines = await Machines.findAll({

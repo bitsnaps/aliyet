@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     '/admin/*': { ssr: false },
   },
   ui: {
-    colorMode: false
+    colorMode: true
   },
   // You can configure fully typed, per-environment overrides here:
   // $production: {
