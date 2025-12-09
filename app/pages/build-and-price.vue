@@ -61,9 +61,9 @@ const allCharacteristics = {
 
 // Fetch machines from the API
 const { data: machineData } = await useFetch('/api/machines')
-if (machineData.value) {
-  machines.value = machineData.value
-  loading.value = false
+if (machineData.value.success) {
+  machines.value = machineData.value.data;
+  loading.value = false;
 }
 
 const currentMachineCharacteristics = computed(() => {
@@ -130,8 +130,8 @@ async function submitQuote() {
         <div v-else>
           <!-- Step 1: Choose Machine -->
           <div v-if="currentStep === 1">
-            <h2 class="text-2xl font-semibold mb-4">Step 1: Choose Your Machine</h2>
-            <div class="grid grid-cols-2 gap-4">
+            <h2 class="text-2xl font-semibold mb-4 dark:text-white">Step 1: Choose Your Machine</h2>
+            <div class="grid grid-cols-2 gap-4 dark:text-white">
               <div v-for="machine in machines" :key="machine.id"
                 @click="selectedMachine = machine"
                 :class="['p-4 border rounded-lg cursor-pointer', { 'border-primary ring-2 ring-primary': selectedMachine && selectedMachine.id === machine.id }]">
@@ -142,7 +142,7 @@ async function submitQuote() {
 
           <!-- Step 2: Main Characteristics -->
           <div v-if="currentStep === 2" class="space-y-4">
-            <h2 class="text-2xl font-semibold mb-4">Step 2: Main Characteristics for {{ selectedMachine.name }}</h2>
+            <h2 class="text-2xl font-semibold mb-4 dark:text-white">Step 2: Main Characteristics for {{ selectedMachine.name }}</h2>
             <div v-for="char in currentMachineCharacteristics.main" :key="char.id">
               <UFormField :label="char.name">
                 <UInput v-if="char.type === 'text'" v-model="mainChars[char.id]" />
@@ -153,7 +153,7 @@ async function submitQuote() {
 
           <!-- Step 3: Optional Characteristics -->
           <div v-if="currentStep === 3" class="space-y-4">
-            <h2 class="text-2xl font-semibold mb-4">Step 3: Optional Characteristics for {{ selectedMachine.name }}</h2>
+            <h2 class="text-2xl font-semibold mb-4 dark:text-white">Step 3: Optional Characteristics for {{ selectedMachine.name }}</h2>
              <div v-for="char in currentMachineCharacteristics.optional" :key="char.id">
                 <UCheckbox v-model="optionalChars[char.id]" :label="char.name" />
             </div>
@@ -161,7 +161,7 @@ async function submitQuote() {
 
           <!-- Step 4: User Details -->
           <div v-if="currentStep === 4">
-            <h2 class="text-2xl font-semibold mb-4">Step 4: Your Details</h2>
+            <h2 class="text-2xl font-semibold mb-4 dark:text-white">Step 4: Your Details</h2>
             <UForm :schema="schema" :state="userDetails" @submit="submitQuote" class="space-y-4">
               <UFormField label="Full Name" name="name">
                 <UInput v-model="userDetails.name" />
@@ -181,7 +181,7 @@ async function submitQuote() {
 
         <template #footer>
           <div class="flex justify-between">
-            <UButton v-if="currentStep > 1" @click="prevStep" color="gray">Previous</UButton>
+            <UButton v-if="currentStep > 1" @click="prevStep" color="neutral">Previous</UButton>
             <div v-else></div>
             <UButton v-if="currentStep < steps.length" @click="nextStep" :disabled="currentStep === 1 && !selectedMachine">Next</UButton>
             <UButton v-if="currentStep === steps.length" @click="submitQuote" color="primary">Submit Quote</UButton>
