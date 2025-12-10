@@ -1,4 +1,7 @@
 <script setup>
+
+const { user } = useAuth();
+
 const links = [
   {
     label: 'Dashboard',
@@ -58,12 +61,12 @@ const handleLogout = async () => {
       class="flex-shrink-0 bg-deep-teal-900 text-white flex flex-col border-r border-deep-teal-800 transition-all duration-300 ease-in-out"
       :class="isSidebarOpen ? 'w-64' : 'w-0'"
     >
-      <div class="p-6 flex items-center gap-3 overflow-hidden">
-        <div class="w-8 h-8 rounded bg-action-teal-500 flex items-center justify-center flex-shrink-0">
-          <UIcon name="i-lucide-wrench" class="text-white w-5 h-5" />
+      <div :class="isSidebarOpen ?'p-6 flex items-center gap-3 overflow-hidden':'hidden'">
+        <div class="w-8 h-8 rounded bg-action-teal-500 hover:bg-action-teal-600 flex items-center justify-center flex-shrink-0 cursor-pointer">
+          <UIcon name="i-lucide-home" class="text-white w-5 h-5" />
         </div>
         <NuxtLink to="/" class="text-white whitespace-nowrap">
-          <span class="font-bold text-xl tracking-tight">Admin</span>
+          <span class="font-bold text-xl tracking-tight">Home</span>
         </NuxtLink>
       </div>
 
@@ -80,10 +83,10 @@ const handleLogout = async () => {
 
       <div class="p-4 border-t border-deep-teal-800 overflow-hidden">
         <div class="flex items-center gap-3 px-3 py-2 whitespace-nowrap">
-          <UAvatar icon="i-lucide-user" alt="Admin" size="sm" />
+          <UAvatar icon="i-lucide-user" alt="User" size="sm" />
           <div class="text-sm">
-            <p class="font-medium text-white">Admin User</p>
-            <p class="text-deep-teal-300 text-xs">admin@aliyaat.com</p>
+            <p class="font-medium text-white">{{ user?.username?.includes('@')?user?.username.split('@')[0]:user?.username }}</p>
+            <p class="text-deep-teal-300 text-xs">{{ user?.email }}</p>
           </div>
         </div>
       </div>
@@ -95,14 +98,14 @@ const handleLogout = async () => {
       <header class="bg-white dark:bg-charcoal-900 border-b border-light-gray-200 dark:border-charcoal-800 h-16 flex items-center justify-between px-6 shadow-sm flex-shrink-0">
         <div class="flex items-center gap-4">
           <UButton
-            color="gray"
+            color="neutral"
             variant="ghost"
             :icon="isSidebarOpen ? 'i-lucide-panel-left-close' : 'i-lucide-panel-left-open'"
-            class="!hidden lg:!flex"
+            class="!hidden lg:!flex cursor-pointer"
             @click="toggleSidebar"
           />
            <UButton
-            color="gray"
+            color="neutral"
             variant="ghost"
             icon="i-lucide-menu"
             class="lg:!hidden"
@@ -118,7 +121,7 @@ const handleLogout = async () => {
             color="neutral"
             variant="ghost"
             icon="i-lucide-bell"
-            class="text-charcoal-500 hover:text-deep-teal-600"
+            class="cursor-pointer"
           />
           <UButton
             to="/"
