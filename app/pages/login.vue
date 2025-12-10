@@ -28,11 +28,11 @@ async function login() {
       const { login: authLogin } = useAuth()
       authLogin(response.user)
       
-      toast.add({ title: 'Login successful!', color: 'green' });
+      toast.add({ title: 'Login successful!', color: 'success' });
       router.push('/admin')
     }
   } catch (error) {
-    toast.add({ title: 'Error', description: error.data?.message || 'An error occurred', color: 'red' })
+    toast.add({ title: 'Error', description: error.data?.message || 'An error occurred', color: 'error' })
   }
   finally {
     loading.value = false

@@ -34,7 +34,7 @@ const columns = [
     <!-- Welcome Section -->
     <div>
       <h2 class="text-2xl font-bold text-charcoal-900 dark:text-white">Welcome back, {{ user?.username || 'Admin' }}</h2>
-      <p class="text-charcoal-500 dark:text-charcoal-400 mt-1">Here's what's happening with your products today.</p>
+      <p class="text-charcoal-500 dark:text-charcoal-300 mt-1">Here's what's happening with your products today.</p>
     </div>
 
     <!-- Stats Grid -->
@@ -42,7 +42,7 @@ const columns = [
       <UCard v-for="stat in stats" :key="stat.label" class="border-l-4 border-l-deep-teal-500">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-sm font-medium text-charcoal-500 dark:text-charcoal-400">{{ stat.label }}</p>
+            <p class="text-sm font-medium text-charcoal-500 dark:text-charcoal-300">{{ stat.label }}</p>
             <p class="text-3xl font-bold text-charcoal-900 dark:text-white mt-1">{{ stat.value }}</p>
           </div>
           <div :class="[stat.bg, 'p-3 rounded-full']">

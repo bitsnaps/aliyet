@@ -103,7 +103,7 @@ async function submitQuote() {
     currentStep.value = 1 // Reset to first step
     selectedMachine.value = null
   } catch (error) {
-    toast.add({ title: 'Error!', description: 'Failed to submit quote.', color: 'red' })
+    toast.add({ title: 'Error!', description: 'Failed to submit quote.', color: 'error' })
     console.error('Error submitting quote:', error)
   }
 }

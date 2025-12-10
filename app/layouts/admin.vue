@@ -112,7 +112,9 @@ const handleLogout = async () => {
             @click="toggleSidebar"
           />
           <h1 class="text-lg font-semibold text-charcoal-900 dark:text-white">
-            <slot name="title">Dashboard</slot>
+            <NuxtLink to="/admin">
+              <slot name="title">Dashboard</slot>
+            </NuxtLink>
           </h1>
         </div>
         

@@ -20,13 +20,13 @@ async function seedDb() {
       body: state
     });
     if (response.body?.result){
-      toast.add({ title: response.body?.message, color: 'green' })
+      toast.add({ title: response.body?.message, color: 'success' })
     } else {
-      toast.add({ title: response.body?.message, color: 'yellow' })
+      toast.add({ title: response.body?.message, color: 'warning' })
     }
   }
   catch (error) {
-    toast.add({ title: 'Error', description: error.data?.message || 'An error occurred', color: 'red' })
+    toast.add({ title: 'Error', description: error.data?.message || 'An error occurred', color: 'error' })
   }
   finally {
     loadingSeed.value = false
@@ -41,10 +41,10 @@ async function checkDb() {
       method: 'POST',
       body: state
     })
-    toast.add({ title: response.body?.message, color: 'green' })
+    toast.add({ title: response.body?.message, color: 'success' })
   }
   catch (error) {
-    toast.add({ title: 'Error', description: error.data?.message || 'An error occurred', color: 'red' })
+    toast.add({ title: 'Error', description: error.data?.message || 'An error occurred', color: 'error' })
   }
   finally {
     loadingCheck.value = false
@@ -58,10 +58,10 @@ async function initDb() {
       method: 'POST',
       body: state
     })
-    toast.add({ title: response.body?.message, color: 'green' })
+    toast.add({ title: response.body?.message, color: 'success' })
   }
   catch (error) {
-    toast.add({ title: 'Error', description: error.data?.message || 'An error occurred', color: 'red' })
+    toast.add({ title: 'Error', description: error.data?.message || 'An error occurred', color: 'error' })
   }
   finally {
     loadingInit.value = false

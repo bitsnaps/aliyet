@@ -27,7 +27,7 @@ const formData = ref({
           <div class="grid md:grid-cols-2 gap-8 items-center">
             <div class="max-w-3xl animate-fade-in-right">
               <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight font-heading">
-                Keep Your Factory <span class="text-action-teal-500">Running</span>.
+                Keep Your Factory <span class="text-action-teal-500">Running</span>
               </h1>
               <p class="mt-6 text-xl text-slate-300 max-w-xl leading-relaxed">
                 Your trusted partner for expert industrial maintenance and seamless machine procurement. Minimize downtime, maximize efficiency.
