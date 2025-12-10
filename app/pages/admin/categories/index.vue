@@ -82,7 +82,7 @@ const items = (row) => [
         
         <template #actions-data="{ row }">
           <UDropdownMenu :items="items(row)">
-            <UButton color="gray" variant="ghost" icon="i-lucide-more-horizontal" />
+            <UButton color="neutral" variant="ghost" icon="i-lucide-more-horizontal" />
           </UDropdownMenu>
         </template>
       </UTable>

@@ -93,7 +93,7 @@ const items = (row) => [
         </template>
 
         <template #role-data="{ row }">
-          <UBadge color="gray" variant="subtle" size="xs">{{ row.role }}</UBadge>
+          <UBadge color="neutral" variant="subtle" size="xs">{{ row.role }}</UBadge>
         </template>
 
         <template #status-data="{ row }">
@@ -109,7 +109,7 @@ const items = (row) => [
         
         <template #actions-data="{ row }">
           <UDropdownMenu :items="items(row)">
-            <UButton color="gray" variant="ghost" icon="i-lucide-more-horizontal" />
+            <UButton color="neutral" variant="ghost" icon="i-lucide-more-horizontal" />
           </UDropdownMenu>
         </template>
       </UTable>

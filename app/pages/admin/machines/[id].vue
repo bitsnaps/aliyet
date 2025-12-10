@@ -108,7 +108,7 @@ const save = async () => {
         {{ isNew ? 'Create New Machine' : 'Edit Machine Details' }}
       </h2>
       <div class="flex gap-3">
-        <UButton label="Cancel" color="gray" variant="ghost" to="/admin/machines" />
+        <UButton label="Cancel" color="neutral" variant="ghost" to="/admin/machines" />
         <UButton label="Save Machine" color="primary" icon="i-lucide-save" @click="save" :loading="loading" />
       </div>
     </div>
@@ -149,7 +149,7 @@ const save = async () => {
           <template #header>
             <div class="flex justify-between items-center">
               <h3 class="font-semibold">Specifications</h3>
-              <UButton size="xs" color="gray" variant="soft" icon="i-lucide-plus" label="Add Spec" @click="addSpec" />
+              <UButton size="xs" color="neutral" variant="soft" icon="i-lucide-plus" label="Add Spec" @click="addSpec" />
             </div>
           </template>
 

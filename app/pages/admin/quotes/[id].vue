@@ -31,7 +31,7 @@ const save = async () => {
         {{ isNew ? 'Create New Quote' : 'Edit Quote Details' }}
       </h2>
       <div class="flex gap-3">
-        <UButton label="Cancel" color="gray" variant="ghost" to="/admin/quotes" />
+        <UButton label="Cancel" color="neutral" variant="ghost" to="/admin/quotes" />
         <UButton label="Save Quote" color="primary" icon="i-lucide-save" @click="save" />
       </div>
     </div>

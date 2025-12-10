@@ -74,7 +74,7 @@ const columns = [
             </UBadge>
           </template>
           <template #actions-data>
-            <UButton icon="i-lucide-arrow-right" variant="ghost" color="gray" size="xs" />
+            <UButton icon="i-lucide-arrow-right" variant="ghost" color="neutral" size="xs" />
           </template>
         </UTable>
       </UCard>
