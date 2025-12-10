@@ -81,7 +81,7 @@ const handleLogout = async () => {
         />
       </div>
 
-      <div class="p-4 border-t border-deep-teal-800 overflow-hidden">
+      <div :class="isSidebarOpen ?'p-4 border-t border-deep-teal-800 overflow-hidden':'hidden'">
         <div class="flex items-center gap-3 px-3 py-2 whitespace-nowrap">
           <UAvatar icon="i-lucide-user" alt="User" size="sm" />
           <div class="text-sm">
