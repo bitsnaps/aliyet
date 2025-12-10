@@ -27,7 +27,7 @@ if (!isNew) {
       lazy: false, // We need to wait for this data
     })
     if (error.value) {
-      toast.add({ title: 'Error fetching machine', description: error.value.data.statusMessage, color: 'red' })
+      toast.add({ title: 'Error fetching machine', description: error.value.data.statusMessage, color: 'error' })
       navigateTo('/admin/machines')
     } else {
       state.value = machineData.value.data
@@ -75,15 +75,15 @@ const save = async () => {
     })
 
     if (response.success) {
-      toast.add({ title: `Machine ${isNew ? 'created' : 'updated'}`, description: `The machine details have been saved.`, color: 'green' })
+      toast.add({ title: `Machine ${isNew ? 'created' : 'updated'}`, description: `The machine details have been saved.`, color: 'success' })
       navigateTo('/admin/machines')
     } else {
       // This path may not be hit if errors are thrown, but as a fallback.
-      toast.add({ title: 'Save Failed', description: 'An unknown error occurred.', color: 'red' })
+      toast.add({ title: 'Save Failed', description: 'An unknown error occurred.', color: 'error' })
     }
   } catch (err) {
     const errorMsg = err.data?.statusMessage || 'An unexpected error occurred. Please check the console.'
-    toast.add({ title: 'Save Failed', description: errorMsg, color: 'red' })
+    toast.add({ title: 'Save Failed', description: errorMsg, color: 'error' })
   } finally {
     loading.value = false
   }
@@ -91,7 +91,7 @@ const save = async () => {
 </script>
 
 <template>
-  <div class="max-w-5xl mx-auto space-y-6 pb-20">
+  <div class="space-y-6">
     <div v-if="loading" class="flex justify-center items-center h-64">
       <UIcon name="i-lucide-loader-2" class="w-12 h-12 animate-spin" />
     </div>
@@ -108,8 +108,8 @@ const save = async () => {
         {{ isNew ? 'Create New Machine' : 'Edit Machine Details' }}
       </h2>
       <div class="flex gap-3">
-        <UButton label="Cancel" color="neutral" variant="ghost" to="/admin/machines" />
-        <UButton label="Save Machine" color="primary" icon="i-lucide-save" @click="save" :loading="loading" />
+        <UButton label="Cancel" color="neutral" variant="subtle" to="/admin/machines" />
+        <UButton label="Save Machine" color="primary" icon="i-lucide-save" @click="save" :loading="loading" class="cursor-pointer" />
       </div>
     </div>
 
@@ -148,25 +148,25 @@ const save = async () => {
         <UCard title="Technical Specifications">
           <template #header>
             <div class="flex justify-between items-center">
-              <h3 class="font-semibold">Specifications</h3>
-              <UButton size="xs" color="neutral" variant="soft" icon="i-lucide-plus" label="Add Spec" @click="addSpec" />
+              <h3 class="font-semibold dark:text-charcoal-300">Specifications</h3>
+              <UButton size="xs" color="neutral" variant="soft" icon="i-lucide-plus" label="Add Spec" @click="addSpec" class="cursor-pointer" />
             </div>
           </template>
 
           <div class="space-y-3">
              <div v-for="(spec, idx) in state.specs" :key="idx" class="flex gap-3 items-start">
                <div class="flex-1">
-                 <UInput v-model="spec.parameter" placeholder="Parameter (e.g. Max RPM)" size="sm" />
+                 <UInput v-model="spec.parameter" placeholder="Parameter (e.g. Max RPM)" size="sm" class="w-full" />
                </div>
                <div class="flex-1">
-                 <UInput v-model="spec.value" placeholder="Value (e.g. 5000)" size="sm" />
+                 <UInput v-model="spec.value" placeholder="Value (e.g. 5000)" size="sm" class="w-full" />
                </div>
                <div class="w-24">
-                 <UInput v-model="spec.unit" placeholder="Unit" size="sm" />
+                 <UInput v-model="spec.unit" placeholder="Unit" size="sm" class="w-full" />
                </div>
-               <UButton color="red" variant="ghost" icon="i-lucide-x" size="sm" @click="removeSpec(idx)" />
+               <UButton color="error" variant="subtle" icon="i-lucide-x" size="sm" @click="removeSpec(idx)" class="cursor-pointer" />
              </div>
-             <div v-if="state.specs.length === 0" class="text-center py-4 text-charcoal-400 text-sm">
+             <div v-if="state.specs.length === 0" class="text-center py-4 dark:text-charcoal-300 text-sm">
                No specifications added.
              </div>
           </div>
@@ -179,7 +179,7 @@ const save = async () => {
           <div class="space-y-4">
             <UFormField label="Status" name="available">
               <USwitch v-model="state.available" />
-              <span class="ml-2 text-sm text-charcoal-600">{{ state.available ? 'Available for Quote' : 'Hidden/Unavailable' }}</span>
+              <span class="ml-2 text-sm text-charcoal-300">{{ state.available ? 'Available for Quote' : 'Hidden/Unavailable' }}</span>
             </UFormField>
 
             <UFormField label="Category" name="category" required>
@@ -208,9 +208,9 @@ const save = async () => {
 
         <UCard title="Media">
           <div class="border-2 border-dashed border-light-gray-300 rounded-lg p-6 text-center hover:bg-light-gray-50 transition-colors cursor-pointer">
-            <UIcon name="i-lucide-image-plus" class="w-8 h-8 text-charcoal-400 mx-auto mb-2" />
+            <UIcon name="i-lucide-image-plus" class="w-8 h-8 text-charcoal-300 mx-auto mb-2" />
             <p class="text-sm text-charcoal-600 font-medium">Click to upload main image</p>
-            <p class="text-xs text-charcoal-400 mt-1">PNG, JPG up to 2MB</p>
+            <p class="text-xs text-charcoal-300 mt-1">PNG, JPG up to 2MB</p>
           </div>
         </UCard>
       </div>

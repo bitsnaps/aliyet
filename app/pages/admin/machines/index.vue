@@ -7,6 +7,25 @@ definePageMeta({
 
 const toast = useToast()
 
+// Modals state
+const isDeleteConfirmOpen = ref(false)
+const isEditing = ref(false)
+const isSaving = ref(false)
+const isDeleting = ref(false)
+
+const selectedMachine = ref(null)
+const defaultMachine = {
+  name: '',
+  code: '',
+  categoryId: null,
+  configCategoryId: null,
+  basePrice: 0,
+  available: true,
+  description: '',
+  url: '',
+  specs: [{ parameter: '', value: '', unit: '' }]
+}
+
 // Data
 const { data: machines, pending, error, refresh } = await useFetch('/api/admin/machines', {
   lazy: true,
@@ -19,8 +38,8 @@ const columns = [
   { accessorKey: 'name', header: 'Name', enableSorting: true },
   { accessorKey: 'category', header: 'Category', enableSorting: true },
   { accessorKey: 'price', header: 'Base Price', enableSorting: true },
-  { accessorKey: 'available', header: 'Availability' },
-  { accessorKey: 'actions', header: 'Actions' }
+  { accessorKey: 'available', header: 'Availability', enableSorting: true },
+  { accessorKey: 'actions', header: 'Actions', enableSorting: false }
 ]
 
 const search = ref('')
@@ -71,20 +90,26 @@ const items = (row) => [
   }]
 ]
 
-const handleDelete = async (row) => {
-  if (!confirm(`Are you sure you want to delete "${row.name}"? This cannot be undone.`)) {
-    return
-  }
+const handleDelete = (row) => {
+  selectedMachine.value = row
+  isDeleteConfirmOpen.value = true
+}
+
+const confirmDelete = async () => {
+  isDeleting.value = true
 
   try {
-    await $fetch(`/api/admin/machines/${row.id}`, {
+    await $fetch(`/api/admin/machines/${selectedMachine.value.id}`, {
       method: 'DELETE',
     })
-    toast.add({ title: 'Machine Deleted', description: `"${row.name}" has been removed.`, color: 'green' })
-    refresh() // Re-fetch the machine list
+    toast.add({ title: 'Machine Deleted', description: `"${selectedMachine.value.name}" has been removed.`, color: 'success' })
+    isDeleteConfirmOpen.value = false
+    await refresh() // Re-fetch the machine list
   } catch (err) {
     const errorMsg = err.data?.statusMessage || 'An unknown error occurred.'
-    toast.add({ title: 'Deletion Failed', description: errorMsg, color: 'red' })
+    toast.add({ title: 'Deletion Failed', description: errorMsg, color: 'error' })
+  } finally {
+    isDeleting.value = false
   }
 }
 </script>
@@ -95,8 +120,9 @@ const handleDelete = async (row) => {
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
         <h2 class="text-2xl font-bold text-charcoal-900 dark:text-white">Machines</h2>
-        <p class="text-charcoal-500 text-sm mt-1">Manage your industrial machine catalog</p>
+        <p class="dark:text-charcoal-300 text-sm mt-1">Manage your industrial machine catalog</p>
       </div>
+
       <UButton 
         icon="i-lucide-plus" 
         label="Add Machine" 
@@ -104,7 +130,20 @@ const handleDelete = async (row) => {
         size="md"
         to="/admin/machines/new"
       />
-    </div>
+    </div>  
+
+    <UModal v-model:open="isDeleteConfirmOpen" :description="`Machine Code: ${selectedMachine?.code}`" title="Confirm Deletion">      
+        <template #body>
+          <p>Are you sure you want to delete the machine <UBadge color="neutral" variant="subtle">{{ selectedMachine?.name }}</UBadge>?</p>
+          <p>This action cannot be undone.</p>
+        </template>
+        <template #footer>
+          <div class="flex justify-end gap-3">
+            <UButton label="Cancel" color="neutral" variant="soft" @click="isDeleteConfirmOpen = false" class="cursor-pointer" />
+            <UButton label="Delete" color="error" variant="soft" @click="confirmDelete" :loading="isDeleting" class="cursor-pointer" />
+          </div>
+        </template>        
+    </UModal>
 
     <!-- Filters -->
     <UCard :ui="{ body: { padding: 'p-4' } }">
@@ -119,7 +158,7 @@ const handleDelete = async (row) => {
         <div class="flex gap-2">
            <USelectMenu 
              v-model="selectedStatus" 
-             :options="['Available', 'Unavailable']" 
+             :items="['Available', 'Unavailable']" 
              placeholder="Filter Status"
              multiple
              class="w-48"
@@ -129,7 +168,7 @@ const handleDelete = async (row) => {
     </UCard>
 
     <!-- Table -->
-    <UCard :ui="{ body: { padding: 'p-0' } }">
+    <UCard :ui="{ body: { padding: 'p-0' } }" >
       <UTable 
         :data="filteredRows"
         :columns="columns"
@@ -138,31 +177,35 @@ const handleDelete = async (row) => {
         :empty-state="{ icon: 'i-lucide-database-zap', label: 'No machines found.' }"
         class="w-full"
       >
-        <template #name-data="{ row }">
-          <NuxtLink :to="`/admin/machines/${row.id}`" class="font-medium text-deep-teal-600 hover:underline">
-            {{ row.name }}
+        <template #name-cell="{ row }">
+          <NuxtLink :to="`/admin/machines/${row.original.id}`" class="font-medium text-deep-teal-600 hover:underline">
+            {{ row.original.name }}
           </NuxtLink>
         </template>
         
-        <template #price-data="{ row }">
-          <span class="font-mono text-charcoal-700 dark:text-charcoal-300">${{ Number(row.price).toLocaleString() }}</span>
+        <template #price-cell="{ row }">
+          <span class="font-mono text-charcoal-700 dark:text-charcoal-300">${{ Number(row.original.price).toLocaleString() }}</span>
         </template>
-
-        <template #available-data="{ row }">
+        
+        <template #available-cell="{ row }">
           <UBadge
-            :color="row.available ? 'green' : 'red'"
+            :color="row.original.available ? 'primary' : 'error'"
             variant="soft"
-            size="xs"
+            size="md"
             :ui="{ rounded: 'rounded-full' }"
           >
-            {{ row.available ? 'Available' : 'Unavailable' }}
+            {{ row.original.available ? 'Available' : 'Unavailable' }}
           </UBadge>
         </template>
 
-        <template #actions-data="{ row }">
-          <UDropdownMenu :items="items(row)">
-            <UButton color="gray" variant="ghost" icon="i-lucide-more-horizontal" />
-          </UDropdownMenu>
+        <template #actions-cell="{ row }">
+          <div class="flex flex-row items-center gap-1">
+            <UButton @click="handleDelete(row.original)" color="error" variant="outline" icon="i-lucide-trash" size="md" class="cursor-pointer" />
+            <UButton :to="`/admin/machines/${row.original.id}`" color="neutral" variant="outline" icon="i-lucide-edit" size="md" class="cursor-pointer" />
+          </div>
+          <!-- <UDropdownMenu :items="items(row)">
+            <UButton color="neutral" variant="ghost" icon="i-lucide-more-horizontal" />
+          </UDropdownMenu> -->
         </template>
       </UTable>
       
