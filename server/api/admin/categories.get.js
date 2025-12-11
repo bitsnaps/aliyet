@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     const categories = await Categories.findAll({
-      order: [['name', 'ASC']]
+      order: [['id', 'ASC']]
     })
 
     return {
