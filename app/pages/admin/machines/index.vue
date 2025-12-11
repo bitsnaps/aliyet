@@ -9,22 +9,9 @@ const toast = useToast()
 
 // Modals state
 const isDeleteConfirmOpen = ref(false)
-const isEditing = ref(false)
-const isSaving = ref(false)
 const isDeleting = ref(false)
 
 const selectedMachine = ref(null)
-const defaultMachine = {
-  name: '',
-  code: '',
-  categoryId: null,
-  configCategoryId: null,
-  basePrice: 0,
-  available: true,
-  description: '',
-  url: '',
-  specs: [{ parameter: '', value: '', unit: '' }]
-}
 
 // Data
 const { data: machines, pending, error, refresh } = await useFetch('/api/admin/machines', {
@@ -75,20 +62,6 @@ const filteredRows = computed(() => {
 
   return filtered
 })
-
-const items = (row) => [
-  [{
-    label: 'Edit',
-    icon: 'i-lucide-edit-2',
-    click: () => navigateTo(`/admin/machines/${row.id}`)
-  }],
-  [{
-    label: 'Delete',
-    icon: 'i-lucide-trash-2',
-    labelClass: 'text-red-500 dark:text-red-400',
-    click: () => handleDelete(row)
-  }]
-]
 
 const handleDelete = (row) => {
   selectedMachine.value = row
@@ -203,9 +176,6 @@ const confirmDelete = async () => {
             <UButton @click="handleDelete(row.original)" color="error" variant="outline" icon="i-lucide-trash" size="md" class="cursor-pointer" />
             <UButton :to="`/admin/machines/${row.original.id}`" color="neutral" variant="outline" icon="i-lucide-edit" size="md" class="cursor-pointer" />
           </div>
-          <!-- <UDropdownMenu :items="items(row)">
-            <UButton color="neutral" variant="ghost" icon="i-lucide-more-horizontal" />
-          </UDropdownMenu> -->
         </template>
       </UTable>
       
