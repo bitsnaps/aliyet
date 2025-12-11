@@ -8,7 +8,7 @@ export const useAuth = () => {
   const isLoggedIn = computed(() => !!user.value)
 
   const login = (userData: any) => {
-    user.value = userData
+    user.value = userData;
   }
 
   const logout = async () => {

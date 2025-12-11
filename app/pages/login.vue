@@ -22,12 +22,11 @@ async function login() {
       method: 'POST',
       body: state
     });
-    if (!response || response.statusCode !== 200) {
+    if (!response || response.statusCode !== 200 || !response.user) {
       toast.add({ title: 'Error', description: response?.message || 'Access denied', color: 'warning' })
     } else {      
       const { login: authLogin } = useAuth()
-      authLogin(response.user)
-      
+      authLogin(response.user);      
       toast.add({ title: 'Login successful!', color: 'success' });
       router.push('/admin')
     }

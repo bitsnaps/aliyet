@@ -6,12 +6,20 @@ import { createToken } from '../../utils/token';
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event);
+    const username = body?.username;
+    const password = body?.password;
+    if (!username || !password){
+      return {
+        statusCode: 404,
+        statusMessage: 'Access denied',
+        message: 'Username or password are not valid.',
+      }
+    }
+
     const { models } = await useDB();
-    const { Users } = models;
-  
-    const user = await Users.findOne({ where: { username: body.username } });
-  
-    if (user && await verifyPassword(body.password, user.password)) {
+    const { Users } = models;  
+    const user = await Users.findOne({ where: { username } });  
+    if (user && await verifyPassword(password, user.password)) {
       const userToReturn = { email: user.email, username: user.username, id: user.id };
       const token = createToken(userToReturn);
 
