@@ -199,7 +199,7 @@ const confirmDelete = async () => {
         </template>
 
         <template #description-cell="{ row }">
-          <span>{{ row.original.description?.slice(0, 50) }}...</span>
+          <span>{{ row.original.description?.length > 50? row.original.description.slice(0, 50)+'...': row.original.description }}</span>
         </template>
         
         <template #actions-cell="{ row }">
