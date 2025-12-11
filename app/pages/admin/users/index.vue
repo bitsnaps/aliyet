@@ -3,43 +3,72 @@ definePageMeta({
   layout: 'admin'
 })
 
-const { data: users, pending } = await useFetch('/api/admin/users')
+const toast = useToast()
+
+// Modals state
+const isDeleteConfirmOpen = ref(false)
+const isDeleting = ref(false)
+const selectedUser = ref(null)
+
+// Data
+const { data: users, pending, refresh } = await useFetch('/api/admin/users', {
+  lazy: true,
+  transform: (response) => response.data,
+  server: false,
+})
+
 
 const columns = [
-  { id: 1, key: 'name', label: 'User', sortable: true },
-  { id: 2, key: 'role', label: 'Role', sortable: true },
-  { id: 3, key: 'status', label: 'Status', sortable: true },
-  { id: 4, key: 'lastLogin', label: 'Last Login', sortable: true },
-  { id: 5, key: 'actions', label: 'Actions' }
+  { accessorKey: 'id', header: 'ID', enableSorting: true },
+  { accessorKey: 'username', header: 'Username', enableSorting: true },
+  { accessorKey: 'name', header: 'Full Name', enableSorting: true },
+  { accessorKey: 'email', header: 'Email', enableSorting: true },
+  { accessorKey: 'role', header: 'Role', enableSorting: true },
+  { accessorKey: 'active', header: 'Status', enableSorting: true },
+  { accessorKey: 'actions', header: 'Actions' }
 ]
 
 const search = ref('')
+const page = ref(1)
+const pageCount = 10
 
 const filteredRows = computed(() => {
-  if (!search.value) return users.value || []
-  return users.value.filter(u => {
-    return u.name.toLowerCase().includes(search.value.toLowerCase()) ||
-           u.email.toLowerCase().includes(search.value.toLowerCase())
-  })
+  if (!users.value) return []
+  
+  let filtered = [...users.value]
+  // Search filter
+  if (search.value) {
+    filtered = filtered.filter(u => {
+      return Object.values(u).some(val => 
+        String(val).toLowerCase().includes(search.value.toLowerCase())
+      )
+    })
+  }
+
+  return filtered
 })
 
-const items = (row) => [
-  [{
-    label: 'Edit',
-    icon: 'i-lucide-edit-2',
-    click: () => console.log('Edit', row.id)
-  }, {
-    label: 'Reset Password',
-    icon: 'i-lucide-key',
-    click: () => console.log('Reset Password', row.id)
-  }],
-  [{
-    label: 'Delete',
-    icon: 'i-lucide-trash-2',
-    class: 'text-red-600',
-    click: () => console.log('Delete', row.id)
-  }]
-]
+const handleDelete = (row) => {
+  selectedUser.value = row
+  isDeleteConfirmOpen.value = true
+}
+
+const confirmDelete = async () => {
+  isDeleting.value = true
+  try {
+    await $fetch(`/api/admin/users/${selectedUser.value.id}`, {
+      method: 'DELETE',
+    })
+    toast.add({ title: 'User Deleted', description: `"${selectedUser.value.name}" has been removed.`, color: 'success' })
+    isDeleteConfirmOpen.value = false
+    await refresh()
+  } catch (err) {
+    const errorMsg = err.data?.statusMessage || 'An unknown error occurred.'
+    toast.add({ title: 'Deletion Failed', description: errorMsg, color: 'error' })
+  } finally {
+    isDeleting.value = false
+  }
+}
 </script>
 
 <template>
@@ -48,71 +77,82 @@ const items = (row) => [
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
         <h2 class="text-2xl font-bold text-charcoal-900 dark:text-white">Users</h2>
-        <p class="text-charcoal-500 text-sm mt-1">Manage system users and access roles</p>
+        <p class="dark:text-charcoal-300 text-sm mt-1">Manage system users and their roles.</p>
       </div>
-      <UButton 
-        icon="i-lucide-plus" 
-        label="Add User" 
-        color="primary" 
+      <UButton
+        icon="i-lucide-plus"
+        label="Add User"
+        color="primary"
         size="md"
+        to="/admin/users/new"
       />
     </div>
+
+    <!-- Modals -->
+    <UModal v-model:open="isDeleteConfirmOpen" :description="`Username: ${selectedUser?.username}`" title="Confirm Deletion">
+      <template #body>
+        <p>Are you sure you want to delete the user <UBadge color="neutral" variant="subtle">{{ selectedUser?.name }}</UBadge>?</p>
+        <p class="mt-1">This action cannot be undone.</p>
+      </template>
+      <template #footer>
+        <div class="flex justify-end gap-3">
+          <UButton label="Cancel" color="neutral" variant="soft" @click="isDeleteConfirmOpen = false" />
+          <UButton label="Delete" color="error" variant="soft" @click="confirmDelete" :loading="isDeleting" />
+        </div>
+      </template>
+    </UModal>
 
     <!-- Filters -->
     <UCard :ui="{ body: { padding: 'p-4' } }">
       <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
-        <UInput 
+        <UInput
           v-model="search"
           icon="i-lucide-search"
           placeholder="Search users..."
           class="w-full sm:w-80"
-          color="white"
+          color="neutral"
         />
       </div>
     </UCard>
 
     <!-- Table -->
     <UCard :ui="{ body: { padding: 'p-0' } }">
-      <UTable 
-        :rows="filteredRows" 
+      <UTable
+        :data="filteredRows"
         :columns="columns"
         :loading="pending"
-        :ui="{
-          thead: 'bg-light-gray-50 border-b border-light-gray-200',
-          divide: 'divide-y divide-light-gray-100'
-        }"
+        :loading-state="{ icon: 'i-lucide-loader-2', label: 'Loading...' }"
+        :empty-state="{ icon: 'i-lucide-database-zap', label: 'No users found.' }"
+        class="w-full"
       >
-        <template #name-data="{ row }">
-          <div class="flex items-center gap-3">
-            <UAvatar :alt="row.name" size="sm" />
-            <div>
-              <div class="font-medium text-charcoal-900 dark:text-white">{{ row.name }}</div>
-              <div class="text-xs text-charcoal-500">{{ row.email }}</div>
-            </div>
-          </div>
+        <template #name-cell="{ row }">
+          <NuxtLink :to="`/admin/users/${row.original.id}`" class="font-medium text-deep-teal-600 hover:underline">
+            {{ row.original.name }}
+          </NuxtLink>
         </template>
 
-        <template #role-data="{ row }">
-          <UBadge color="neutral" variant="subtle" size="xs">{{ row.role }}</UBadge>
-        </template>
-
-        <template #status-data="{ row }">
-          <UBadge 
-            :color="row.status === 'Active' ? 'green' : 'red'" 
-            variant="soft" 
-            size="xs"
+        <template #active-cell="{ row }">
+          <UBadge
+            :color="row.original.active ? 'primary' : 'error'"
+            variant="soft"
+            size="md"
             :ui="{ rounded: 'rounded-full' }"
           >
-            {{ row.status }}
+            {{ row.original.active ? 'Active' : 'Inactive' }}
           </UBadge>
         </template>
         
-        <template #actions-data="{ row }">
-          <UDropdownMenu :items="items(row)">
-            <UButton color="neutral" variant="ghost" icon="i-lucide-more-horizontal" />
-          </UDropdownMenu>
+        <template #actions-cell="{ row }">
+          <div class="flex items-center gap-2">
+            <UButton :to="`/admin/users/${row.original.id}`" color="neutral" variant="outline" icon="i-lucide-edit" size="sm" />
+            <UButton @click="handleDelete(row.original)" color="error" variant="outline" icon="i-lucide-trash" size="sm" />
+          </div>
         </template>
       </UTable>
+
+      <div class="flex justify-end p-4 border-t border-light-gray-200">
+        <UPagination v-model="page" :page-count="pageCount" :total="filteredRows.length" :ui="{ wrapper: 'gap-1' }" />
+      </div>
     </UCard>
   </div>
 </template>
