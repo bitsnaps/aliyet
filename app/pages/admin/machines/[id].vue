@@ -185,22 +185,24 @@ const save = async () => {
             <UFormField label="Category" name="category" required>
               <USelectMenu
                 v-model="state.categoryId"
-                :options="categories"
-                value-attribute="value"
-                option-attribute="label"
+                :items="categories"
+                value-key="value"
+                icon="i-lucide-search"
                 placeholder="Select Category"
                 :loading="categoriesPending"
+                class="w-full"
               />
             </UFormField>
 
             <UFormField label="Configuration Group" name="configCategory" help="Determines which options appear in the Build & Price tool">
               <USelectMenu
                 v-model="state.configCategoryId"
-                :options="configCategories"
-                value-attribute="value"
-                option-attribute="label"
+                :items="configCategories"
+                value-key="value"
+                icon="i-lucide-search"
                 placeholder="Select Config Group"
                 :loading="configCategoriesPending"
+                class="w-full"
               />
             </UFormField>
           </div>
