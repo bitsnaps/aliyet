@@ -44,7 +44,7 @@ const formData = ref({
                   Explore Services <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
                 </UButton>
                 <UButton
-                  to="#build-price"
+                  to="/build-and-price"
                   size="xl"
                   color="white"
                   variant="outline"

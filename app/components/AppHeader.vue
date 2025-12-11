@@ -61,7 +61,7 @@ onUnmounted(() => {
             <span>EN</span>
           </button>
           <UButton
-            to="#build-price"
+            to="/build-and-price"
             color="action-teal"
             variant="solid"
             :class="(isScrolled ? 'text-charcoal-500' : 'text-slate-200')+' font-bold shadow-lg shadow-action-teal-500/20'"

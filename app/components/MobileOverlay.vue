@@ -24,7 +24,7 @@ const { isOpen, close } = useMobileMenu();
             <UIcon name="i-lucide-globe" class="w-5 h-5" /> EN / FR / AR
           </button>
           <UButton
-            to="#build-price"
+            to="/build-and-price"
             @click="close"
             color="action-teal"
             variant="solid"
