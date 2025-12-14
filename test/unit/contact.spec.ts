@@ -19,7 +19,22 @@ beforeEach(() => {
 })
 
 describe('Contact API', () => {
-  test('returns success in dev when SMTP config is missing', async () => {
+  test('uses Ethereal in dev/test and returns success', async () => {
+    vi.mock('nodemailer', () => {
+      const sendMail = vi.fn(async () => ({ messageId: 'test-msg-id' }))
+      const transporter = { sendMail }
+      return {
+        default: {
+          createTestAccount: vi.fn(async () => ({
+            smtp: { host: 'ethereal.host', port: 587, secure: false },
+            user: 'ethereal-user',
+            pass: 'ethereal-pass',
+          })),
+          createTransport: vi.fn(() => transporter),
+          getTestMessageUrl: vi.fn(() => 'http://ethereal.test/preview')
+        }
+      }
+    })
     delete process.env.SMTP_HOST
     const handler = (await import('../../server/api/contact.post.js')).default
     const res = await handler({ body: validBody })
@@ -32,6 +47,21 @@ describe('Contact API', () => {
   })
 
   test('rate limiting blocks after 3 requests', async () => {
+    vi.mock('nodemailer', () => {
+      const sendMail = vi.fn(async () => ({ messageId: 'test-msg-id' }))
+      const transporter = { sendMail }
+      return {
+        default: {
+          createTestAccount: vi.fn(async () => ({
+            smtp: { host: 'ethereal.host', port: 587, secure: false },
+            user: 'ethereal-user',
+            pass: 'ethereal-pass',
+          })),
+          createTransport: vi.fn(() => transporter),
+          getTestMessageUrl: vi.fn(() => 'http://ethereal.test/preview')
+        }
+      }
+    })
     const handler = (await import('../../server/api/contact.post.js')).default
     await handler({ body: validBody })
     await handler({ body: validBody })

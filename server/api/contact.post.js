@@ -17,12 +17,29 @@ const schema = v.object({
   message: v.pipe(v.string(), v.minLength(10))
 });
 
+// Dev/Test email using Ethereal (returns preview URL)
+async function sendEmailWithEthereal(mailOptions) {
+  const account = await nodemailer.createTestAccount();
+  const transporter = nodemailer.createTransport({
+    host: account.smtp.host,
+    port: account.smtp.port,
+    secure: account.smtp.secure,
+    auth: {
+      user: account.user,
+      pass: account.pass
+    }
+  });
+  const info = await transporter.sendMail(mailOptions);
+  const previewUrl = nodemailer.getTestMessageUrl(info);
+  return { info, previewUrl };
+}
+
 export default defineEventHandler(async (event) => {
   // 1. Rate Limiting
   const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown';
   const now = Date.now();
   const userRequests = rateLimit.get(ip) || [];
-  
+
   // Filter out old requests
   const recentRequests = userRequests.filter(time => now - time < RATE_LIMIT_WINDOW);
   
@@ -54,34 +71,6 @@ export default defineEventHandler(async (event) => {
   // Check if email configuration is present
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM, CONTACT_EMAIL } = process.env;
 
-  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
-    console.warn('Missing email configuration. Email not sent.');
-    // In dev, we might want to just log it, but for now lets return success to simulate
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('--- EMAIL MOCK ---');
-      console.log('To:', CONTACT_EMAIL || 'admin@example.com');
-      console.log('Subject:', `New Contact: ${data.subject}`);
-      console.log('Body:', data);
-      console.log('------------------');
-      return { success: true, message: 'Message received (Dev Mode)' };
-    }
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Server Configuration Error',
-      message: 'Email service is not configured.'
-    });
-  }
-
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT) || 587,
-    secure: Number(SMTP_PORT) === 465, // true for 465, false for other ports
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
-  });
-
   const mailOptions = {
     from: `"${data.name}" <${SMTP_FROM || SMTP_USER}>`, // Sender address
     replyTo: data.email,
@@ -112,6 +101,43 @@ ${data.message}
 <pre style="font-family: sans-serif;">${data.message}</pre>
     `
   };
+
+  // Dev/Test: use Ethereal test account
+  if (process.env.NODE_ENV !== 'production') {
+    try {
+      const { info, previewUrl } = await sendEmailWithEthereal(mailOptions);
+      console.log('previewUrl: ', previewUrl);
+      console.log('messageId: ', info.messageId);      
+      return { success: true, message: 'Message received (Dev Mode)' };
+    } catch (error) {
+      console.error('Ethereal email error:', error);
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Email Error',
+        message: 'Failed to send email (dev). Please try again later.'
+      });
+    }
+  }
+
+  // Production: require SMTP env configuration
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
+    console.warn('Missing email configuration. Email not sent.');
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Server Configuration Error',
+      message: 'Email service is not configured.'
+    });
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: Number(SMTP_PORT) || 587,
+    secure: Number(SMTP_PORT) === 465, // true for 465, false for other ports
+    auth: {
+      user: SMTP_USER,
+      pass: SMTP_PASS,
+    },
+  });
 
   try {
     await transporter.sendMail(mailOptions);

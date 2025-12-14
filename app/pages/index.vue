@@ -54,7 +54,7 @@ async function onSubmit() {
       jobTitle: '',
       message: ''
     };
-
+    
   } catch (error) {
     const msg = error.data?.message || error.message || 'Something went wrong';
     toast.add({ title: 'Error', description: msg, color: 'error' });
