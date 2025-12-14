@@ -1,6 +1,10 @@
 <script setup>
+import * as v from 'valibot';
+
 const { services, machineTypes, clients, contacts } = useSiteData();
 const selectedMachineForQuote = ref('turning');
+const toast = useToast();
+const loading = ref(false);
 
 const formData = ref({
   name: '',
@@ -12,6 +16,52 @@ const formData = ref({
   message: ''
 })
 
+const schema = v.object({
+  name: v.pipe(v.string(), v.minLength(2, 'Name is required')),
+  email: v.pipe(v.string(), v.email('Invalid email address')),
+  tel: v.pipe(v.string(), v.minLength(8, 'Phone number is too short')),
+  subject: v.pipe(v.string(), v.minLength(1, 'Please select a subject')),
+  company: v.optional(v.string()),
+  jobTitle: v.optional(v.string()),
+  message: v.pipe(v.string(), v.minLength(10, 'Message must be at least 10 characters'))
+});
+
+async function onSubmit() {
+  loading.value = true;
+  try {
+    const result = v.safeParse(schema, formData.value);
+    if (!result.success) {
+      const errors = result.issues.map(i => i.message).join('\n');
+      toast.add({ title: 'Validation Error', description: errors, color: 'error' });
+      loading.value = false;
+      return;
+    }
+
+    await $fetch('/api/contact', {
+      method: 'POST',
+      body: formData.value
+    });
+
+    toast.add({ title: 'Success', description: 'Your message has been sent!', color: 'success' });
+    
+    // Reset form
+    formData.value = {
+      name: '',
+      email: '',
+      tel: '',
+      subject: 'Maintenance',
+      company: '',
+      jobTitle: '',
+      message: ''
+    };
+
+  } catch (error) {
+    const msg = error.data?.message || error.message || 'Something went wrong';
+    toast.add({ title: 'Error', description: msg, color: 'error' });
+  } finally {
+    loading.value = false;
+  }
+}
 </script>
 <template>
     <main>
@@ -44,7 +94,7 @@ const formData = ref({
                   Explore Services <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
                 </UButton>
                 <UButton
-                  to="/build-and-price"
+                  to="#build-price"
                   size="xl"
                   color="white"
                   variant="outline"
@@ -257,7 +307,7 @@ const formData = ref({
                       class="py-4 px-3 rounded-lg border-2 font-medium text-sm transition-all cursor-pointer"
                       :class="selectedMachineForQuote === type.id
                         ? 'border-deep-teal-500 bg-light-gray-200 text-deep-teal-500'
-                        : 'border-medium-gray-500 hover:border-medium-gray-500/70 text-medium-gray-500'"
+                        : 'border-medium-gray-900 hover:border-medium-gray-500/70 text-medium-gray-900 bg:text-teal-600'"
                     >
                       {{ type.label }}
                     </button>
@@ -338,9 +388,9 @@ const formData = ref({
             
             <!-- Contact Form -->
             <div class="p-8 rounded-xl shadow-sm border border-slate-100 bg-deep-teal-500">
-              <h3 class="text-2xl font-bold mb-6">Send a Message</h3>
+              <h3 class="text-2xl font-bold dark:text-white mb-6">Send a Message</h3>
 
-              <form class="space-y-6">
+              <form class="space-y-6" @submit.prevent="onSubmit">
                 <div class="grid sm:grid-cols-2 gap-6">
                   <UFormField label="Full Name" name="name" required size="lg">
                     <UInput v-model="formData.name" />
@@ -373,8 +423,9 @@ const formData = ref({
                 <div class="sm:col-span-2 flex justify-end">
                   <UButton
                     type="submit"
-                    class="text-white hover:bg-action-teal-600 bg-action-teal-500 cursor-pointer"
+                    class="dark:text-white hover:bg-action-teal-600 bg-action-teal-500 cursor-pointer"
                     size="xl"
+                    :loading="loading"
                     :ui="{ rounded: 'rounded-md' }"
                   >
                     Send Message
