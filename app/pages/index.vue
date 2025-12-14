@@ -1,6 +1,5 @@
 <script setup>
-import * as v from 'valibot';
-
+// import * as v from 'valibot';
 const { services, machineTypes, clients, contacts } = useSiteData();
 const selectedMachineForQuote = ref('turning');
 const toast = useToast();
@@ -16,26 +15,27 @@ const formData = ref({
   message: ''
 })
 
-const schema = v.object({
-  name: v.pipe(v.string(), v.minLength(2, 'Name is required')),
-  email: v.pipe(v.string(), v.email('Invalid email address')),
-  tel: v.pipe(v.string(), v.minLength(8, 'Phone number is too short')),
-  subject: v.pipe(v.string(), v.minLength(1, 'Please select a subject')),
-  company: v.optional(v.string()),
-  jobTitle: v.optional(v.string()),
-  message: v.pipe(v.string(), v.minLength(10, 'Message must be at least 10 characters'))
-});
+// const schema = v.object({
+//   name: v.pipe(v.string(), v.minLength(2, 'Name is required')),
+//   email: v.pipe(v.string(), v.email('Invalid email address')),
+//   tel: v.pipe(v.string(), v.minLength(8, 'Phone number is too short')),
+//   subject: v.pipe(v.string(), v.minLength(1, 'Please select a subject')),
+//   company: v.optional(v.string()),
+//   jobTitle: v.optional(v.string()),
+//   message: v.pipe(v.string(), v.minLength(10, 'Message must be at least 10 characters'))
+// });
 
 async function onSubmit() {
   loading.value = true;
   try {
-    const result = v.safeParse(schema, formData.value);
-    if (!result.success) {
-      const errors = result.issues.map(i => i.message).join('\n');
-      toast.add({ title: 'Validation Error', description: errors, color: 'error' });
-      loading.value = false;
-      return;
-    }
+    // const result = v.safeParse(schema, formData.value);
+    // if (!result.success) {
+      //   const errors = result.issues.map(i => i.message).join('\n');
+      //   toast.add({ title: 'Validation Error', description: errors, color: 'error' });
+      //   loading.value = false;
+      //   return;
+      // }
+      const result = formData.value;
 
     await $fetch('/api/contact', {
       method: 'POST',
