@@ -19,5 +19,7 @@ export default defineConfig({
         },
       }),
     ],
+    testTimeout: 10000, // Sets the global test timeout to 10 seconds
+    // hookTimeout: 10000, // Sets the global hook (beforeEach, afterEach, etc.) timeout
   },
 })
