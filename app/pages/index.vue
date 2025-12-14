@@ -1,5 +1,4 @@
 <script setup>
-// import * as v from 'valibot';
 const { services, machineTypes, clients, contacts } = useSiteData();
 const selectedMachineForQuote = ref('turning');
 const toast = useToast();
@@ -15,27 +14,39 @@ const formData = ref({
   message: ''
 })
 
-// const schema = v.object({
-//   name: v.pipe(v.string(), v.minLength(2, 'Name is required')),
-//   email: v.pipe(v.string(), v.email('Invalid email address')),
-//   tel: v.pipe(v.string(), v.minLength(8, 'Phone number is too short')),
-//   subject: v.pipe(v.string(), v.minLength(1, 'Please select a subject')),
-//   company: v.optional(v.string()),
-//   jobTitle: v.optional(v.string()),
-//   message: v.pipe(v.string(), v.minLength(10, 'Message must be at least 10 characters'))
-// });
+function validateForm() {
+  const errors = [];
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!formData.value.name || formData.value.name.length < 2) {
+    errors.push('Name is required and must be at least 2 characters.');
+  }
+  if (!formData.value.email || !emailRegex.test(formData.value.email)) {
+    errors.push('A valid email address is required.');
+  }
+  if (!formData.value.tel || formData.value.tel.length < 8) {
+    errors.push('Telephone is required and must be at least 8 characters.');
+  }
+  if (!formData.value.subject) {
+    errors.push('Please select a subject.');
+  }
+  if (!formData.value.message || formData.value.message.length < 10) {
+    errors.push('Message is required and must be at least 10 characters.');
+  }
+  
+  return errors;
+}
 
 async function onSubmit() {
   loading.value = true;
   try {
-    // const result = v.safeParse(schema, formData.value);
-    // if (!result.success) {
-      //   const errors = result.issues.map(i => i.message).join('\n');
-      //   toast.add({ title: 'Validation Error', description: errors, color: 'error' });
-      //   loading.value = false;
-      //   return;
-      // }
-      const result = formData.value;
+    const validationErrors = validateForm();
+    if (validationErrors.length > 0) {
+      const errorMsg = validationErrors.join('\n');
+      toast.add({ title: 'Validation Error', description: errorMsg, color: 'error' });
+      loading.value = false;
+      return;
+    }
 
     await $fetch('/api/contact', {
       method: 'POST',
