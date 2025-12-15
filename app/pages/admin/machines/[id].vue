@@ -63,6 +63,46 @@ const removeSpec = (index) => {
   state.value.specs.splice(index, 1)
 }
 
+const imageUploading = ref(false)
+const imageFile = ref([])
+
+const uploadImage = async () => {
+  if (isNew) {
+    toast.add({ title: 'Save Machine First', description: 'Create the machine before uploading an image.', color: 'warning' })
+    imageFile.value = []
+    return
+  }
+  const file = Array.isArray(imageFile.value) ? imageFile.value[0] : imageFile.value
+  if (!file) return
+  const fd = new FormData()
+  fd.append('image', file)
+  imageUploading.value = true
+  try {
+    const res = await $fetch(`/api/admin/machines/${route.params.id}/image`, {
+      method: 'POST',
+      body: fd
+    })
+    if (res?.success && res?.data?.imageUrl) {
+      state.value.imageUrl = res.data.imageUrl
+      toast.add({ title: 'Image Uploaded', description: 'Main image saved successfully.', color: 'success' })
+    } else {
+      toast.add({ title: 'Upload Failed', description: 'Unable to save image.', color: 'error' })
+    }
+  } catch (err) {
+    const msg = err.data?.statusMessage || 'Upload error'
+    toast.add({ title: 'Upload Failed', description: msg, color: 'error' })
+  } finally {
+    imageUploading.value = false
+    imageFile.value = []
+  }
+}
+
+watch(imageFile, () => {
+  if (imageFile.value && (Array.isArray(imageFile.value) ? imageFile.value.length > 0 : true)) {
+    uploadImage()
+  }
+})
+
 const save = async () => {
   loading.value = true
   try {
@@ -209,10 +249,28 @@ const save = async () => {
         </UCard>
 
         <UCard title="Media">
-          <div class="border-2 border-dashed border-light-gray-300 rounded-lg p-6 text-center hover:bg-light-gray-50 transition-colors cursor-pointer">
-            <UIcon name="i-lucide-image-plus" class="w-8 h-8 text-charcoal-300 mx-auto mb-2" />
-            <p class="text-sm text-charcoal-600 font-medium">Click to upload main image</p>
-            <p class="text-xs text-charcoal-300 mt-1">PNG, JPG up to 2MB</p>
+          <div class="space-y-3">
+            <div v-if="isNew" class="border-2 border-dashed border-light-gray-300 rounded-lg p-6 text-center">
+              <p class="text-sm text-charcoal-600 font-medium">Save the machine to upload an image</p>
+            </div>
+            <div v-else>
+              <div v-if="state.imageUrl" class="space-y-2">
+                <img :src="state.imageUrl" alt="Main Image" class="rounded-md w-full object-cover max-h-64" />
+                <p class="text-xs text-charcoal-300">Replace image</p>
+              </div>
+              <div v-else class="border-2 border-dashed border-light-gray-300 rounded-lg p-6 text-center">
+                <UIcon name="i-lucide-image-plus" class="w-8 h-8 text-charcoal-300 mx-auto mb-2" />
+                <p class="text-sm text-charcoal-600 font-medium">Click to upload main image</p>
+                <p class="text-xs text-charcoal-300 mt-1">PNG, JPG up to 2MB</p>
+              </div>
+              <div class="mt-2">
+                <UFileUpload v-model="imageFile" accept="image/png,image/jpeg" :multiple="false" />
+              </div>
+              <div v-if="imageUploading" class="flex items-center gap-2 text-xs text-charcoal-300 mt-1">
+                <UIcon name="i-lucide-loader-2" class="w-4 h-4 animate-spin" />
+                Uploading...
+              </div>
+            </div>
           </div>
         </UCard>
       </div>

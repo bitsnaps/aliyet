@@ -62,7 +62,9 @@ export const useDB = async () => {
 
   // Sync all models in dev or test
   if (env !== 'production') {
-    await sequelizeInstance.sync({ alter: env === 'development' });
+    await sequelizeInstance.sync({ alter: env === 'development', 
+      // force: true // to avoid index accumulation.
+    });
   }
 
   try {

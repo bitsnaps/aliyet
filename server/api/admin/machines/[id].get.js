@@ -38,6 +38,7 @@ export default defineEventHandler(async (event) => {
       available: machine.available,
       description: machine.description,
       url: machine.url,
+      imageUrl: machine.metadata?.imageUrl || null,
       specs: machine.Specifications.map(s => ({
         parameter: s.parameter,
         value: s.value,
