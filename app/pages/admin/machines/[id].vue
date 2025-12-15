@@ -133,7 +133,7 @@ const save = async () => {
 <template>
   <div class="space-y-6">
     <div v-if="loading" class="flex justify-center items-center h-64">
-      <UIcon name="i-lucide-loader-2" class="w-12 h-12 animate-spin" />
+      <UIcon name="i-lucide-loader" class="w-12 h-12 animate-spin" />
     </div>
     <template v-else>
       <!-- Breadcrumb -->
@@ -251,7 +251,7 @@ const save = async () => {
         <UCard title="Media">
           <div class="space-y-3">
             <div v-if="isNew" class="border-2 border-dashed border-light-gray-300 rounded-lg p-6 text-center">
-              <p class="text-sm text-charcoal-600 font-medium">Save the machine to upload an image</p>
+              <p class="text-sm dark:text-charcoal-300 font-medium">Save the machine to upload an image</p>
             </div>
             <div v-else>
               <div v-if="state.imageUrl" class="space-y-2">
@@ -260,14 +260,14 @@ const save = async () => {
               </div>
               <div v-else class="border-2 border-dashed border-light-gray-300 rounded-lg p-6 text-center">
                 <UIcon name="i-lucide-image-plus" class="w-8 h-8 text-charcoal-300 mx-auto mb-2" />
-                <p class="text-sm text-charcoal-600 font-medium">Click to upload main image</p>
+                <p class="text-sm text-charcoal-600 dark:text-charcoal-300 font-medium">Click to upload main image</p>
                 <p class="text-xs text-charcoal-300 mt-1">PNG, JPG up to 2MB</p>
               </div>
               <div class="mt-2">
-                <UFileUpload v-model="imageFile" accept="image/png,image/jpeg" :multiple="false" />
+                <UFileUpload v-model="imageFile" accept="image/png,image/jpeg" :multiple="false" class="cursor-pointer" />
               </div>
               <div v-if="imageUploading" class="flex items-center gap-2 text-xs text-charcoal-300 mt-1">
-                <UIcon name="i-lucide-loader-2" class="w-4 h-4 animate-spin" />
+                <UIcon name="i-lucide-loader" class="w-4 h-4 animate-spin" />
                 Uploading...
               </div>
             </div>

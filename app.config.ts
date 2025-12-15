@@ -9,7 +9,7 @@ export default defineAppConfig({
         base: 'rounded-md font-sans font-medium'
       },
       defaultVariants: {
-        loadingIcon: 'i-lucide-loader-2'
+        loadingIcon: 'i-lucide-loader'
       }
     },
     input: {

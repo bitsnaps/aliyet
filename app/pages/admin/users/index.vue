@@ -121,7 +121,7 @@ const confirmDelete = async () => {
         :data="filteredRows"
         :columns="columns"
         :loading="pending"
-        :loading-state="{ icon: 'i-lucide-loader-2', label: 'Loading...' }"
+        :loading-state="{ icon: 'i-lucide-loader', label: 'Loading...' }"
         :empty-state="{ icon: 'i-lucide-database-zap', label: 'No users found.' }"
         class="w-full"
       >
