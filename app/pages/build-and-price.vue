@@ -111,7 +111,7 @@ async function submitQuote() {
 
 <template>
   <div class="container mx-auto py-12">
-    <h1 class="text-4xl font-bold text-center mb-8">Build & Price Your Machine</h1>
+    <h1 class="text-4xl font-bold text-center mb-8 py-8">Build & Price Your Machine</h1>
 
     <div class="max-w-3xl mx-auto">
       <div class="flex justify-between mb-8">
