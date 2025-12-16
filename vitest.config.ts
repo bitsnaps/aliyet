@@ -8,7 +8,7 @@ export default defineConfig({
         test: {
           name: 'unit',
           include: ['test/{e2e,unit}/*.{test,spec}.ts'],
-          environment: 'node',
+          environment: 'node'
         },
       },
       await defineVitestProject({
@@ -16,10 +16,11 @@ export default defineConfig({
           name: 'nuxt',
           include: ['test/nuxt/*.{test,spec}.ts'],
           environment: 'nuxt',
+          testTimeout: 10000
         },
       }),
     ],
-    testTimeout: 10000, // Sets the global test timeout to 10 seconds
+    // testTimeout: 10000, // Sets the global test timeout to 10 seconds
     // hookTimeout: 10000, // Sets the global hook (beforeEach, afterEach, etc.) timeout
   },
 })
