@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const ext = file.type === 'image/png' ? '.png' : '.jpg'
-  const uploadsDir = path.join(process.cwd(), 'public', 'images', 'machines')
+  const uploadsDir = useUploadDir('machines')
   const filename = `${machineId}-main${ext}`
   const fullPath = path.join(uploadsDir, filename)
   const publicUrl = `/images/machines/${filename}`
