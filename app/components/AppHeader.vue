@@ -2,7 +2,24 @@
 const { navLinks } = useSiteData();
 const { isOpen, toggle } = useMobileMenu();
 const isScrolled = ref(false);
-const route = useRoute()
+const route = useRoute();
+
+const { locale, locales, setLocale } = useI18n();
+// const switchLocalePath = useSwitchLocalePath()
+
+const items = computed(() => locales.value.map(l => ([{
+  label: l.name,
+  // to: switchLocalePath(l.code),
+  type: 'checkbox',
+  checked: locale.value === l.code,
+  class: 'font-medium cursor-pointer',
+  onSelect: (e) => {
+    setLocale(l.code);
+    if (locale.value === l.code) {
+      e.preventDefault();
+    }
+  }
+}])));
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 50;
@@ -20,13 +37,13 @@ onUnmounted(() => {
 <template>
     <!-- Navigation -->
     <header
-      v-show="route.path=='/'"
+      v-show="!route.path.startsWith('/admin')"
       class="fixed w-full z-50 transition-all duration-300"
       :class="isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-md py-3' : 'bg-transparent py-5'"
     >
       <div class="container mx-auto px-4 md:px-8 flex items-center justify-between">
         <!-- Logo -->
-        <a href="/" class="flex items-center gap-2">
+        <NuxtLink to="/" class="flex items-center gap-2 cursor-pointer">
           <div class="text-white p-2 rounded-md">
             <UIcon name="i-lucide-cog" class="w-7 h-7 text-deep-teal-500" />
           </div>
@@ -36,7 +53,7 @@ onUnmounted(() => {
           >
             Aliyaat
           </span>
-        </a>
+        </NuxtLink>
 
         <!-- Desktop Nav -->
         <nav class="hidden md:flex items-center gap-8">
@@ -53,13 +70,17 @@ onUnmounted(() => {
 
         <div class="hidden md:flex items-center gap-4">
           <!-- Language Switcher -->
-          <button
-            class="flex items-center gap-1 text-sm font-medium"
-            :class="isScrolled ? 'text-charcoal-500' : 'text-slate-200'"
-          >
-            <UIcon name="i-lucide-globe" class="w-5 h-5" />
-            <span>EN</span>
-          </button>
+          <UDropdownMenu :items="items">
+            <UButton
+              color="white"
+              variant="ghost"
+              :class="(isScrolled ? 'text-charcoal-500' : 'text-slate-200')"
+              class="font-medium cursor-pointer"
+            >
+              <UIcon name="i-lucide-globe" class="w-5 h-5" />
+              <span>{{ locales.find(l => l.code === locale).name }}</span>
+            </UButton>
+          </UDropdownMenu>
           <UButton
             to="/build-and-price"
             color="action-teal"

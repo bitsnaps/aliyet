@@ -7,7 +7,15 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'node-server', // Builds a standalone Node server
   },
-  modules: ['@nuxt/ui', 'nuxt-lucide-icons', '@nuxt/fonts'],
+  modules: ['@nuxt/ui', 'nuxt-lucide-icons', '@nuxt/fonts', '@nuxtjs/i18n'],
+  i18n: {
+   defaultLocale: 'en',
+    locales: [
+      { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
+      { code: 'fr', language: 'fr-FR', name: 'Français', file: 'fr.json' },
+      { code: 'ar', language: 'ar-DZ', name: 'العربية', file: 'ar.json' }
+    ]    
+  },  
   fonts: {
     families: [
       { name: 'Plus Jakarta Sans', provider: 'google' },
