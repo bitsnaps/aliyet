@@ -2,12 +2,12 @@ export default defineEventHandler(async (event) => {
   // Mock data for settings
   const settings = {
     general: {
-      siteName: 'Aliyet',
+      siteName: 'Aliyaat',
       contactEmail: 'contact@aliyaat.com',
-      supportPhone: '+213 555 123 456'
+      supportPhone: '+213 554 982 123'
     },
     seo: {
-      metaTitle: 'Aliyet - Industrial Machine Maintenance',
+      metaTitle: 'Aliyaat - Industrial Machine Maintenance',
       metaDescription: 'Leading provider of industrial machine maintenance and procurement services.'
     },
     notifications: {
