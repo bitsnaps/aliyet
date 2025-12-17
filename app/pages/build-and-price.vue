@@ -59,11 +59,20 @@ const allCharacteristics = {
   }
 }
 
-// Fetch machines from the API
+const route = useRoute()
+const initialMachineId = computed(() => route.query.machineId || null)
+
 const { data: machineData } = await useFetch('/api/machines')
-if (machineData.value.success) {
-  machines.value = machineData.value.data;
-  loading.value = false;
+if (machineData.value?.success) {
+  machines.value = machineData.value.data
+  if (initialMachineId.value) {
+    const preselected = machines.value.find(m => String(m.id) === String(initialMachineId.value))
+    if (preselected) {
+      selectedMachine.value = preselected
+      currentStep.value = 2
+    }
+  }
+  loading.value = false
 }
 
 const currentMachineCharacteristics = computed(() => {
@@ -146,7 +155,7 @@ async function submitQuote() {
             <div v-for="char in currentMachineCharacteristics.main" :key="char.id">
               <UFormField :label="char.name">
                 <UInput v-if="char.type === 'text'" v-model="mainChars[char.id]" />
-                <USelect v-if="char.type === 'select'" v-model="mainChars[char.id]" :options="char.options" />
+                <USelect v-if="char.type === 'select'" v-model="mainChars[char.id]" :items="char.options" />
               </UFormField>
             </div>
           </div>

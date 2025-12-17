@@ -160,7 +160,7 @@ const { locales, setLocale } = useI18n();
               <p class="text-lg text-slate-600 max-w-2xl">We facilitate the sourcing of high-quality industrial machines tailored to your production needs.</p>
             </div>
             <UButton
-              to="#"
+              to="/catalog"
               variant="ghost"
               color="deep-teal"
               class="hidden md:flex items-center font-bold text-deep-teal-500 hover:text-action-teal-500 transition-colors mt-4 md:mt-0"
@@ -185,12 +185,13 @@ const { locales, setLocale } = useI18n();
                 <h3 class="text-white text-2xl font-bold mb-2">{{ machine }}</h3>
                 <div class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 transition-all duration-300">
                   <UButton
+                    to="/catalog"
                     color="action-teal"
                     variant="solid"
                     class="font-bold light:text-charcoal-500 text-action-teal-500"
                     size="sm"
                   >
-                    Configure & Price <UIcon name="i-lucide-arrow-right" class="w-4 h-4 ml-2" />
+                    Configure &amp; Price <UIcon name="i-lucide-arrow-right" class="w-4 h-4 ml-2" />
                   </UButton>
                 </div>
               </div>
@@ -199,7 +200,7 @@ const { locales, setLocale } = useI18n();
 
           <div class="mt-8 md:hidden">
             <UButton
-              to="#"
+              to="/catalog"
               variant="outline"
               color="deep-teal"
               class="flex items-center justify-center font-bold w-full py-3"

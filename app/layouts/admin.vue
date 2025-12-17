@@ -19,6 +19,11 @@ const links = [
     to: '/admin/categories'
   },
   {
+    label: 'Configurations',
+    icon: 'i-lucide-wrench',
+    to: '/admin/configs'
+  },
+  {
     label: 'Quote Requests',
     icon: 'i-lucide-file-text',
     to: '/admin/quotes'

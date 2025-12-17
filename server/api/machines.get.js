@@ -9,15 +9,14 @@ export default defineEventHandler(async (event) => {
       include: [
         { 
           model: Categories,
-          attributes: ['name']
+          attributes: ['id', 'name', 'description', 'metadata']
         },
         {
           model: Specifications,
-          attributes: ['parameter', 'value', 'unit'],
-          order: [['sort_order', 'ASC']]
+          attributes: ['parameter', 'value', 'unit', 'sort_order'],
         }
       ],
-      order: [['code', 'ASC']]
+      order: [['code', 'ASC'], [Specifications, 'sort_order', 'ASC']]
     })
 
     return {
