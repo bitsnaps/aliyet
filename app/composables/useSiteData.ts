@@ -1,9 +1,10 @@
 export const useSiteData = () => {
   const navLinks = ref([
-    { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Products', href: '#products' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'About', href: '/#about' },
+    { name: 'Services', href: '/#services' },
+    { name: 'Products', href: '/#products' },
+    { name: 'Catalog', href: '/catalog' },
+    { name: 'Contact', href: '/#contact' },
   ]);
 
   const services = ref([

@@ -27,16 +27,17 @@ const { contacts } = useSiteData();
           <div>
             <h4 class="font-bold text-white mb-4">Company</h4>
             <ul class="space-y-3">
-              <li><a href="#about" class="hover:text-white">About Us</a></li>
-              <li><a href="#services" class="hover:text-white">Services</a></li>
-              <li><a href="#products" class="hover:text-white">Products</a></li>
+              <li><a href="/#about" class="hover:text-white">About Us</a></li>
+              <li><a href="/#services" class="hover:text-white">Services</a></li>
+              <li><a href="/#products" class="hover:text-white">Products</a></li>
+              <li><a href="/catalog" class="hover:text-white">Catalog</a></li>
             </ul>
           </div>
 
           <div>
             <h4 class="font-bold text-white mb-4">Support</h4>
             <ul class="space-y-3">
-              <li><a href="#contact" class="hover:text-white">Contact Us</a></li>
+              <li><a href="/#contact" class="hover:text-white">Contact Us</a></li>
               <li><a href="#" class="hover:text-white">FAQ</a></li>
               <li><a href="#" class="hover:text-white">Terms of Service</a></li>
             </ul>

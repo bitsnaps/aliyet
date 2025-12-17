@@ -4,6 +4,8 @@ const { isOpen, toggle } = useMobileMenu();
 const isScrolled = ref(false);
 const route = useRoute();
 
+const isSolidHeader = computed(() => isScrolled.value || route.path !== '/')
+
 const { locale, locales, setLocale } = useI18n();
 // const switchLocalePath = useSwitchLocalePath()
 
@@ -39,7 +41,7 @@ onUnmounted(() => {
     <header
       v-show="!route.path.startsWith('/admin')"
       class="fixed w-full z-50 transition-all duration-300"
-      :class="isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-md py-3' : 'bg-transparent py-5'"
+      :class="isSolidHeader ? 'bg-white/95 backdrop-blur-sm shadow-md py-3' : 'bg-transparent py-5'"
     >
       <div class="container mx-auto px-4 md:px-8 flex items-center justify-between">
         <!-- Logo -->
@@ -49,7 +51,7 @@ onUnmounted(() => {
           </div>
           <span
             class="text-2xl font-extrabold tracking-tight transition-colors"
-            :class="isScrolled ? 'text-deep-teal-500' : 'text-white'"
+            :class="isSolidHeader ? 'text-deep-teal-500' : 'text-white'"
           >
             Aliyaat
           </span>
@@ -57,26 +59,26 @@ onUnmounted(() => {
 
         <!-- Desktop Nav -->
         <nav class="hidden md:flex items-center gap-8">
-          <a
+          <NuxtLink
             v-for="link in navLinks"
             :key="link.name"
-            :href="link.href"
+            :to="link.href"
             class="text-sm font-medium hover:text-action-teal-500 transition-colors"
-            :class="isScrolled ? 'text-charcoal-500' : 'text-slate-200'"
+            :class="isSolidHeader ? 'text-charcoal-500' : 'text-slate-200'"
           >
             {{ link.name }}
-          </a>
+          </NuxtLink>
         </nav>
 
         <div class="hidden md:flex items-center gap-4">
           <!-- Language Switcher -->
           <UDropdownMenu :items="items">
-            <UButton
-              color="white"
-              variant="ghost"
-              :class="(isScrolled ? 'text-charcoal-500' : 'text-slate-200')"
-              class="font-medium cursor-pointer"
-            >
+          <UButton
+            color="white"
+            variant="ghost"
+            :class="(isSolidHeader ? 'text-charcoal-500' : 'text-slate-200')"
+            class="font-medium cursor-pointer"
+          >
               <UIcon name="i-lucide-globe" class="w-5 h-5" />
               <span>{{ locales.find(l => l.code === locale).name }}</span>
             </UButton>
@@ -85,7 +87,7 @@ onUnmounted(() => {
             to="/build-and-price"
             color="action-teal"
             variant="solid"
-            :class="(isScrolled ? 'text-charcoal-500' : 'text-slate-200')+' font-bold shadow-lg shadow-action-teal-500/20'"
+            :class="(isSolidHeader ? 'text-charcoal-500' : 'text-slate-200')+' font-bold shadow-lg shadow-action-teal-500/20'"
             size="lg"
           >
             Build & Price
