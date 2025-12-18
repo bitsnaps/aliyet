@@ -58,7 +58,7 @@ const { locales, setLocale } = useI18n();
       <div class="bg-white py-8 border-b border-slate-200">
         <div class="container mx-auto px-4 md:px-8">
           <p class="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-6">Trusted by industry leaders</p>
-          <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale">
+          <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             <!-- Logo Placeholders -->
             <div v-for="client in clients" :key="client.name" class="h-32 w-32 bg-white rounded-md flex items-center justify-center">
               <img :src="client.logo" :alt="client.name" class="max-h-full max-w-full object-contain">

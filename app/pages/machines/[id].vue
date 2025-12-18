@@ -60,10 +60,10 @@ const formatPrice = (value) => {
               <p class="text-xs font-semibold uppercase tracking-[0.2em] text-deep-teal-500">
                 {{ machine.Category?.name || 'Machine' }}
               </p>
-              <h1 class="text-3xl md:text-4xl font-extrabold text-charcoal-900">
+              <h1 class="text-3xl md:text-4xl font-extrabold dark:text-charcoal-300">
                 {{ machine.name }}
               </h1>
-              <p class="text-sm text-medium-gray-700">
+              <p class="text-sm text-medium-gray-600">
                 Model code:
                 <span class="font-mono">{{ machine.code }}</span>
               </p>
@@ -77,7 +77,7 @@ const formatPrice = (value) => {
                   class="w-full h-full object-cover"
                 >
               </div>
-              <p v-if="machine.description" class="text-base md:text-lg text-medium-gray-800 mt-4">
+              <p v-if="machine.description" class="text-base md:text-lg dark:text-medium-gray-200 mt-4">
                 {{ machine.description }}
               </p>
             </div>
@@ -86,7 +86,7 @@ const formatPrice = (value) => {
           <UCard v-if="machine.url">
             <div class="flex items-center justify-between gap-4">
               <div>
-                <p class="text-sm font-semibold text-charcoal-900">
+                <p class="text-sm font-semibold dark:text-charcoal-300">
                   Manufacturer information
                 </p>
                 <p class="text-xs text-medium-gray-700">
@@ -111,7 +111,7 @@ const formatPrice = (value) => {
           <UCard>
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <p class="text-sm font-semibold text-charcoal-900">
+                <p class="text-sm font-semibold dark:text-charcoal-300">
                   Starting price
                 </p>
                 <p class="text-2xl font-bold text-deep-teal-600">
@@ -147,7 +147,7 @@ const formatPrice = (value) => {
           <UCard>
             <template #header>
               <div class="flex items-center justify-between">
-                <h2 class="text-lg font-semibold text-charcoal-900">
+                <h2 class="text-lg font-semibold dark:text-charcoal-300">
                   Key technical specifications
                 </h2>
                 <UBadge
