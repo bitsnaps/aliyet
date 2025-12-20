@@ -3,10 +3,10 @@ const { navLinks } = useSiteData();
 const { isOpen, toggle } = useMobileMenu();
 const isScrolled = ref(false);
 const route = useRoute();
-
-const isSolidHeader = computed(() => isScrolled.value || route.path !== '/')
-
 const { locale, locales, setLocale } = useI18n();
+
+const isSolidHeader = computed(() => isScrolled.value || !['/','/fr','/ar'].includes(route.path))
+
 // const switchLocalePath = useSwitchLocalePath()
 
 const items = computed(() => locales.value.map(l => ([{
