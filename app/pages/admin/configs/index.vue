@@ -95,7 +95,7 @@ const onFormSaved = async () => {
     </div>  
 
     <!-- Delete Confirmation Modal -->
-    <UModal v-model:open="isDeleteConfirmOpen" title="Confirm Deletion">
+    <UModal v-model:open="isDeleteConfirmOpen" title="Confirm Deletion" description="Delete a configuration group">
         <template #body>
           <p>Are you sure you want to delete the configuration group <UBadge color="neutral" variant="subtle">{{ selectedConfig?.name }}</UBadge>?</p>
           <p>This action cannot be undone.</p>
@@ -109,9 +109,11 @@ const onFormSaved = async () => {
     </UModal>
 
     <!-- Create/Edit Form Modal -->
-    <!-- <UModal v-model:open="isFormModalOpen" :title="selectedConfig ? 'Edit Group' : 'Create New Group'">
-      <AdminConfigForm :config="selectedConfig" @saved="onFormSaved" @closed="isFormModalOpen = false" />
-    </UModal> -->
+    <UModal v-model:open="isFormModalOpen" :description="selectedConfig ? 'Edit a Configuration Group' : 'Create New Configuration Group'" :title="selectedConfig ? 'Edit Group' : 'Create New Group'">
+      <template #body>
+        <AdminConfigForm :config="selectedConfig" @saved="onFormSaved" @closed="isFormModalOpen = false" />
+      </template>
+    </UModal>
 
     <!-- Filters -->
     <UCard :ui="{ body: { padding: 'p-4' } }">

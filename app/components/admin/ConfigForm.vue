@@ -46,7 +46,7 @@ const save = async () => {
 </script>
 
 <template>
-  <UForm :schema="schema" :state="state" class="space-y-4 p-4" @submit="save">
+  <UForm :schema="schema" :state="state" class="space-y-2" @submit="save">
     <UFormField label="Group Name" name="name" required>
       <UInput v-model="state.name" placeholder="e.g. CNC Spindle Options" class="w-full" />
     </UFormField>
