@@ -1,6 +1,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
+const { login: authLogin, user } = useAuth();
 
 definePageMeta({
   middleware: 'guest'
@@ -25,7 +26,7 @@ async function login() {
     if (!response || response.statusCode !== 200 || !response.user) {
       toast.add({ title: 'Error', description: response?.message || 'Access denied', color: 'warning' })
     } else {      
-      const { login: authLogin } = useAuth()
+      // const { login: authLogin } = useAuth()
       authLogin(response.user);      
       toast.add({ title: 'Login successful!', color: 'success' });
       router.push('/admin')
@@ -54,7 +55,7 @@ async function login() {
         </h1>
       </template>
 
-      <UForm :state="state" class="space-y-4" @submit="login">
+      <UForm :state="state" class="space-y-4" @submit="login" v-if="!user?.username">
         <UFormField label="Username" name="username">
           <UInput v-model="state.username" type="email" required class="w-full" />
         </UFormField>
@@ -63,10 +64,13 @@ async function login() {
           <UInput v-model="state.password" type="password" class="w-full" required />
         </UFormField>
 
-        <UButton type="submit" color="primary" block :loading="loading" size="xl" class="cursor-pointer">
+        <UButton type="submit" variant="solid" color="primary" block :loading="loading" size="xl" class="cursor-pointer">
           Login
         </UButton>
       </UForm>
+        <UAlert title="Authentication Successful" color="primary" variant="solid" v-else>
+          Redirecting...
+        </UAlert>
     </UCard>
   </div>
 </template>
