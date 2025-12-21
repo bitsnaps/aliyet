@@ -19,6 +19,11 @@ const links = [
     to: '/admin/categories'
   },
   {
+    label: 'Config Groups',
+    icon: 'i-lucide-library',
+    to: '/admin/config-groups'
+  },
+  {
     label: 'Configurations',
     icon: 'i-lucide-wrench',
     to: '/admin/configs'
@@ -27,6 +32,16 @@ const links = [
     label: 'Quote Requests',
     icon: 'i-lucide-file-text',
     to: '/admin/quotes'
+  },
+  {
+    label: 'Optional Additions',
+    icon: 'i-lucide-plus-circle',
+    to: '/admin/optional-additions'
+  },
+  {
+    label: 'Optional Replacements',
+    icon: 'i-lucide-replace',
+    to: '/admin/optional-replacements'
   },
   {
     label: 'Users',

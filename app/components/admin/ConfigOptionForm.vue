@@ -26,7 +26,7 @@ const state = ref({
 
 const schema = object({
   name: string('Name is required'),
-  price: number('Price must be a number')
+  price: number('Price must be a number'),
 })
 
 const save = async () => {
@@ -35,9 +35,16 @@ const save = async () => {
     const method = isNew ? 'POST' : 'PUT'
     const url = isNew ? '/api/admin/config-options' : `/api/admin/config-options/${props.option.id}`
 
+    // Manually cast price to number before sending
+    const payload = { 
+      ...state.value, 
+      price: Number(String(state.value.price).replace(',', '.')) 
+    }
+    if (isNaN(payload.price)) payload.price = 0
+
     await $fetch(url, {
       method,
-      body: state.value,
+      body: payload,
     })
     
     toast.add({ title: `Option ${isNew ? 'created' : 'updated'} successfully.`, color: 'success' })
