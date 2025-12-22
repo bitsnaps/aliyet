@@ -60,7 +60,7 @@ const formatPrice = (value) => {
               <p class="text-xs font-semibold uppercase tracking-[0.2em] text-deep-teal-500">
                 {{ machine.Category?.name || 'Machine' }}
               </p>
-              <h1 class="text-3xl md:text-4xl font-extrabold dark:text-charcoal-300">
+              <h1 class="text-3xl md:text-4xl font-extrabold dark:text-white">
                 {{ machine.name }}
               </h1>
               <p class="text-sm text-medium-gray-600">
