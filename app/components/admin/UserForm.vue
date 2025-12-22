@@ -132,7 +132,7 @@ const handleFormSubmit = async () => {
       <template #footer>
         <div class="flex justify-end gap-3">
           <UButton label="Cancel" color="neutral" variant="soft" @click="router.back()" />
-          <UButton type="submit" :label="isEditing ? 'Save Changes' : 'Create User'" color="primary" :loading="isSaving" />
+          <UButton type="submit" :label="isEditing ? 'Save Changes' : 'Create User'" color="primary" :loading="isSaving" class="cursor-pointer" />
         </div>
       </template>
     </UCard>
