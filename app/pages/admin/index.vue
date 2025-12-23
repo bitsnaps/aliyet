@@ -6,27 +6,29 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const stats = [
-  { id: 1, label: 'Machines', value: '42', icon: 'i-lucide-monitor-smartphone', color: 'text-action-teal-500', bg: 'bg-action-teal-50' },
-  { id: 2, label: 'Quotes', value: '7', icon: 'i-lucide-inbox', color: 'text-amber-500', bg: 'bg-amber-50' },
-  { id: 3, label: 'Clients', value: '158', icon: 'i-lucide-users', color: 'text-deep-teal-500', bg: 'bg-deep-teal-50' },
-  // { id: 4, label: 'Total Categories', value: '8', icon: 'i-lucide-tags', color: 'text-purple-500', bg: 'bg-purple-50' },
-]
+// Fetch dashboard data asynchronously
+const { data: dashboard, status, error } = useFetch('/api/admin/dashboard');
 
-// Mock data for recent requests
-const recentQuotes = [
-  { id: 1, client: 'Global Factories LLC', machine: 'CNC Turning Center X200', date: '2023-10-24', status: 'Pending' },
-  { id: 2, client: 'MetalWorks Inc', machine: 'EDM Wire Cut A50', date: '2023-10-23', status: 'Processed' },
-  { id: 3, client: 'AutoParts SA', machine: 'Double Column Center', date: '2023-10-22', status: 'New' },
-]
+const stats = computed(() => [
+  { id: 1, label: 'Machines', value: dashboard.value?.stats?.machines || '0', icon: 'i-lucide-monitor-smartphone', color: 'text-action-teal-500', bg: 'bg-action-teal-50' },
+  { id: 2, label: 'Quotes', value: dashboard.value?.stats?.quotes || '0', icon: 'i-lucide-inbox', color: 'text-amber-500', bg: 'bg-amber-50' },
+  { id: 3, label: 'Clients', value: dashboard.value?.stats?.customers || '0', icon: 'i-lucide-users', color: 'text-deep-teal-500', bg: 'bg-deep-teal-50' },
+])
+
+const recentQuotes = computed(() => dashboard.value?.recentQuotes || [])
 
 const columns = [
-  { id: 1, key: 'client', label: 'Client' },
-  { id: 2, key: 'machine', label: 'Machine' },
-  { id: 3, key: 'date', label: 'Date' },
-  { id: 4, key: 'status', label: 'Status' },
-  { id: 5, key: 'actions' }
+  { accessorKey: 'client', header: 'Client', enableSorting: true },
+  { accessorKey: 'machine', header: 'Machine', enableSorting: true },
+  { accessorKey: 'date', header: 'Date', enableSorting: true },
+  { accessorKey: 'status', header: 'Status', enableSorting: true },
+  { accessorKey: 'actions', header: 'Actions', enableSorting: false }
 ]
+
+const formatDate = (dateString) => {
+  if (!dateString) return 'N/A'
+  return new Date(dateString).toLocaleDateString()
+}
 </script>
 
 <template>
@@ -41,7 +43,11 @@ const columns = [
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <UCard v-for="stat in stats" :key="stat.label" class="border-l-4 border-l-deep-teal-500">
         <div class="flex items-center justify-between">
-          <div>
+          <div v-if="status === 'pending'" class="space-y-2">
+            <USkeleton class="h-4 w-20" />
+            <USkeleton class="h-8 w-12" />
+          </div>
+          <div v-else>
             <p class="text-sm font-medium text-charcoal-500 dark:text-charcoal-300">{{ stat.label }}</p>
             <p class="text-3xl font-bold text-charcoal-900 dark:text-white mt-1">{{ stat.value }}</p>
           </div>
@@ -55,7 +61,7 @@ const columns = [
     <!-- Recent Activity -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- Main Activity Table -->
-      <UCard class="lg:col-span-2" title="Recent Quotes">
+      <UCard class="lg:col-span-2">
         <template #header>
           <div class="flex items-center justify-between">
             <h3 class="font-semibold text-charcoal-900 dark:text-white">Recent Quotes</h3>
@@ -63,18 +69,31 @@ const columns = [
           </div>
         </template>
         
-        <UTable :rows="recentQuotes" :columns="columns">
-          <template #status-data="{ row }">
+        <UTable 
+          :data="recentQuotes" 
+          :columns="columns" 
+          :loading="status === 'pending'"
+        >
+          <template #date-cell="{ row }">
+            {{ formatDate(row.original.date) }}
+          </template>
+          <template #status-cell="{ row }">
             <UBadge 
-              :color="row.status === 'New' ? 'green' : row.status === 'Pending' ? 'orange' : 'gray'" 
+              :color="row.status === 'New' ? 'success' : row.status === 'Pending' ? 'warning' : 'neutral'" 
               variant="subtle"
               size="xs"
             >
-              {{ row.status }}
+              {{ row.original.status }}
             </UBadge>
           </template>
-          <template #actions-data>
-            <UButton icon="i-lucide-arrow-right" variant="ghost" color="neutral" size="xs" />
+          <template #actions-cell="{ row }">
+            <UButton 
+              icon="i-lucide-eye" 
+              variant="ghost" 
+              color="neutral" 
+              size="xs" 
+              :to="`/admin/quotes/${row.original.id}`"
+            />
           </template>
         </UTable>
       </UCard>
@@ -93,19 +112,21 @@ const columns = [
             variant="solid"
             to="/admin/machines/new"
           />
-          <!-- <UButton 
+          <UButton 
             block 
-            icon="i-lucide-folder-plus" 
-            label="Create Category" 
+            icon="i-lucide-users" 
+            label="Manage Users" 
             color="secondary" 
             variant="solid"
-          /> -->
+            to="/admin/users"
+          />
           <UButton 
             block 
             icon="i-lucide-settings" 
             label="System Configuration" 
-            color="secondary" 
+            color="neutral" 
             variant="ghost"
+            to="/admin/settings"
           />
         </div>
       </UCard>

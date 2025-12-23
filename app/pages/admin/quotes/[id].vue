@@ -144,7 +144,7 @@ const save = async () => {
         <UCard v-if="!isNew && quote">
              <template #header>
                 <div class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold">Configuration Details</h3>
+                    <h3 class="text-lg font-semibold dark:text-white">Configuration Details</h3>
                     <span class="text-lg font-bold text-deep-teal-600">
                         Total: ${{ Number(quote.totalPrice).toLocaleString() }}
                     </span>
@@ -209,7 +209,7 @@ const save = async () => {
                 </div>
                  <div v-if="!isNew">
                     <span class="text-sm text-gray-500 block">Last Updated</span>
-                    <span class="font-medium">{{ new Date(quote?.updatedAt).toLocaleString() }}</span>
+                    <span class="font-medium text-deep-teal-500">{{ new Date(quote?.updatedAt).toLocaleString() }}</span>
                 </div>
             </div>
         </UCard>
