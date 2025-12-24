@@ -48,7 +48,7 @@ const { locales, setLocale } = useI18n();
               </div>
             </div>
             <div class="hidden md:block">
-                <img src="/images/machine01.jpg" alt="Industrial Machine" class="rounded-lg shadow-2xl" width="80%">
+                <img src="/images/machine01.png" alt="Industrial Machine" class="rounded-lg shadow-2xl mix-blend-multiply" width="80%">
             </div>
           </div>
         </div>
