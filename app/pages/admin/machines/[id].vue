@@ -55,6 +55,47 @@ const { data: configCategories, pending: configCategoriesPending } = useFetch('/
   server: false,
 })
 
+// Fetch Unique Specifications for the modal
+const { data: uniqueSpecs, refresh: refreshUniqueSpecs, pending: uniqueSpecsPending } = useFetch('/api/admin/specifications/unique', {
+  transform: (response) => response.data,
+  lazy: true,
+  server: false,
+})
+
+const isSpecModalOpen = ref(false)
+const selectedSpecs = ref([])
+const searchQuery = ref('')
+
+const filteredSpecs = computed(() => {
+  if (!uniqueSpecs.value || !Array.isArray(uniqueSpecs.value)) return []
+  const query = (searchQuery.value || '').toLowerCase()
+
+  return uniqueSpecs.value.filter(spec => {
+    if (!spec) return false
+    const param = spec.parameter ? String(spec.parameter).toLowerCase() : ''
+    const unit = spec.unit ? String(spec.unit).toLowerCase() : ''
+    return !query || param.includes(query) || unit.includes(query)
+  })
+})
+
+const openSpecModal = async () => {
+  await refreshUniqueSpecs()
+  selectedSpecs.value = []
+  searchQuery.value = ''
+  isSpecModalOpen.value = true
+}
+
+const confirmSelectedSpecs = () => {
+  selectedSpecs.value.forEach(spec => {
+    // Avoid adding duplicates if already in state.value.specs
+    const exists = state.value.specs.some(s => s.parameter === spec.parameter && s.unit === spec.unit)
+    if (!exists) {
+      state.value.specs.push({ parameter: spec.parameter, value: '', unit: spec.unit })
+    }
+  })
+  isSpecModalOpen.value = false
+}
+
 const addSpec = () => {
   state.value.specs.push({ parameter: '', value: '', unit: '' })
 }
@@ -189,7 +230,10 @@ const save = async () => {
           <template #header>
             <div class="flex justify-between items-center">
               <h3 class="font-semibold dark:text-charcoal-300">Specifications</h3>
-              <UButton size="xs" color="neutral" variant="soft" icon="i-lucide-plus" label="Add Spec" @click="addSpec" class="cursor-pointer" />
+              <div class="flex gap-2">
+                <UButton size="xs" color="neutral" variant="outline" icon="i-lucide-list-plus" label="Select Existing" @click="openSpecModal" class="cursor-pointer" />
+                <UButton size="xs" color="neutral" variant="soft" icon="i-lucide-plus" label="Add New" @click="addSpec" class="cursor-pointer" />
+              </div>
             </div>
           </template>
 
@@ -277,4 +321,70 @@ const save = async () => {
     </div>
     </template>
   </div>
+
+  <!-- Specification Selection Modal -->
+  <UModal
+    v-model:open="isSpecModalOpen"
+    title="Select Existing Specifications"
+    description="Choose from specifications used in other machines"
+    :scrollable="true"
+    :ui="{ footer: 'flex justify-end gap-2' }"
+  >
+    <template #body>
+      <div class="space-y-4">
+        <UInput
+          v-model="searchQuery"
+          icon="i-lucide-search"
+          placeholder="Search specifications..."
+          class="w-full"
+        >
+          <template v-if="searchQuery?.length" #trailing>
+            <UButton
+              color="neutral"
+              variant="link"
+              size="sm"
+              icon="i-lucide-circle-x"
+              aria-label="Clear input"
+              @click="searchQuery = ''"
+            />
+          </template>        
+      </UInput>
+
+        <div v-if="uniqueSpecsPending" class="flex justify-center py-4">
+          <UIcon name="i-lucide-loader" class="w-8 h-8 animate-spin text-charcoal-400" />
+        </div>
+        <div v-else-if="!filteredSpecs || filteredSpecs.length === 0" class="text-center py-4 dark:text-charcoal-400">
+          {{ searchQuery ? 'No matching specifications found.' : 'No existing specifications found.' }}
+        </div>
+        <div v-else class="max-h-64 overflow-y-auto border border-gray-200 dark:border-gray-700 rounded-md">
+          <UTable
+            :data="filteredSpecs"
+            :columns="[
+              { accessorKey: 'select', header: `# ${selectedSpecs.length ? selectedSpecs.length: ''}` },
+              { accessorKey: 'parameter', header: 'Parameter' },
+              { accessorKey: 'unit', header: 'Unit' }
+            ]"
+          >
+            <template #select-cell="{ row }">
+              <UCheckbox
+                :model-value="selectedSpecs.some(s => s.parameter === row.original.parameter && s.unit === row.original.unit)"
+                @update:model-value="(checked) => {
+                  if (checked) {
+                    selectedSpecs.push(row.original)
+                  } else {
+                    selectedSpecs = selectedSpecs.filter(s => !(s.parameter === row.original.parameter && s.unit === row.original.unit))
+                  }
+                }"
+              />
+            </template>
+          </UTable>
+        </div>
+      </div>
+    </template>
+
+    <template #footer>
+      <UButton label="Cancel" color="neutral" variant="outline" @click="isSpecModalOpen = false" class="cursor-pointer" />
+      <UButton label="Add Selected" color="primary" @click="confirmSelectedSpecs" :disabled="selectedSpecs.length === 0" class="cursor-pointer" />
+    </template>
+  </UModal>
 </template>
