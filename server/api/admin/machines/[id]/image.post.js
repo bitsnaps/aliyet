@@ -47,7 +47,15 @@ export default defineEventHandler(async (event) => {
   const uploadsDir = useUploadDir('machines')
   const filename = `${machineId}-main${ext}`
   const fullPath = path.join(uploadsDir, filename)
-  const publicUrl = `/images/machines/${filename}`
+  const publicUrl = `/images/machines/${filename}`;
+  const cwd = process.cwd();
+
+  // console.log('--- DEBUG UPLOAD ---')
+  // console.log('uploadsDir:', uploadsDir)
+  // console.log('fullPath:', fullPath)
+  // console.log('publicUrl:', publicUrl)
+  // console.log('CWD:', process.cwd())
+  // console.log('--------------------')
 
   try {
     await fs.mkdir(uploadsDir, { recursive: true })
@@ -70,7 +78,13 @@ export default defineEventHandler(async (event) => {
 
     return {
       success: true,
-      data: { imageUrl: publicUrl }
+      data: { 
+        imageUrl: publicUrl,
+        uploadsDir: uploadsDir,
+        fullPath: fullPath,
+        publicUrl: publicUrl,
+        CWD: cwd
+       }
     }
   } catch (error) {
     console.error('Image upload error:', error)
