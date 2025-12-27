@@ -71,6 +71,23 @@ export default defineEventHandler(async (event) => {
   // Check if email configuration is present
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM, CONTACT_EMAIL } = process.env;
 
+  console.log('[DEBUG] Contact API - Env Vars Check:', {
+    SMTP_HOST,
+    SMTP_PORT,
+    SMTP_USER: SMTP_USER ? '(Present)' : '(Missing)',
+    SMTP_PASS: SMTP_PASS ? '(Present)' : '(Missing)',
+    CONTACT_EMAIL
+  });
+
+  try {
+    console.log('[DEBUG] Nodemailer available:', !!nodemailer);
+  } catch (e) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: `[DEBUG] Nodemailer check failed: ${e}`
+    });
+  }
+
   const mailOptions = {
     from: `"${data.name}" <${SMTP_FROM || SMTP_USER}>`, // Sender address
     replyTo: data.email,
@@ -140,14 +157,30 @@ ${data.message}
   });
 
   try {
+    // console.log('[DEBUG] Attempting to send email...');
     await transporter.sendMail(mailOptions);
+    // console.log('[DEBUG] Email sent successfully');
     return { success: true, message: 'Message sent successfully' };
   } catch (error) {
-    console.error('Email sending error:', error);
     throw createError({
-      statusCode: 500,
-      statusMessage: 'Email Error',
-      message: 'Failed to send email. Please try again later.'
+        statusCode: 500,
+        statusMessage: 'Email Error',
+        message: error.message,
+        stack: error.stack,
+        code: error.code,
+        command: error.command,
+
+        smtpHost: SMTP_HOST,
+        smtpPort: SMTP_PORT,
+        smtpUser: (SMTP_USER ? '(Present)' : '(Missing)'),
+        smtpPass: (SMTP_PASS ? '(Present)' : '(Missing)'),
+        contactEmail: CONTACT_EMAIL
+
     });
+    // throw createError({
+    //   statusCode: 500,
+    //   statusMessage: 'Email Error',
+    //   message: 'Failed to send email. Please try again later.'
+    // });
   }
 });
