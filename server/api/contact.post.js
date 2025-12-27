@@ -35,6 +35,7 @@ async function sendEmailWithEthereal(mailOptions) {
 }
 
 export default defineEventHandler(async (event) => {
+ try {
   // 1. Rate Limiting
   const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown';
   const now = Date.now();
@@ -69,15 +70,26 @@ export default defineEventHandler(async (event) => {
 
   // 3. Email Sending
   const config = useRuntimeConfig();
-  const { smtpHost, smtpPort, smtpUser, smtpPass, smtpFrom, contactEmail } = config;
+  
+  // Robustly resolve configuration: runtimeConfig (NUXT_ prefix) -> process.env (cPanel direct)
+  const smtpHost = config.smtpHost || process.env.SMTP_HOST;
+  const smtpPort = config.smtpPort || process.env.SMTP_PORT;
+  const smtpUser = config.smtpUser || process.env.SMTP_USER;
+  const smtpPass = config.smtpPass || process.env.SMTP_PASS;
+  const smtpFrom = config.smtpFrom || process.env.SMTP_FROM;
+  const contactEmail = config.contactEmail || process.env.CONTACT_EMAIL;
 
   // Check if email configuration is present
   if (!smtpHost || !smtpUser || !smtpPass) {
-    console.warn('Missing email configuration. Email not sent.');
+    console.error('Missing email configuration. Config:', {
+        hasHost: !!smtpHost,
+        hasUser: !!smtpUser,
+        hasPass: !!smtpPass
+    });
     throw createError({
       statusCode: 500,
       statusMessage: 'Server Configuration Error',
-      message: 'Email service is not configured.'
+      message: 'Email service is not configured properly.'
     });
   }
 
@@ -139,15 +151,22 @@ ${data.message}
     },
   });
 
-  try {
-    await transporter.sendMail(mailOptions);
-    return { success: true, message: 'Message sent successfully' };
-  } catch (error) {
-    console.error('Email sending error:', error);
+  await transporter.sendMail(mailOptions);
+  return { success: true, message: 'Message sent successfully' };
+
+ } catch (error) {
+    // Catch-all for any unhandled errors in the handler
+    console.error('Contact API Error:', error);
+    
+    // If it's already a H3 error, rethrow it
+    if (error.statusCode) {
+        throw error;
+    }
+
     throw createError({
       statusCode: 500,
-      statusMessage: 'Email Error',
-      message: 'Failed to send email. Please try again later.'
+      statusMessage: 'Internal Server Error',
+      message: error.message || 'An unexpected error occurred.'
     });
-  }
+ }
 });
