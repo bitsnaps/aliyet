@@ -68,30 +68,23 @@ export default defineEventHandler(async (event) => {
   }
 
   // 3. Email Sending
+  const config = useRuntimeConfig();
+  const { smtpHost, smtpPort, smtpUser, smtpPass, smtpFrom, contactEmail } = config;
+
   // Check if email configuration is present
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM, CONTACT_EMAIL } = process.env;
-
-  console.log('[DEBUG] Contact API - Env Vars Check:', {
-    SMTP_HOST,
-    SMTP_PORT,
-    SMTP_USER: SMTP_USER ? '(Present)' : '(Missing)',
-    SMTP_PASS: SMTP_PASS ? '(Present)' : '(Missing)',
-    CONTACT_EMAIL
-  });
-
-  try {
-    console.log('[DEBUG] Nodemailer available:', !!nodemailer);
-  } catch (e) {
+  if (!smtpHost || !smtpUser || !smtpPass) {
+    console.warn('Missing email configuration. Email not sent.');
     throw createError({
       statusCode: 500,
-      statusMessage: `[DEBUG] Nodemailer check failed: ${e}`
+      statusMessage: 'Server Configuration Error',
+      message: 'Email service is not configured.'
     });
   }
 
   const mailOptions = {
-    from: `"${data.name}" <${SMTP_FROM || SMTP_USER}>`, // Sender address
+    from: `"${data.name}" <${smtpFrom || smtpUser}>`, // Sender address
     replyTo: data.email,
-    to: CONTACT_EMAIL || SMTP_USER, // Receiver address
+    to: contactEmail || smtpUser, // Receiver address
     subject: `[Aliyaat Contact] ${data.subject}`,
     text: `
 Name: ${data.name}
@@ -136,51 +129,25 @@ ${data.message}
     }
   }
 
-  // Production: require SMTP env configuration
-  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
-    console.warn('Missing email configuration. Email not sent.');
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Server Configuration Error',
-      message: 'Email service is not configured.'
-    });
-  }
-
   const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT) || 587,
-    secure: Number(SMTP_PORT) === 465, // true for 465, false for other ports
+    host: smtpHost,
+    port: Number(smtpPort) || 587,
+    secure: Number(smtpPort) === 465, // true for 465, false for other ports
     auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
+      user: smtpUser,
+      pass: smtpPass,
     },
   });
 
   try {
-    // console.log('[DEBUG] Attempting to send email...');
     await transporter.sendMail(mailOptions);
-    // console.log('[DEBUG] Email sent successfully');
     return { success: true, message: 'Message sent successfully' };
   } catch (error) {
+    console.error('Email sending error:', error);
     throw createError({
-        statusCode: 500,
-        statusMessage: 'Email Error',
-        message: error.message,
-        stack: error.stack,
-        code: error.code,
-        command: error.command,
-
-        smtpHost: SMTP_HOST,
-        smtpPort: SMTP_PORT,
-        smtpUser: (SMTP_USER ? '(Present)' : '(Missing)'),
-        smtpPass: (SMTP_PASS ? '(Present)' : '(Missing)'),
-        contactEmail: CONTACT_EMAIL
-
+      statusCode: 500,
+      statusMessage: 'Email Error',
+      message: 'Failed to send email. Please try again later.'
     });
-    // throw createError({
-    //   statusCode: 500,
-    //   statusMessage: 'Email Error',
-    //   message: 'Failed to send email. Please try again later.'
-    // });
   }
 });
