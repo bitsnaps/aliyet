@@ -14,8 +14,14 @@ beforeEach(() => {
   vi.resetModules()
   vi.stubGlobal('defineEventHandler', (handler) => handler)
   vi.stubGlobal('readBody', async (event) => event.body)
-  vi.stubGlobal('createError', (err) => new Error(err.statusMessage))
+  vi.stubGlobal('createError', (err) => {
+    const error: any = new Error(err.statusMessage || err.message)
+    error.statusCode = err.statusCode
+    error.data = err.data
+    return error
+  })
   vi.stubGlobal('getRequestIP', () => '127.0.0.1')
+  vi.stubGlobal('useRuntimeConfig', () => ({}))
 })
 
 describe('Contact API', () => {

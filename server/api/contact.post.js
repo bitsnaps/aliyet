@@ -79,20 +79,6 @@ export default defineEventHandler(async (event) => {
   const smtpFrom = config.smtpFrom || process.env.SMTP_FROM;
   const contactEmail = config.contactEmail || process.env.CONTACT_EMAIL;
 
-  // Check if email configuration is present
-  if (!smtpHost || !smtpUser || !smtpPass) {
-    console.error('Missing email configuration. Config:', {
-        hasHost: !!smtpHost,
-        hasUser: !!smtpUser,
-        hasPass: !!smtpPass
-    });
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Server Configuration Error',
-      message: 'Email service is not configured properly.'
-    });
-  }
-
   const mailOptions = {
     from: `"${data.name}" <${smtpFrom || smtpUser}>`, // Sender address
     replyTo: data.email,
@@ -129,7 +115,7 @@ ${data.message}
     try {
       const { info, previewUrl } = await sendEmailWithEthereal(mailOptions);
       console.log('previewUrl: ', previewUrl);
-      console.log('messageId: ', info.messageId);      
+      console.log('messageId: ', info.messageId);
       return { success: true, message: 'Message received (Dev Mode)' };
     } catch (error) {
       console.error('Ethereal email error:', error);
@@ -139,6 +125,20 @@ ${data.message}
         message: 'Failed to send email (dev). Please try again later.'
       });
     }
+  }
+
+  // Check if email configuration is present
+  if (!smtpHost || !smtpUser || !smtpPass) {
+    console.error('Missing email configuration. Config:', {
+        hasHost: !!smtpHost,
+        hasUser: !!smtpUser,
+        hasPass: !!smtpPass
+    });
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Server Configuration Error',
+      message: 'Email service is not configured properly.'
+    });
   }
 
   const transporter = nodemailer.createTransport({
@@ -158,14 +158,15 @@ ${data.message}
     // Catch-all for any unhandled errors in the handler
     console.error('Contact API Error:', error);
     
-    // Return 200 with error details to bypass Nuxt 500 masking in production
-    // This allows the client to see the actual error message
-    return {
-      success: false,
-      error: true,
-      statusCode: 500, // Logical error code
-      message: error.message || 'An unexpected error occurred.',
-      details: error.code || error.name // Extra details if available
-    };
+    // If it's already a H3 error, rethrow it
+    if (error.statusCode) {
+        throw error;
+    }
+
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Internal Server Error',
+      message: error.message || 'An unexpected error occurred.'
+    });
  }
 });
