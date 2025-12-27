@@ -158,15 +158,14 @@ ${data.message}
     // Catch-all for any unhandled errors in the handler
     console.error('Contact API Error:', error);
     
-    // If it's already a H3 error, rethrow it
-    if (error.statusCode) {
-        throw error;
-    }
-
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Internal Server Error',
-      message: error.message || 'An unexpected error occurred.'
-    });
+    // Return 200 with error details to bypass Nuxt 500 masking in production
+    // This allows the client to see the actual error message
+    return {
+      success: false,
+      error: true,
+      statusCode: 500, // Logical error code
+      message: error.message || 'An unexpected error occurred.',
+      details: error.code || error.name // Extra details if available
+    };
  }
 });
