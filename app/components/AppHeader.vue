@@ -90,7 +90,7 @@ onUnmounted(() => {
             :class="(isSolidHeader ? 'text-charcoal-500' : 'text-slate-200')+' font-bold shadow-lg shadow-action-teal-500/20'"
             size="lg"
           >
-            Build & Price
+            {{ $t('nav.build_price') }}
           </UButton>
         </div>
 

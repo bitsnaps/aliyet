@@ -1,8 +1,114 @@
 {
-    "welcome": "Bienvenu",
-    "home": "Acceuil",
+    "welcome": "Bienvenue",
+    "home": "Accueil",
     "en": "Anglais",
     "fr": "Français",
     "ar": "Arabe",
-    "slogan": "Assurez le bon fonctionnement de votre usine"
+    "slogan": "Assurez le bon fonctionnement de votre usine",
+    "nav": {
+        "about": "À Propos",
+        "services": "Services",
+        "products": "Produits",
+        "catalog": "Catalogue",
+        "contact": "Contact",
+        "build_price": "Configurer & Prix"
+    },
+    "hero": {
+        "description": "Votre partenaire de confiance pour la maintenance industrielle experte et l'acquisition transparente de machines. Minimisez les temps d'arrêt, maximisez l'efficacité.",
+        "explore_services": "Explorer les Services",
+        "get_quote": "Obtenir un Devis"
+    },
+    "trust": {
+        "title": "Approuvé par les leaders de l'industrie"
+    },
+    "about": {
+        "subtitle": "À Propos d'Aliyaat",
+        "title": "Assurer l'Excellence Industrielle par la Fiabilité.",
+        "description": "Aliyaat a été fondée avec une mission claire : combler le fossé entre les machines industrielles de premier plan et les ateliers qui en dépendent. Nous sommes plus qu'un simple fournisseur de services ; nous sommes votre partenaire technique sur le terrain.",
+        "features": {
+            "certified": "Techniciens experts certifiés",
+            "rapid": "Réponse rapide pour la maintenance corrective",
+            "transparent": "Facilitation transparente de l'approvisionnement"
+        }
+    },
+    "services": {
+        "title": "Services de Maintenance Complets",
+        "description": "Des réparations d'urgence à l'optimisation à long terme, notre gamme diversifiée de services garantit que vos machines fonctionnent à leur plein potentiel.",
+        "inquire_now": "S'enquérir Maintenant",
+        "cta_title": "Besoin d'un Service Personnalisé ?",
+        "cta_description": "Contactez notre équipe technique pour discuter des besoins spécifiques de votre usine.",
+        "contact_us": "Contactez-nous",
+        "list": {
+            "corrective": {
+                "title": "Maintenance Corrective",
+                "description": "Réparations d'urgence rapides sur site pour minimiser les temps d'arrêt opérationnels et restaurer la fonctionnalité."
+            },
+            "preventive": {
+                "title": "Maintenance Préventive",
+                "description": "Inspections et entretiens programmés pour prévenir les pannes et prolonger la durée de vie de vos machines."
+            },
+            "procurement": {
+                "title": "Support à l'Approvisionnement",
+                "description": "Assistance experte dans la recherche, l'évaluation et l'acquisition des machines idéales pour vos besoins spécifiques."
+            },
+            "consultation": {
+                "title": "Consultation Technique",
+                "description": "Conseils stratégiques sur l'optimisation de votre ligne de production, l'amélioration de l'efficacité et la planification à long terme."
+            },
+            "training": {
+                "title": "Formation des Opérateurs",
+                "description": "Programmes de formation complets pour s'assurer que votre équipe peut utiliser les nouvelles machines en toute sécurité et efficacement."
+            }
+        }
+    },
+    "products": {
+        "title": "Approvisionnement en Machines",
+        "description": "Nous facilitons la recherche de machines industrielles de haute qualité adaptées à vos besoins de production.",
+        "view_catalog": "Voir le Catalogue Complet",
+        "configure_price": "Configurer & Prix",
+        "machine_types": {
+            "turning": "Centre de Tournage",
+            "machining": "Centre d'Usinage",
+            "edm": "Machine EDM",
+            "turning_centers": "Centres de Tournage",
+            "machining_centers": "Centres d'Usinage",
+            "edm_machines": "Machines EDM"
+        }
+    },
+    "build_price": {
+        "badge": "Devis Interactif",
+        "title": "Construisez Votre Machine Idéale.",
+        "description": "Vous savez ce dont vous avez besoin ? Utilisez notre système \"Configurer & Prix\" pour configurer les caractéristiques de votre machine et obtenir un devis rapide directement dans votre boîte de réception.",
+        "steps": {
+            "step1": "Sélectionner le Type de Machine",
+            "step2": "Choisir les Caractéristiques Principales",
+            "step3": "Ajouter des Options"
+        },
+        "widget": {
+            "title": "Commencez Votre Configuration",
+            "step1_label": "Étape 1 : Sélectionner la Catégorie de Machine",
+            "ready_title": "Prêt à personnaliser ?",
+            "ready_description": "Continuez vers notre configuration complète pour sélectionner les broches, les détails des axes, et plus encore.",
+            "continue": "Continuer vers Configurer & Prix"
+        }
+    },
+    "contact": {
+        "title": "Contactez-nous",
+        "description": "Vous avez une demande générale ou besoin d'une assistance d'urgence ? Contactez notre équipe.",
+        "call_us": "Appelez-nous",
+        "call_us_description": "Lun-Ven de 8h à 18h.",
+        "email_us": "Envoyez-nous un Email",
+        "email_us_description": "Nous vous répondrons dans les 24 heures.",
+        "visit_us": "Rendez-nous Visite",
+        "get_directions": "Obtenir l'Itinéraire"
+    },
+    "footer": {
+        "description": "Votre partenaire en maintenance industrielle et acquisition de machines, garantissant que vos opérations se déroulent sans heurts et efficacement.",
+        "company": "Entreprise",
+        "support": "Support",
+        "follow_us": "Suivez-nous",
+        "rights": "Tous droits réservés.",
+        "faq": "FAQ",
+        "terms": "Conditions d'Utilisation"
+    }
 }

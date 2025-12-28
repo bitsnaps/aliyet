@@ -5,6 +5,112 @@
     "fr": "French",
     "ar": "Arabic",
     "slogan": "Keep Your Factory Running",
+    "nav": {
+        "about": "About",
+        "services": "Services",
+        "products": "Products",
+        "catalog": "Catalog",
+        "contact": "Contact",
+        "build_price": "Build & Price"
+    },
+    "hero": {
+        "description": "Your trusted partner for expert industrial maintenance and seamless machine procurement. Minimize downtime, maximize efficiency.",
+        "explore_services": "Explore Services",
+        "get_quote": "Get Machine Quote"
+    },
+    "trust": {
+        "title": "Trusted by industry leaders"
+    },
+    "about": {
+        "subtitle": "About Aliyaat",
+        "title": "Ensuring Industrial Excellence Through Reliability.",
+        "description": "Aliyaat was founded with a clear mission: to bridge the gap between top-tier industrial machinery and the workshops that rely on them. We are more than just a service provider; we are your technical partner on the factory floor.",
+        "features": {
+            "certified": "Certified expert technicians",
+            "rapid": "Rapid response for corrective maintenance",
+            "transparent": "Transparent procurement facilitation"
+        }
+    },
+    "services": {
+        "title": "Comprehensive Maintenance Services",
+        "description": "From emergency fixes to long-term optimization, our diverse range of services ensures your machinery operates at peak performance.",
+        "inquire_now": "Inquire Now",
+        "cta_title": "Need Custom Service?",
+        "cta_description": "Contact our technical team to discuss your specific factory requirements.",
+        "contact_us": "Contact Us",
+        "list": {
+            "corrective": {
+                "title": "Corrective Maintenance",
+                "description": "Rapid, on-site emergency repairs to minimize operational downtime and restore functionality."
+            },
+            "preventive": {
+                "title": "Preventive Maintenance",
+                "description": "Scheduled inspections and servicing to prevent failures and extend the lifespan of your machinery."
+            },
+            "procurement": {
+                "title": "Procurement Support",
+                "description": "Expert assistance in sourcing, vetting, and acquiring the ideal machinery for your specific needs."
+            },
+            "consultation": {
+                "title": "Technical Consultation",
+                "description": "Strategic advice on optimizing your production line, improving efficiency, and long-term planning."
+            },
+            "training": {
+                "title": "Operator Training",
+                "description": "Comprehensive training programs to ensure your team can operate new machinery safely and effectively."
+            }
+        }
+    },
+    "products": {
+        "title": "Machine Procurement",
+        "description": "We facilitate the sourcing of high-quality industrial machines tailored to your production needs.",
+        "view_catalog": "View Full Catalog",
+        "configure_price": "Configure & Price",
+        "machine_types": {
+            "turning": "Turning Center",
+            "machining": "Machining Center",
+            "edm": "EDM Machine",
+            "turning_centers": "Turning Centers",
+            "machining_centers": "Machining Centers",
+            "edm_machines": "EDM Machines"
+        }
+    },
+    "build_price": {
+        "badge": "Interactive Quote",
+        "title": "Build Your Perfect Machine.",
+        "description": "Know what you need? Use our streamlined \"Build & Price\" to configure your machine's characteristics and get a rapid quote directly to your inbox.",
+        "steps": {
+            "step1": "Select Machine Type",
+            "step2": "Choose Main Characteristics",
+            "step3": "Add Optional Features"
+        },
+        "widget": {
+            "title": "Start Your Configuration",
+            "step1_label": "Step 1: Select Machine Category",
+            "ready_title": "Ready to customize?",
+            "ready_description": "Continue to our full configuration to select spindles, axis details, and more.",
+            "continue": "Continue to Build & Price"
+        }
+    },
+    "contact": {
+        "title": "Get In Touch",
+        "description": "Have a general inquiry or need emergency support? Reach out to our team.",
+        "call_us": "Call Us",
+        "call_us_description": "Mon-Fri from 8am to 6pm.",
+        "email_us": "Email Us",
+        "email_us_description": "We'll respond within 24 hours.",
+        "visit_us": "Visit Us",
+        "get_directions": "Get Directions"
+    },
+    "footer": {
+        "description": "Your partner in industrial maintenance and machine procurement, ensuring your operations run smoothly and efficiently.",
+        "company": "Company",
+        "support": "Support",
+        "follow_us": "Follow Us",
+        "rights": "All Rights Reserved.",
+        "faq": "FAQ",
+        "terms": "Terms of Service"
+    },
     "admin": {
         "dashboard": "Dashboard",
         "machines": "Machines",

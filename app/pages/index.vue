@@ -22,7 +22,7 @@ const { locales, setLocale } = useI18n();
                  {{ $t('slogan') }}
               </h1>
               <p class="mt-6 text-xl text-slate-300 max-w-xl leading-relaxed">
-                Your trusted partner for expert industrial maintenance and seamless machine procurement. Minimize downtime, maximize efficiency.
+                {{ $t('hero.description') }}
               </p>
               <div class="mt-10 mb-2 flex flex-col sm:flex-row gap-4">
                 <UButton
@@ -33,7 +33,7 @@ const { locales, setLocale } = useI18n();
                   class="font-bold text-white text-lg px-8 py-4 hover:text-slate-900 hover:bg-slate-100 border-2"
                   :ui="{ rounded: 'rounded-md' }"
                 >
-                  Explore Services <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+                  {{ $t('hero.explore_services') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
                 </UButton>
                 <UButton
                   to="#build-price"
@@ -43,7 +43,7 @@ const { locales, setLocale } = useI18n();
                   class="font-bold text-lg px-8 py-4 text-white hover:text-slate-900 hover:bg-slate-100 border-2"
                   :ui="{ rounded: 'rounded-md' }"
                 >
-                  Get Machine Quote
+                  {{ $t('hero.get_quote') }}
                 </UButton>
               </div>
             </div>
@@ -57,7 +57,7 @@ const { locales, setLocale } = useI18n();
       <!-- Trust Signals -->
       <div class="bg-white py-8 border-b border-slate-200">
         <div class="container mx-auto px-4 md:px-8">
-          <p class="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-6">Trusted by industry leaders</p>
+          <p class="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-6">{{ $t('trust.title') }}</p>
           <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             <!-- Logo Placeholders -->
             <div v-for="client in clients" :key="client.name" class="h-32 w-32 bg-white rounded-md flex items-center justify-center">
@@ -71,23 +71,23 @@ const { locales, setLocale } = useI18n();
       <section id="about" class="py-20 md:py-32 bg-white">
         <div class="container mx-auto px-4 md:px-8 grid md:grid-cols-2 gap-16 items-center">
           <div>
-            <h4 class="text-deep-teal-500 font-bold uppercase tracking-wider mb-4">About Aliyaat</h4>
-            <h2 class="text-4xl font-bold text-slate-900 mb-6 leading-tight">Ensuring Industrial Excellence Through Reliability.</h2>
+            <h4 class="text-deep-teal-500 font-bold uppercase tracking-wider mb-4">{{ $t('about.subtitle') }}</h4>
+            <h2 class="text-4xl font-bold text-slate-900 mb-6 leading-tight">{{ $t('about.title') }}</h2>
             <p class="text-lg text-slate-600 mb-6 leading-relaxed">
-              Aliyaat was founded with a clear mission: to bridge the gap between top-tier industrial machinery and the workshops that rely on them. We are more than just a service provider; we are your technical partner on the factory floor.
+              {{ $t('about.description') }}
             </p>
             <ul class="space-y-3">
               <li class="flex items-center gap-3 text-slate-700 font-medium">
                 <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-action-teal-500" />
-                Certified expert technicians
+                {{ $t('about.features.certified') }}
               </li>
               <li class="flex items-center gap-3 text-slate-700 font-medium">
                 <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-action-teal-500" />
-                Rapid response for corrective maintenance
+                {{ $t('about.features.rapid') }}
               </li>
               <li class="flex items-center gap-3 text-slate-700 font-medium">
                 <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-action-teal-500" />
-                Transparent procurement facilitation
+                {{ $t('about.features.transparent') }}
               </li>
             </ul>
           </div>
@@ -107,10 +107,10 @@ const { locales, setLocale } = useI18n();
           <!-- Section Heading Inline -->
           <div class="mb-12 text-center text-slate-900">
             <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-              Comprehensive Maintenance Services
+              {{ $t('services.title') }}
             </h2>
             <p class="mt-4 text-lg max-w-2xl mx-auto text-slate-600">
-              From emergency fixes to long-term optimization, our diverse range of services ensures your machinery operates at peak performance.
+              {{ $t('services.description') }}
             </p>
             <div class="mt-4 mx-auto h-1 w-24 rounded bg-deep-teal-500"></div>
           </div>
@@ -128,15 +128,15 @@ const { locales, setLocale } = useI18n();
               <h3 class="text-xl font-bold text-slate-900 mb-3">{{ service.title }}</h3>
               <p class="text-slate-600 flex-grow">{{ service.description }}</p>
               <a href="#contact" class="mt-6 text-deep-teal-500 font-semibold flex items-center group">
-                Inquire Now
+                {{ $t('services.inquire_now') }}
                 <UIcon name="i-lucide-arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
 
             <!-- CTA Card -->
             <div class="bg-deep-teal-500 p-6 rounded-xl shadow-md flex flex-col justify-center items-center text-center text-white">
-              <h3 class="text-2xl font-bold mb-4">Need Custom Service?</h3>
-              <p class="text-light-gray-200 mb-8">Contact our technical team to discuss your specific factory requirements.</p>
+              <h3 class="text-2xl font-bold mb-4">{{ $t('services.cta_title') }}</h3>
+              <p class="text-light-gray-200 mb-8">{{ $t('services.cta_description') }}</p>
               <UButton
                 to="#contact"
                 color="action-teal"
@@ -144,7 +144,7 @@ const { locales, setLocale } = useI18n();
                 class="font-bold text-white w-full justify-center py-3 border border-action-teal-500 hover:bg-action-teal-500/90"
                 size="lg"
               >
-                Contact Us
+                {{ $t('services.contact_us') }}
               </UButton>
             </div>
           </div>
@@ -156,8 +156,8 @@ const { locales, setLocale } = useI18n();
         <div class="container mx-auto px-4 md:px-8">
           <div class="flex flex-col md:flex-row justify-between items-end mb-12">
             <div>
-              <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Machine Procurement</h2>
-              <p class="text-lg text-slate-600 max-w-2xl">We facilitate the sourcing of high-quality industrial machines tailored to your production needs.</p>
+              <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{{ $t('products.title') }}</h2>
+              <p class="text-lg text-slate-600 max-w-2xl">{{ $t('products.description') }}</p>
             </div>
             <UButton
               to="/catalog"
@@ -165,14 +165,18 @@ const { locales, setLocale } = useI18n();
               color="deep-teal"
               class="hidden md:flex items-center font-bold text-deep-teal-500 hover:text-action-teal-500 transition-colors mt-4 md:mt-0"
             >
-              View Full Catalog <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+              {{ $t('products.view_catalog') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
             </UButton>
           </div>
 
           <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Machine Cards -->
             <div
-              v-for="(machine, idx) in ['Turning Centers', 'Machining Centers', 'EDM Machines']"
+              v-for="(machine, idx) in [
+                { key: 'turning_centers', label: $t('products.machine_types.turning_centers') },
+                { key: 'machining_centers', label: $t('products.machine_types.machining_centers') },
+                { key: 'edm_machines', label: $t('products.machine_types.edm_machines') }
+              ]"
               :key="idx"
               class="group relative overflow-hidden rounded-2xl bg-charcoal-500 aspect-[4/3]"
             >
@@ -182,7 +186,7 @@ const { locales, setLocale } = useI18n();
               <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 md:opacity-60 group-hover:opacity-90 transition-opacity duration-300"></div>
               
               <div class="absolute bottom-0 left-0 p-6 w-full">
-                <h3 class="text-white text-2xl font-bold mb-2">{{ machine }}</h3>
+                <h3 class="text-white text-2xl font-bold mb-2">{{ machine.label }}</h3>
                 <div class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 transition-all duration-300">
                   <UButton
                     to="/catalog"
@@ -205,7 +209,7 @@ const { locales, setLocale } = useI18n();
               color="deep-teal"
               class="flex items-center justify-center font-bold w-full py-3"
             >
-              View Full Catalog <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+              {{ $t('products.view_catalog') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
             </UButton>
           </div>
         </div>
@@ -222,26 +226,26 @@ const { locales, setLocale } = useI18n();
           <div class="grid lg:grid-cols-5 gap-12 items-center">
             <div class="lg:col-span-2">
               <span class="inline-block py-1 px-3 rounded-full bg-action-teal-500/20 text-action-teal-500 text-sm font-bold mb-6">
-                Interactive Quote
+                {{ $t('build_price.badge') }}
               </span>
-              <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Build Your Perfect Machine.</h2>
+              <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">{{ $t('build_price.title') }}</h2>
               <p class="text-lg text-light-gray-200 mb-8">
-                Know what you need? Use our streamlined "Build & Price" to configure your machine's characteristics and get a rapid quote directly to your inbox.
+                {{ $t('build_price.description') }}
               </p>
               <ul class="space-y-4 text-light-gray-200 mb-8">
-                <li class="flex items-center gap-3"><div class="bg-charcoal-500 p-1 rounded-full text-action-teal-500 font-bold w-6 h-6 flex items-center justify-center text-xs">1</div> Select Machine Type</li>
-                <li class="flex items-center gap-3"><div class="bg-charcoal-500 p-1 rounded-full text-action-teal-500 font-bold w-6 h-6 flex items-center justify-center text-xs">2</div> Choose Main Characteristics</li>
-                <li class="flex items-center gap-3"><div class="bg-charcoal-500 p-1 rounded-full text-action-teal-500 font-bold w-6 h-6 flex items-center justify-center text-xs">3</div> Add Optional Features</li>
+                <li class="flex items-center gap-3"><div class="bg-charcoal-500 p-1 rounded-full text-action-teal-500 font-bold w-6 h-6 flex items-center justify-center text-xs">1</div> {{ $t('build_price.steps.step1') }}</li>
+                <li class="flex items-center gap-3"><div class="bg-charcoal-500 p-1 rounded-full text-action-teal-500 font-bold w-6 h-6 flex items-center justify-center text-xs">2</div> {{ $t('build_price.steps.step2') }}</li>
+                <li class="flex items-center gap-3"><div class="bg-charcoal-500 p-1 rounded-full text-action-teal-500 font-bold w-6 h-6 flex items-center justify-center text-xs">3</div> {{ $t('build_price.steps.step3') }}</li>
               </ul>
             </div>
 
             <!-- Interactive Widget Entry Point -->
             <div class="lg:col-span-3 bg-white text-slate-900 rounded-2xl p-6 md:p-8 shadow-2xl">
-              <h3 class="text-2xl font-bold mb-6">Start Your Configuration</h3>
+              <h3 class="text-2xl font-bold mb-6">{{ $t('build_price.widget.title') }}</h3>
               
               <div class="space-y-6">
                 <div>
-                  <label class="block text-sm font-bold text-slate-700 mb-2">Step 1: Select Machine Category</label>
+                  <label class="block text-sm font-bold text-slate-700 mb-2">{{ $t('build_price.widget.step1_label') }}</label>
                   <div class="grid sm:grid-cols-3 gap-3">
                     <button
                       v-for="type in machineTypes"
@@ -262,8 +266,8 @@ const { locales, setLocale } = useI18n();
                     <UIcon name="i-lucide-settings" class="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 class="font-bold text-slate-900">Ready to customize?</h4>
-                    <p class="text-sm text-slate-600">Continue to our full configuration to select spindles, axis details, and more.</p>
+                    <h4 class="font-bold text-slate-900">{{ $t('build_price.widget.ready_title') }}</h4>
+                    <p class="text-sm text-slate-600">{{ $t('build_price.widget.ready_description') }}</p>
                   </div>
                 </div>
 
@@ -275,7 +279,7 @@ const { locales, setLocale } = useI18n();
                   class="font-bold text-charcoal-500 text-lg w-full justify-center py-4 border-2 border-charcoal-500 cursor-pointer"
                   size="xl"
                 >
-                  Continue to Build & Price <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+                  {{ $t('build_price.widget.continue') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
                 </UButton>
               </div>
             </div>
@@ -287,9 +291,9 @@ const { locales, setLocale } = useI18n();
       <section id="contact" class="py-20 md:py-32 bg-slate-50">
         <UCard class="container mx-auto px-4 md:px-8">
           <div class="mb-12 text-center text-slate-900">
-            <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Get In Touch</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight">{{ $t('contact.title') }}</h2>
             <p class="mt-4 text-lg max-w-2xl mx-auto text-slate-600">
-              Have a general inquiry or need emergency support? Reach out to our team.
+              {{ $t('contact.description') }}
             </p>
             <div class="mt-4 mx-auto h-1 w-24 rounded bg-deep-teal-500"></div>
           </div>
@@ -302,8 +306,8 @@ const { locales, setLocale } = useI18n();
                   <UIcon name="i-lucide-phone" class="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 class="font-bold text-lg text-slate-900">Call Us</h4>
-                  <p class="text-slate-600">Mon-Fri from 8am to 6pm.</p>
+                  <h4 class="font-bold text-lg text-slate-900">{{ $t('contact.call_us') }}</h4>
+                  <p class="text-slate-600">{{ $t('contact.call_us_description') }}</p>
       <a :href="`tel:${contacts.tel.replaceAll(' ','').replaceAll('(0)','')}`" class="text-deep-teal-500 font-semibold mt-1 block hover:underline">{{ contacts.tel }}</a>
                 </div>
               </div>
@@ -312,8 +316,8 @@ const { locales, setLocale } = useI18n();
                   <UIcon name="i-lucide-mail" class="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 class="font-bold text-lg text-slate-900">Email Us</h4>
-                  <p class="text-slate-600">We'll respond within 24 hours.</p>
+                  <h4 class="font-bold text-lg text-slate-900">{{ $t('contact.email_us') }}</h4>
+                  <p class="text-slate-600">{{ $t('contact.email_us_description') }}</p>
                   <a :href="`mailto:${contacts.email}`" class="text-deep-teal-500 font-semibold mt-1 block hover:underline">{{ contacts.email }}</a>
                 </div>
               </div>
@@ -322,9 +326,9 @@ const { locales, setLocale } = useI18n();
                   <UIcon name="i-lucide-map-pin" class="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 class="font-bold text-lg text-slate-900">Visit Us</h4>
+                  <h4 class="font-bold text-lg text-slate-900">{{ $t('contact.visit_us') }}</h4>
                   <p class="text-slate-600">{{ contacts.address }}</p>
-                  <a :href="contacts.maps" class="text-deep-teal-500 font-semibold mt-1 block hover:underline">Get Directions</a>
+                  <a :href="contacts.maps" class="text-deep-teal-500 font-semibold mt-1 block hover:underline">{{ $t('contact.get_directions') }}</a>
                 </div>
               </div>
             </div>

@@ -1,24 +1,26 @@
 export const useSiteData = () => {
-  const navLinks = ref([
-    { name: 'About', href: '/#about' },
-    { name: 'Services', href: '/#services' },
-    { name: 'Products', href: '/#products' },
-    { name: 'Catalog', href: '/catalog' },
-    { name: 'Contact', href: '/#contact' },
+  const { t } = useI18n();
+
+  const navLinks = computed(() => [
+    { name: t('nav.about'), href: '/#about' },
+    { name: t('nav.services'), href: '/#services' },
+    { name: t('nav.products'), href: '/#products' },
+    { name: t('nav.catalog'), href: '/catalog' },
+    { name: t('nav.contact'), href: '/#contact' },
   ]);
 
-  const services = ref([
-    { title: 'Corrective Maintenance', description: 'Rapid, on-site emergency repairs to minimize operational downtime and restore functionality.', icon: 'i-lucide-wrench' },
-    { title: 'Preventive Maintenance', description: 'Scheduled inspections and servicing to prevent failures and extend the lifespan of your machinery.', icon: 'i-lucide-shield-check' },
-    { title: 'Procurement Support', description: 'Expert assistance in sourcing, vetting, and acquiring the ideal machinery for your specific needs.', icon: 'i-lucide-shopping-cart' },
-    { title: 'Technical Consultation', description: 'Strategic advice on optimizing your production line, improving efficiency, and long-term planning.', icon: 'i-lucide-brain-circuit' },
-    { title: 'Operator Training', description: 'Comprehensive training programs to ensure your team can operate new machinery safely and effectively.', icon: 'i-lucide-users' },
+  const services = computed(() => [
+    { title: t('services.list.corrective.title'), description: t('services.list.corrective.description'), icon: 'i-lucide-wrench' },
+    { title: t('services.list.preventive.title'), description: t('services.list.preventive.description'), icon: 'i-lucide-shield-check' },
+    { title: t('services.list.procurement.title'), description: t('services.list.procurement.description'), icon: 'i-lucide-shopping-cart' },
+    { title: t('services.list.consultation.title'), description: t('services.list.consultation.description'), icon: 'i-lucide-brain-circuit' },
+    { title: t('services.list.training.title'), description: t('services.list.training.description'), icon: 'i-lucide-users' },
   ]);
 
-  const machineTypes = ref([
-    { id: 'turning', label: 'Turning Center' },
-    { id: 'machining', label: 'Machining Center' },
-    { id: 'edm', label: 'EDM Machine' },
+  const machineTypes = computed(() => [
+    { id: 'turning', label: t('products.machine_types.turning') },
+    { id: 'machining', label: t('products.machine_types.machining') },
+    { id: 'edm', label: t('products.machine_types.edm') },
   ]);
 
   const clients = ref([
