@@ -1,7 +1,14 @@
 <script setup>
 const toast = useToast();
 const loading = ref(false);
-const { locales, setLocale } = useI18n();
+const { t } = useI18n();
+
+const subjects = computed(() => [
+  { label: t('contact_form.subjects.maintenance'), value: 'Maintenance' },
+  { label: t('contact_form.subjects.installation'), value: 'Installation' },
+  { label: t('contact_form.subjects.sales'), value: 'Sales' },
+  { label: t('contact_form.subjects.others'), value: 'Others' }
+])
 
 const formData = ref({
   name: '',
@@ -18,19 +25,19 @@ function validateForm() {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!formData.value.name || formData.value.name.length < 2) {
-    errors.push('Name is required and must be at least 2 characters.');
+    errors.push(t('contact_form.validation.name_required'));
   }
   if (!formData.value.email || !emailRegex.test(formData.value.email)) {
-    errors.push('A valid email address is required.');
+    errors.push(t('contact_form.validation.email_required'));
   }
   if (!formData.value.tel || formData.value.tel.length < 8) {
-    errors.push('Telephone is required and must be at least 8 characters.');
+    errors.push(t('contact_form.validation.tel_required'));
   }
   if (!formData.value.subject) {
-    errors.push('Please select a subject.');
+    errors.push(t('contact_form.validation.subject_required'));
   }
   if (!formData.value.message || formData.value.message.length < 10) {
-    errors.push('Message is required and must be at least 10 characters.');
+    errors.push(t('contact_form.validation.message_required'));
   }
   
   return errors;
@@ -42,7 +49,7 @@ async function onSubmit() {
     const validationErrors = validateForm();
     if (validationErrors.length > 0) {
       const errorMsg = validationErrors.join('\n');
-      toast.add({ title: 'Validation Error', description: errorMsg, color: 'error' });
+      toast.add({ title: t('contact_form.validation.error_title'), description: errorMsg, color: 'error' });
       loading.value = false;
       return;
     }
@@ -52,7 +59,7 @@ async function onSubmit() {
       body: formData.value
     });
 
-    toast.add({ title: 'Success', description: 'Your message has been sent!', color: 'success' });
+    toast.add({ title: t('admin.success'), description: t('contact_form.success'), color: 'success' });
     
     // Reset form
     formData.value = {
@@ -66,8 +73,8 @@ async function onSubmit() {
     };
     
   } catch (error) {
-    const msg = error.data?.message || error.message || 'Something went wrong';
-    toast.add({ title: 'Error', description: msg, color: 'error' });
+    const msg = error.data?.message || error.message || t('contact_form.error');
+    toast.add({ title: t('admin.error'), description: msg, color: 'error' });
   } finally {
     loading.value = false;
   }
@@ -76,35 +83,35 @@ async function onSubmit() {
 
 <template>
     <div class="p-8 rounded-xl shadow-sm border border-slate-100 bg-deep-teal-500">
-        <h3 class="text-2xl font-bold dark:text-white mb-6">Send a Message</h3>
+        <h3 class="text-2xl font-bold dark:text-white mb-6">{{ $t('contact_form.title') }}</h3>
 
         <form class="space-y-6" @submit.prevent="onSubmit">
         <div class="grid sm:grid-cols-2 gap-6">
-            <UFormField label="Full Name" name="name" required size="lg">
+            <UFormField :label="$t('contact_form.full_name')" name="name" required size="lg">
             <UInput v-model="formData.name" />
             </UFormField>
-            <UFormField label="Email Address" name="email" required size="lg">
+            <UFormField :label="$t('contact_form.email_address')" name="email" required size="lg">
             <UInput v-model="formData.email" type="email" />
             </UFormField>
         </div>
         <div class="grid sm:grid-cols-2 gap-6">
-            <UFormField label="Telephone" name="tel" required size="lg">
+            <UFormField :label="$t('contact_form.telephone')" name="tel" required size="lg">
             <UInput v-model="formData.tel" type="tel" />
             </UFormField>
-            <UFormField label="Subject" name="subject" required size="lg">
-            <USelect v-model="formData.subject" :items="['Maintenance', 'Installation', 'Sales', 'Others']" placeholder="Select a subject" />
+            <UFormField :label="$t('contact_form.subject')" name="subject" required size="lg">
+            <USelect v-model="formData.subject" :items="subjects" value-key="value" :placeholder="$t('contact_form.subject_placeholder')" />
             </UFormField>
         </div>
             <div class="grid sm:grid-cols-2 gap-6">
-            <UFormField label="Company" name="company">
-            <UInput v-model="formData.company" placeholder="(Optional)" size="lg" />
+            <UFormField :label="$t('contact_form.company')" name="company">
+            <UInput v-model="formData.company" :placeholder="$t('contact_form.optional')" size="lg" />
             </UFormField>
-            <UFormField label="Job Title" name="job-title">
-            <UInput v-model="formData.jobTitle" placeholder="(Optional)" size="lg" />
+            <UFormField :label="$t('contact_form.job_title')" name="job-title">
+            <UInput v-model="formData.jobTitle" :placeholder="$t('contact_form.optional')" size="lg" />
             </UFormField>
         </div>
         <div class="w-full">
-            <UFormField label="Message" name="message" required size="lg">
+            <UFormField :label="$t('contact_form.message')" name="message" required size="lg">
             <UTextarea v-model="formData.message" :rows="4" class="w-full" />
             </UFormField>
         </div>
@@ -116,8 +123,8 @@ async function onSubmit() {
             :loading="loading"
             :ui="{ rounded: 'rounded-md' }"
             >
-            Send Message
-            </UButton>                  
+            {{ $t('contact_form.send') }}
+            </UButton>
         </div>
             
 

@@ -1,9 +1,11 @@
 <script setup>
+const { t } = useI18n()
+
 useHead({
-  title: 'Machine Catalogue - Aliyaat',
+  title: `${t('catalog.title')} - Aliyaat`,
   meta: [
-    { name: 'description', content: 'Explore industrial machines by category and start a Build & Price configuration.' },
-    { property: 'og:title', content: 'Aliyaat - Machine Catalog' },
+    { name: 'description', content: t('catalog.meta_description') },
+    { property: 'og:title', content: `Aliyaat - ${t('catalog.title')}` },
   ],
 })
 
@@ -16,7 +18,7 @@ const errorMessage = ref('')
 const { data: machinesFetch, error: machinesError } = await useFetch('/api/machines')
 
 if (machinesError.value) {
-  errorMessage.value = 'Unable to load machines at the moment.'
+  errorMessage.value = t('catalog.fetch_error_desc')
 } else if (machinesFetch.value?.success) {
   machines.value = machinesFetch.value.data
 }
@@ -38,7 +40,7 @@ const categories = computed(() => {
 })
 
 const categoryItems = computed(() => {
-  const base = [{ label: 'All Categories', value: 'all' }]
+  const base = [{ label: t('catalog.all_categories'), value: 'all' }]
   const rest = categories.value.map(c => ({ label: c.name, value: String(c.id) }))
   return [...base, ...rest]
 })
@@ -86,21 +88,21 @@ const selectedCategory = computed(() => {
 })
 
 const activeTitle = computed(() => {
-  if (!selectedCategory.value) return 'All Machines'
+  if (!selectedCategory.value) return t('catalog.all_machines')
   return selectedCategory.value.name
 })
 
 const activeDescription = computed(() => {
   if (!selectedCategory.value) {
-    return 'Browse available machines across all categories. Select a model to read more or continue directly to Build & Price.'
+    return t('catalog.description')
   }
-  return selectedCategory.value.description || 'Select a model to read more or continue directly to Build & Price.'
+  return selectedCategory.value.description || t('catalog.description')
 })
 
 const formatPrice = (value) => {
-  if (value == null) return 'Contact for price'
+  if (value == null) return t('catalog.contact_for_price')
   const num = Number(value)
-  if (Number.isNaN(num)) return 'Contact for price'
+  if (Number.isNaN(num)) return t('catalog.contact_for_price')
   return `$${num.toLocaleString()}`
 }
 </script>
@@ -129,10 +131,10 @@ const formatPrice = (value) => {
             </div>
             <div>
               <p class="text-sm font-semibold dark:text-charcoal-300">
-                Filter by category
+                {{ $t('catalog.filter_title') }}
               </p>
               <p class="text-xs text-medium-gray-600">
-                Switch between machine families to focus your selection.
+                {{ $t('catalog.filter_description') }}
               </p>
             </div>
           </div>
@@ -141,7 +143,7 @@ const formatPrice = (value) => {
               v-model="selectedCategoryId"
               :items="categoryItems"
               value-key="value"
-              placeholder="All Categories"
+              :placeholder="$t('catalog.all_categories')"
               class="w-full"
             />
           </div>
@@ -149,7 +151,7 @@ const formatPrice = (value) => {
             <UInput
               v-model="search"
               icon="i-lucide-search"
-              placeholder="Search machines..."
+              :placeholder="$t('catalog.search_placeholder')"
               class="w-full"
               color="neutral"
             />
@@ -165,7 +167,7 @@ const formatPrice = (value) => {
         <UAlert
           color="error"
           variant="subtle"
-          title="We couldn't load the catalog."
+          :title="$t('catalog.fetch_error_title')"
           :description="errorMessage"
         />
       </div>
@@ -174,8 +176,8 @@ const formatPrice = (value) => {
         <div v-if="machineRows.length === 0" class="py-10">
           <UEmpty
             icon="i-lucide-database-zap"
-            title="No machines found in this category."
-            description="Try switching to another category or check again later."
+            :title="$t('catalog.no_machines')"
+            :description="$t('catalog.no_machines_desc')"
           />
         </div>
 
@@ -230,7 +232,7 @@ const formatPrice = (value) => {
                 </p>
               </div>
               <UBadge color="neutral" variant="subtle" size="sm" :ui="{ rounded: 'rounded-full' }">
-                {{ machineRows.length }} models
+                {{ $t('catalog.models_count', { count: machineRows.length }) }}
               </UBadge>
             </div>
 
@@ -285,7 +287,7 @@ const formatPrice = (value) => {
                   <div class="flex flex-col sm:flex-row lg:flex-col lg:items-end gap-3 lg:min-w-56">
                     <div class="text-left lg:text-right">
                       <p class="text-xs font-semibold uppercase tracking-wide text-medium-gray-600">
-                        Starting price
+                        {{ $t('catalog.starting_price') }}
                       </p>
                       <p class="text-xl font-bold text-deep-teal-600">
                         {{ formatPrice(machine.basePrice) }}

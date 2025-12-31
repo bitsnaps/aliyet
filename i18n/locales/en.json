@@ -79,6 +79,12 @@
         "badge": "Interactive Quote",
         "title": "Build Your Perfect Machine.",
         "description": "Know what you need? Use our streamlined \"Build & Price\" to configure your machine's characteristics and get a rapid quote directly to your inbox.",
+        "steps_labels": {
+            "step1": "Choose Machine",
+            "step2": "Main Characteristics",
+            "step3": "Optional Characteristics",
+            "step4": "Your Details"
+        },
         "steps": {
             "step1": "Select Machine Type",
             "step2": "Choose Main Characteristics",
@@ -90,7 +96,20 @@
             "ready_title": "Ready to customize?",
             "ready_description": "Continue to our full configuration to select spindles, axis details, and more.",
             "continue": "Continue to Build & Price"
-        }
+        },
+        "page_title": "Build & Price Your Machine",
+        "loading_machines": "Loading machines...",
+        "step1_title": "Step 1: Choose Your Machine",
+        "step2_title": "Step 2: Main Characteristics for {name}",
+        "step3_title": "Step 3: Optional Characteristics for {name}",
+        "step4_title": "Step 4: Your Details",
+        "submit": "Submit Quote",
+        "prev": "Previous",
+        "next": "Next",
+        "success_title": "Success!",
+        "success_desc": "Your quote has been submitted successfully.",
+        "error_title": "Error!",
+        "error_desc": "Failed to submit quote."
     },
     "contact": {
         "title": "Get In Touch",
@@ -110,6 +129,56 @@
         "rights": "All Rights Reserved.",
         "faq": "FAQ",
         "terms": "Terms of Service"
+    },
+    "contact_form": {
+        "title": "Send a Message",
+        "full_name": "Full Name",
+        "email_address": "Email Address",
+        "telephone": "Telephone",
+        "subject": "Subject",
+        "subject_placeholder": "Select a subject",
+        "subjects": {
+            "maintenance": "Maintenance",
+            "installation": "Installation",
+            "sales": "Sales",
+            "others": "Others"
+        },
+        "company": "Company",
+        "optional": "(Optional)",
+        "job_title": "Job Title",
+        "message": "Message",
+        "send": "Send Message",
+        "validation": {
+            "name_required": "Name is required and must be at least 2 characters.",
+            "email_required": "A valid email address is required.",
+            "tel_required": "Telephone is required and must be at least 8 characters.",
+            "subject_required": "Please select a subject.",
+            "message_required": "Message is required and must be at least 10 characters.",
+            "error_title": "Validation Error"
+        },
+        "success": "Your message has been sent!",
+        "error": "Something went wrong"
+    },
+    "catalog": {
+        "title": "Machine Catalogue",
+        "meta_description": "Explore industrial machines by category and start a Build & Price configuration.",
+        "badge": "Products Catalog",
+        "heading": "Explore Industrial Machines.",
+        "description": "Browse available machines across all categories. Select a model to view details or continue directly to the Build & Price configuration.",
+        "filter_title": "Filter by category",
+        "filter_description": "Switch between machine families to focus your selection.",
+        "search_placeholder": "Search machines...",
+        "all_categories": "All Categories",
+        "all_machines": "All Machines",
+        "no_machines": "No machines found in this category.",
+        "no_machines_desc": "Try switching to another category or check again later.",
+        "models_count": "{count} models",
+        "starting_price": "Starting price",
+        "contact_for_price": "Contact for price",
+        "read_more": "Read more",
+        "build_price": "Build & Price",
+        "fetch_error_title": "We couldn't load the catalog.",
+        "fetch_error_desc": "Unable to load machines at the moment."
     },
     "admin": {
         "dashboard": "Dashboard",

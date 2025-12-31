@@ -291,7 +291,7 @@ const { locales, setLocale } = useI18n();
       <section id="contact" class="py-20 md:py-32 bg-slate-50">
         <UCard class="container mx-auto px-4 md:px-8">
           <div class="mb-12 text-center text-slate-900">
-            <h2 class="text-3xl md:text-4xl font-bold tracking-tight">{{ $t('contact.title') }}</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight dark:text-white">{{ $t('contact.title') }}</h2>
             <p class="mt-4 text-lg max-w-2xl mx-auto text-slate-600">
               {{ $t('contact.description') }}
             </p>

@@ -79,6 +79,12 @@
         "badge": "Devis Interactif",
         "title": "Construisez Votre Machine Idéale.",
         "description": "Vous savez ce dont vous avez besoin ? Utilisez notre système \"Configurer & Prix\" pour configurer les caractéristiques de votre machine et obtenir un devis rapide directement dans votre boîte de réception.",
+        "steps_labels": {
+            "step1": "Choisir la Machine",
+            "step2": "Caractéristiques Principales",
+            "step3": "Caractéristiques Optionnelles",
+            "step4": "Vos Coordonnées"
+        },
         "steps": {
             "step1": "Sélectionner le Type de Machine",
             "step2": "Choisir les Caractéristiques Principales",
@@ -90,7 +96,20 @@
             "ready_title": "Prêt à personnaliser ?",
             "ready_description": "Continuez vers notre configuration complète pour sélectionner les broches, les détails des axes, et plus encore.",
             "continue": "Continuer vers Configurer & Prix"
-        }
+        },
+        "page_title": "Configurez Votre Machine",
+        "loading_machines": "Chargement des machines...",
+        "step1_title": "Étape 1 : Choisissez Votre Machine",
+        "step2_title": "Étape 2 : Caractéristiques Principales pour {name}",
+        "step3_title": "Étape 3 : Caractéristiques Optionnelles pour {name}",
+        "step4_title": "Étape 4 : Vos Coordonnées",
+        "submit": "Soumettre le Devis",
+        "prev": "Précédent",
+        "next": "Suivant",
+        "success_title": "Succès !",
+        "success_desc": "Votre devis a été soumis avec succès.",
+        "error_title": "Erreur !",
+        "error_desc": "Échec de la soumission du devis."
     },
     "contact": {
         "title": "Contactez-nous",
@@ -110,5 +129,55 @@
         "rights": "Tous droits réservés.",
         "faq": "FAQ",
         "terms": "Conditions d'Utilisation"
+    },
+    "contact_form": {
+        "title": "Envoyer un Message",
+        "full_name": "Nom Complet",
+        "email_address": "Adresse Email",
+        "telephone": "Téléphone",
+        "subject": "Sujet",
+        "subject_placeholder": "Sélectionner un sujet",
+        "subjects": {
+            "maintenance": "Maintenance",
+            "installation": "Installation",
+            "sales": "Ventes",
+            "others": "Autres"
+        },
+        "company": "Entreprise",
+        "optional": "(Optionnel)",
+        "job_title": "Titre du Poste",
+        "message": "Message",
+        "send": "Envoyer le Message",
+        "validation": {
+            "name_required": "Le nom est requis et doit comporter au moins 2 caractères.",
+            "email_required": "Une adresse email valide est requise.",
+            "tel_required": "Le téléphone est requis et doit comporter au moins 8 caractères.",
+            "subject_required": "Veuillez sélectionner un sujet.",
+            "message_required": "Le message est requis et doit comporter au moins 10 caractères.",
+            "error_title": "Erreur de Validation"
+        },
+        "success": "Votre message a été envoyé !",
+        "error": "Quelque chose s'est mal passé"
+    },
+    "catalog": {
+        "title": "Catalogue de Machines",
+        "meta_description": "Explorez les machines industrielles par catégorie et commencez une configuration Configurer & Prix.",
+        "badge": "Catalogue de Produits",
+        "heading": "Explorez les Machines Industrielles.",
+        "description": "Parcourez les machines disponibles dans toutes les catégories. Sélectionnez un modèle pour voir les détails ou continuez directement vers la configuration Configurer & Prix.",
+        "filter_title": "Filtrer par catégorie",
+        "filter_description": "Basculez entre les familles de machines pour cibler votre sélection.",
+        "search_placeholder": "Rechercher des machines...",
+        "all_categories": "Toutes les Catégories",
+        "all_machines": "Toutes les Machines",
+        "no_machines": "Aucune machine trouvée dans cette catégorie.",
+        "no_machines_desc": "Essayez de changer de catégorie ou revenez plus tard.",
+        "models_count": "{count} modèles",
+        "starting_price": "Prix de départ",
+        "contact_for_price": "Contactez pour le prix",
+        "read_more": "En savoir plus",
+        "build_price": "Configurer & Prix",
+        "fetch_error_title": "Nous n'avons pas pu charger le catalogue.",
+        "fetch_error_desc": "Impossible de charger les machines pour le moment."
     }
 }
