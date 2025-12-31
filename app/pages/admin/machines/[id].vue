@@ -104,6 +104,24 @@ const removeSpec = (index) => {
   state.value.specs.splice(index, 1)
 }
 
+const dragIndex = ref(null)
+
+const onDragStart = (index, event) => {
+  dragIndex.value = index
+  if (event.dataTransfer) {
+    event.dataTransfer.effectAllowed = 'move'
+    event.dataTransfer.dropEffect = 'move'
+  }
+}
+
+const onDrop = (index) => {
+  if (dragIndex.value === null || dragIndex.value === index) return
+  const item = state.value.specs[dragIndex.value]
+  state.value.specs.splice(dragIndex.value, 1)
+  state.value.specs.splice(index, 0, item)
+  dragIndex.value = null
+}
+
 const imageUploading = ref(false)
 const imageFile = ref([])
 
@@ -238,7 +256,20 @@ const save = async () => {
           </template>
 
           <div class="space-y-3">
-             <div v-for="(spec, idx) in state.specs" :key="idx" class="flex gap-3 items-start">
+             <div
+               v-for="(spec, idx) in state.specs"
+               :key="idx"
+               class="flex gap-3 items-start transition-all duration-200"
+               :class="{ 'opacity-50': dragIndex === idx }"
+               draggable="true"
+               @dragstart="onDragStart(idx, $event)"
+               @dragover.prevent
+               @dragenter.prevent
+               @drop="onDrop(idx)"
+             >
+               <div class="pt-1.5 cursor-move text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300">
+                 <UIcon name="i-lucide-grip-vertical" class="w-5 h-5" />
+               </div>
                <div class="flex-1">
                  <UInput v-model="spec.parameter" placeholder="Parameter (e.g. Max RPM)" size="sm" class="w-full" />
                </div>
