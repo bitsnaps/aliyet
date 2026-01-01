@@ -125,18 +125,26 @@ const onDrop = (index) => {
 const imageUploading = ref(false)
 const imageFile = ref([])
 
+import { resizeImage } from '~/utils/image'
+
 const uploadImage = async () => {
   if (isNew) {
     toast.add({ title: 'Save Machine First', description: 'Create the machine before uploading an image.', color: 'warning' })
     imageFile.value = []
     return
   }
-  const file = Array.isArray(imageFile.value) ? imageFile.value[0] : imageFile.value
+  let file = Array.isArray(imageFile.value) ? imageFile.value[0] : imageFile.value
   if (!file) return
-  const fd = new FormData()
-  fd.append('image', file)
+
   imageUploading.value = true
+  
   try {
+    // Resize image if needed (Max 1024x1024)
+    file = await resizeImage(file, 1024, 1024)
+
+    const fd = new FormData()
+    fd.append('image', file)
+    
     const res = await $fetch(`/api/admin/machines/${route.params.id}/image`, {
       method: 'POST',
       body: fd
@@ -339,10 +347,10 @@ const save = async () => {
               <div v-else class="border-2 border-dashed border-light-gray-300 rounded-lg p-6 text-center">
                 <UIcon name="i-lucide-image-plus" class="w-8 h-8 text-charcoal-300 mx-auto mb-2" />
                 <p class="text-sm text-charcoal-600 dark:text-charcoal-300 font-medium">Click to upload main image</p>
-                <p class="text-xs text-charcoal-300 mt-1">PNG, JPG up to 2MB</p>
               </div>
               <div class="mt-2">
                 <UFileUpload v-model="imageFile" accept="image/png,image/jpeg" :multiple="false" class="cursor-pointer" />
+                <p class="text-xs text-charcoal-300 mt-1">Recommended: 1024x1024px (Auto-resized). Max 2MB.</p>
               </div>
               <div v-if="imageUploading" class="flex items-center gap-2 text-xs text-charcoal-300 mt-1">
                 <UIcon name="i-lucide-loader" class="w-4 h-4 animate-spin" />
