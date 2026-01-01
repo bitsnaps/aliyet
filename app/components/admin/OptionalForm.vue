@@ -59,7 +59,7 @@ const modelKey = computed(() => props.type === 'replacement' ? 'configurationId'
         <UFormField label="Status" name="available">
           <div class="flex items-center">
             <USwitch v-model="state.available" />
-            <span class="ml-3 text-sm">{{ state.available ? 'Available' : 'Hidden' }}</span>
+            <span class="ml-3 text-sm dark:text-charcoal-300">{{ state.available ? 'Available' : 'Hidden' }}</span>
           </div>
         </UFormField>
       </div>
