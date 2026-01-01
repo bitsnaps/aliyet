@@ -1,203 +1,240 @@
 <script setup>
-import * as v from 'valibot';
-
 const { t } = useI18n()
 const toast = useToast()
 
-const steps = computed(() => [{
-  id: 'step1',
-  label: t('build_price.steps_labels.step1'),
-}, {
-  id: 'step2',
-  label: t('build_price.steps_labels.step2')
-}, {
-  id: 'step3',
-  label: t('build_price.steps_labels.step3')
-}, {
-  id: 'step4',
-  label: t('build_price.steps_labels.step4')
-}])
-
-const currentStep = ref(1)
-const selectedMachine = ref(null)
-const mainChars = ref({})
-const optionalChars = ref({})
-const userDetails = ref({
-  name: '',
-  email: '',
-  phone: '',
-  company: ''
-})
-
-const schema = v.object({
-  name: v.pipe(v.string()),
-  email: v.pipe(v.string(),v.email('Invalid email')),
-});
-
-
-const machines = ref([])
+// Data Fetching
+const { data: machinesFetch, error: machinesError } = await useFetch('/api/machines')
+const machines = computed(() => machinesFetch.value?.data || [])
 const loading = ref(true)
 
-const allCharacteristics = {
-  '1': { // Example characteristics for machine with id 1
-    main: [
-      { id: 'main_1_1', name: 'Control System', type: 'select', options: ['Fanuc', 'Siemens', 'Heidenhain'] },
-      { id: 'main_1_2', name: 'Spindle Speed', type: 'text' },
-    ],
-    optional: [
-      { id: 'opt_1_1', name: 'Coolant Through Spindle', type: 'checkbox' },
-      { id: 'opt_1_2', name: '4th Axis Preparation', type: 'checkbox' },
-    ]
-  },
-  '2': { // Example characteristics for machine with id 2
-    main: [
-      { id: 'main_2_1', name: 'Table Size', type: 'text' },
-      { id: 'main_2_2', name: 'Max Workpiece Weight', type: 'text' },
-    ],
-    optional: [
-      { id: 'opt_2_1', name: 'Automatic Tool Changer', type: 'checkbox' },
-    ]
-  }
+if (machinesFetch.value) {
+    loading.value = false
 }
 
-const route = useRoute()
-const initialMachineId = computed(() => route.query.machineId || null)
-
-const { data: machineData } = await useFetch('/api/machines')
-if (machineData.value?.success) {
-  machines.value = machineData.value.data
-  if (initialMachineId.value) {
-    const preselected = machines.value.find(m => String(m.id) === String(initialMachineId.value))
-    if (preselected) {
-      selectedMachine.value = preselected
-      currentStep.value = 2
+// Categories Extraction
+const categories = computed(() => {
+  const map = new Map()
+  for (const machine of machines.value || []) {
+    const id = machine?.category_id
+    const name = machine?.Category?.name
+    if (id == null || !name) continue
+    const key = String(id)
+    if (!map.has(key)) {
+      map.set(key, { id: key, name, description: machine?.Category?.description || '' })
     }
   }
-  loading.value = false
+  return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name))
+})
+
+// State
+const selectedCategoryId = ref(null)
+const isConfiguratorOpen = ref(false)
+const configuratorMachine = ref(null)
+
+// Initialize selected category
+watchEffect(() => {
+    if (!selectedCategoryId.value && categories.value.length > 0) {
+        selectedCategoryId.value = categories.value[0].id
+    }
+})
+
+// Filtering
+const filteredMachines = computed(() => {
+    if (!selectedCategoryId.value) return []
+    return machines.value.filter(m => String(m.category_id) === String(selectedCategoryId.value))
+})
+
+// Formatting
+const formatPrice = (value) => {
+  if (value == null) return t('catalog.contact_for_price')
+  const num = Number(value)
+  if (Number.isNaN(num)) return t('catalog.contact_for_price')
+  return `$${num.toLocaleString()}`
 }
 
-const currentMachineCharacteristics = computed(() => {
-  if (!selectedMachine.value || !allCharacteristics[selectedMachine.value.id]) {
-    return { main: [], optional: [] };
-  }
-  return allCharacteristics[selectedMachine.value.id];
-});
-
-
-function nextStep() {
-  if (currentStep.value < steps.length) {
-    currentStep.value++
-  }
+function openConfigurator(machine) {
+    configuratorMachine.value = machine
+    isConfiguratorOpen.value = true
 }
 
-function prevStep() {
-  if (currentStep.value > 1) {
-    currentStep.value--
-  }
-}
-
-async function submitQuote() {
-  const quoteData = {
-    machine: selectedMachine.value,
-    main_characteristics: mainChars.value,
-    optional_characteristics: optionalChars.value,
-    user_details: userDetails.value
-  }
-
-  try {
-    await $fetch('/api/quotes', {
-      method: 'POST',
-      body: quoteData
-    })
-    toast.add({ title: t('build_price.success_title'), description: t('build_price.success_desc') })
-    currentStep.value = 1 // Reset to first step
-    selectedMachine.value = null
-  } catch (error) {
-    toast.add({ title: t('build_price.error_title'), description: t('build_price.error_desc'), color: 'error' })
-    console.error('Error submitting quote:', error)
-  }
-}
+// Mobile sidebar toggle
+const isSidebarOpen = ref(false)
 </script>
 
 <template>
-  <div class="container mx-auto py-12">
-    <h1 class="text-4xl font-bold text-center mb-8 py-8">{{ $t('build_price.page_title') }}</h1>
-
-    <div class="max-w-3xl mx-auto">
-      <div class="flex justify-between mb-8">
-        <div v-for="(step, index) in steps" :key="step.id" class="flex-1 text-center">
-          <div :class="['text-sm font-semibold', { 'text-primary': currentStep >= index + 1, 'text-gray-500': currentStep < index + 1 }]">
-            {{ step.label }}
-          </div>
-          <div :class="['mt-2 h-1 rounded-full', { 'bg-primary': currentStep > index + 1, 'bg-gray-300': currentStep <= index + 1 }]"></div>
+  <div class="flex h-[calc(100vh-64px)] overflow-hidden bg-gray-50 dark:bg-gray-900 relative">
+    
+    <!-- Sidebar (Desktop) -->
+    <aside class="hidden md:flex flex-col w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-y-auto shrink-0 mt-18">
+        <div class="p-4 border-b border-gray-100 dark:border-gray-700">
+            <h2 class="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">Categories</h2>
         </div>
-      </div>
+        <nav class="flex-1 p-2 space-y-1">
+            <button 
+                v-for="category in categories" 
+                :key="category.id"
+                @click="selectedCategoryId = category.id"
+                :class="[
+                    'w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors cursor-pointer',
+                    selectedCategoryId === category.id 
+                        ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400' 
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                ]"
+            >
+                {{ category.name }}
+            </button>
+        </nav>
+    </aside>
 
-      <UCard>
-        <div v-if="loading">
-          <p>{{ $t('build_price.loading_machines') }}</p>
-        </div>
-        <div v-else>
-          <!-- Step 1: Choose Machine -->
-          <div v-if="currentStep === 1">
-            <h2 class="text-2xl font-semibold mb-4 dark:text-white">{{ $t('build_price.step1_title') }}</h2>
-            <div class="grid grid-cols-2 gap-4 dark:text-white">
-              <div v-for="machine in machines" :key="machine.id"
-                @click="selectedMachine = machine"
-                :class="['p-4 border rounded-lg cursor-pointer', { 'border-primary ring-2 ring-primary': selectedMachine && selectedMachine.id === machine.id }]">
-                <h3 class="font-bold">{{ machine.name }}</h3>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 2: Main Characteristics -->
-          <div v-if="currentStep === 2" class="space-y-4">
-            <h2 class="text-2xl font-semibold mb-4 dark:text-white">{{ $t('build_price.step2_title', { name: selectedMachine.name }) }}</h2>
-            <div v-for="char in currentMachineCharacteristics.main" :key="char.id">
-              <UFormField :label="char.name">
-                <UInput v-if="char.type === 'text'" v-model="mainChars[char.id]" />
-                <USelect v-if="char.type === 'select'" v-model="mainChars[char.id]" :items="char.options" />
-              </UFormField>
-            </div>
-          </div>
-
-          <!-- Step 3: Optional Characteristics -->
-          <div v-if="currentStep === 3" class="space-y-4">
-            <h2 class="text-2xl font-semibold mb-4 dark:text-white">{{ $t('build_price.step3_title', { name: selectedMachine.name }) }}</h2>
-             <div v-for="char in currentMachineCharacteristics.optional" :key="char.id">
-                <UCheckbox v-model="optionalChars[char.id]" :label="char.name" />
-            </div>
-          </div>
-
-          <!-- Step 4: User Details -->
-          <div v-if="currentStep === 4">
-            <h2 class="text-2xl font-semibold mb-4 dark:text-white">{{ $t('build_price.step4_title') }}</h2>
-            <UForm :schema="schema" :state="userDetails" @submit="submitQuote" class="space-y-4">
-              <UFormField :label="$t('contact_form.full_name')" name="name">
-                <UInput v-model="userDetails.name" />
-              </UFormField>
-              <UFormField :label="$t('contact_form.email_address')" name="email">
-                <UInput v-model="userDetails.email" type="email" />
-              </UFormField>
-              <UFormField :label="$t('contact_form.telephone')" name="phone">
-                <UInput v-model="userDetails.phone" />
-              </UFormField>
-              <UFormField :label="$t('contact_form.company')" name="company">
-                <UInput v-model="userDetails.company" />
-              </UFormField>
-            </UForm>
-          </div>
-        </div>
-
-        <template #footer>
-          <div class="flex justify-between">
-            <UButton v-if="currentStep > 1" @click="prevStep" color="neutral">{{ $t('build_price.prev') }}</UButton>
-            <div v-else></div>
-            <UButton v-if="currentStep < steps.length" @click="nextStep" :disabled="currentStep === 1 && !selectedMachine">{{ $t('build_price.next') }}</UButton>
-            <UButton v-if="currentStep === steps.length" @click="submitQuote" color="primary">{{ $t('build_price.submit') }}</UButton>
-          </div>
-        </template>
-      </UCard>
+    <!-- Mobile Category Select Button -->
+    <div class="md:hidden fixed bottom-4 right-4 z-40">
+        <UButton icon="i-heroicons-list-bullet" color="primary" size="xl" :ui="{ rounded: 'rounded-full' }" @click="isSidebarOpen = true" />
     </div>
+
+    <!-- Mobile Sidebar Overlay (Custom implementation instead of USlideover) -->
+    <div v-if="isSidebarOpen" class="fixed inset-0 z-50 flex md:hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="isSidebarOpen = false"></div>
+        
+        <!-- Sidebar Content -->
+        <div class="relative w-4/5 max-w-xs bg-white dark:bg-gray-800 h-full shadow-xl flex flex-col transform transition-transform duration-300 ease-in-out">
+            <div class="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700">
+                <h2 class="font-bold text-xl dark:text-white">Categories</h2>
+                <UButton icon="i-heroicons-x-mark" color="gray" variant="ghost" @click="isSidebarOpen = false" />
+            </div>
+             <nav class="flex-1 overflow-y-auto p-2 space-y-1">
+                <button 
+                    v-for="category in categories" 
+                    :key="category.id"
+                    @click="selectedCategoryId = category.id; isSidebarOpen = false"
+                    :class="[
+                        'w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors',
+                        selectedCategoryId === category.id 
+                            ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400' 
+                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    ]"
+                >
+                    {{ category.name }}
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col overflow-hidden relative mt-18">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6 flex items-center justify-between shadow-sm z-10 shrink-0">
+             <div>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+                    {{ categories.find(c => c.id === selectedCategoryId)?.name || $t('build_price.page_title') }}
+                </h1>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                     {{ categories.find(c => c.id === selectedCategoryId)?.description || 'Select a machine to configure' }}
+                </p>
+            </div>
+            <div class="hidden md:block w-1/3">
+                 <!-- Native Input with Tailwind instead of UInput -->
+                 <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <UIcon name="i-heroicons-magnifying-glass" class="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input 
+                        type="text" 
+                        placeholder="Search..." 
+                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                    />
+                 </div>
+            </div>
+        </header>
+
+        <!-- Machines List -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 space-y-4">
+             <div v-if="loading" class="flex justify-center py-20">
+                <UIcon name="i-heroicons-arrow-path" class="animate-spin w-8 h-8 text-primary-500" />
+            </div>
+            
+            <div v-else-if="filteredMachines.length === 0" class="text-center py-20">
+                <p class="text-gray-500">No machines found in this category.</p>
+            </div>
+
+            <div v-for="machine in filteredMachines" :key="machine.id" class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
+                <div class="flex flex-col lg:flex-row items-center p-6 gap-6">
+                    <!-- Image & Name -->
+                    <div class="flex flex-col items-center w-full lg:w-1/4 shrink-0">
+                         <div class="w-full aspect-[4/3] bg-gray-50 dark:bg-gray-900 rounded-md overflow-hidden flex items-center justify-center mb-3">
+                            <img 
+                                v-if="machine.metadata?.imageUrl" 
+                                :src="machine.metadata.imageUrl" 
+                                :alt="machine.name" 
+                                class="w-full h-full object-contain p-2"
+                            />
+                            <UIcon v-else name="i-lucide-factory" class="w-16 h-16 text-gray-300" />
+                        </div>
+                        <h3 class="text-xl font-bold text-primary-600 dark:text-primary-400">{{ machine.name }}</h3>
+                        <p class="text-xs text-gray-400">{{ machine.code }}</p>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="flex-1 w-full border-t lg:border-t-0 lg:border-l lg:border-r border-gray-100 dark:border-gray-700 py-4 lg:px-6">
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                            <div v-for="(spec, idx) in (machine.Specifications || []).slice(0, 4)" :key="idx" class="flex flex-col items-center justify-center p-2">
+                                <span class="text-lg font-bold text-gray-800 dark:text-gray-100">
+                                    {{ spec.value }} <span class="text-xs font-normal text-gray-500">{{ spec.unit }}</span>
+                                </span>
+                                <span class="text-xs text-gray-500 uppercase mt-1">{{ spec.parameter }}</span>
+                            </div>
+                             <div v-if="(!machine.Specifications || machine.Specifications.length === 0)" class="col-span-4 text-gray-400 text-sm italic">
+                                Specs coming soon
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Price & Action -->
+                    <div class="flex flex-col items-center justify-center w-full lg:w-1/5 gap-4 shrink-0">
+                        <div class="text-center">
+                            <p class="text-xs text-gray-500 uppercase">{{ $t('catalog.starting_price') }}</p>
+                            <p class="text-xl font-bold text-gray-900 dark:text-white">{{ formatPrice(machine.base_price) }}</p>
+                        </div>
+                        <UButton 
+                            color="primary" 
+                            variant="solid" 
+                            size="lg" 
+                            class="w-full justify-center font-bold"
+                            @click="openConfigurator(machine)"
+                        >
+                            BUILD
+                        </UButton>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom spacing -->
+            <div class="h-20 md:h-0"></div>
+        </div>
+    </main>
+
+    <!-- Configurator Modal -->
+    <MachineConfigurator 
+        v-model="isConfiguratorOpen" 
+        :machine="configuratorMachine"
+        @close="configuratorMachine = null"
+    />
   </div>
 </template>
+
+<style scoped>
+/* Custom Scrollbar for sidebar */
+aside::-webkit-scrollbar {
+  width: 4px;
+}
+aside::-webkit-scrollbar-track {
+  background: transparent;
+}
+aside::-webkit-scrollbar-thumb {
+  background-color: #e5e7eb;
+  border-radius: 20px;
+}
+.dark aside::-webkit-scrollbar-thumb {
+  background-color: #374151;
+}
+</style>
