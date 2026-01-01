@@ -45,14 +45,11 @@ export default defineEventHandler(async (event) => {
 
   const ext = file.type === 'image/png' ? '.png' : '.jpg'
   const uploadsDir = useUploadDir('machines')
-  const filename = `${machineId}-main${ext}`
+  const filename = `${machineId}-main-${Date.now()}${ext}`
   const fullPath = path.join(uploadsDir, filename)
   const publicUrl = `/images/machines/${filename}`
 
   try {
-    await fs.mkdir(uploadsDir, { recursive: true })
-    await fs.writeFile(fullPath, file.data)
-
     const { models } = await useDB()
     const { Machines } = models
 
@@ -62,6 +59,21 @@ export default defineEventHandler(async (event) => {
         statusCode: 404,
         statusMessage: 'Machine not found',
       })
+    }
+
+    await fs.mkdir(uploadsDir, { recursive: true })
+    await fs.writeFile(fullPath, file.data)
+
+    // Delete old image if exists
+    const oldImageUrl = machine.metadata?.imageUrl
+    if (oldImageUrl) {
+      const oldFilename = path.basename(oldImageUrl)
+      const oldFullPath = path.join(uploadsDir, oldFilename)
+      try {
+        await fs.unlink(oldFullPath)
+      } catch (e) {
+        console.warn('Failed to delete old image:', e.message)
+      }
     }
 
     const metadata = machine.metadata || {}

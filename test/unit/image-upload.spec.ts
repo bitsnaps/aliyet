@@ -29,6 +29,7 @@ vi.mock('fs', () => ({
   promises: {
     mkdir: vi.fn(),
     writeFile: vi.fn(),
+    unlink: vi.fn(),
   }
 }));
 
@@ -66,7 +67,39 @@ describe('Image Upload API', () => {
     const result = await handler({});
 
     expect(result.success).toBe(true);
-    expect(result.data.imageUrl).toContain('/images/machines/1-main.png');
+    // expect(result.data.imageUrl).toContain('/images/machines/1-main.png');
+    // Expect timestamp in filename
+    expect(result.data.imageUrl).toMatch(/\/images\/machines\/1-main-\d+\.png/);
     expect(mockMachine.update).toHaveBeenCalled();
+  });
+
+  test('POST /api/admin/machines/[id]/image - Replaces existing image', async () => {
+    const handler = (await import('../../server/api/admin/machines/[id]/image.post.js')).default;
+
+    // Setup mocks
+    const mockFile = {
+      name: 'image',
+      type: 'image/jpeg',
+      data: Buffer.from('fake-image-2'),
+    };
+    readMultipartFormData.mockResolvedValue([mockFile]);
+    
+    // Existing machine has an image
+    const existingMachine = {
+        ...mockMachine,
+        metadata: { imageUrl: '/images/machines/1-main-123456789.png' },
+        update: vi.fn(),
+    }
+    mockModels.Machines.findByPk.mockResolvedValue(existingMachine);
+    existingMachine.update.mockResolvedValue(true);
+
+    const result = await handler({});
+
+    expect(result.success).toBe(true);
+    expect(result.data.imageUrl).toMatch(/\/images\/machines\/1-main-\d+\.jpg/);
+    
+    // Check if unlink was called with the old file path
+    const { promises: fs } = await import('fs');
+    expect(fs.unlink).toHaveBeenCalledWith(expect.stringContaining('1-main-123456789.png'));
   });
 });
