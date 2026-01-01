@@ -270,6 +270,9 @@ const save = async () => {
                <div class="pt-1.5 cursor-move text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300">
                  <UIcon name="i-lucide-grip-vertical" class="w-5 h-5" />
                </div>
+               <div class="pt-1.5 w-6 text-center text-sm font-medium text-gray-500 dark:text-gray-400 select-none">
+                 {{ idx + 1 }}
+               </div>
                <div class="flex-1">
                  <UInput v-model="spec.parameter" placeholder="Parameter (e.g. Max RPM)" size="sm" class="w-full" />
                </div>
