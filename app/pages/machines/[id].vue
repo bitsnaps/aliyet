@@ -1,4 +1,5 @@
 <script setup>
+const { t } = useI18n()
 const route = useRoute()
 const toast = useToast()
 
@@ -12,20 +13,20 @@ watchEffect(() => {
   if (!process.client) return
   if (!error.value) return
   toast.add({
-    title: 'Machine not found',
-    description: 'We could not load this machine. Please try again later.',
+    title: t('machine_details.machine_not_found'),
+    description: t('machine_details.fetch_error_desc'),
     color: 'error',
   })
 })
 
 useHead({
-  title: machine.value ? `${machine.value.name} - Machine Details` : 'Machine Details',
+  title: machine.value ? `${machine.value.name} - ${t('machine_details.page_title_suffix')}` : t('machine_details.page_title_default'),
 })
 
 const formatPrice = (value) => {
-  if (value == null) return 'Contact for price'
+  if (value == null) return t('machine_details.contact_for_price')
   const num = Number(value)
-  if (Number.isNaN(num)) return 'Contact for price'
+  if (Number.isNaN(num)) return t('machine_details.contact_for_price')
   return `$${num.toLocaleString()}`
 }
 </script>
@@ -38,7 +39,7 @@ const formatPrice = (value) => {
         class="inline-flex items-center text-sm text-deep-teal-600 hover:text-deep-teal-700 mb-6"
       >
         <UIcon name="i-lucide-arrow-left" class="w-4 h-4 mr-2" />
-        Back to catalog
+        {{ $t('machine_details.back_to_catalog') }}
       </NuxtLink>
 
       <div v-if="pending" class="flex justify-center py-16">
@@ -48,8 +49,8 @@ const formatPrice = (value) => {
       <div v-else-if="!machine" class="py-16">
         <UEmpty
           icon="i-lucide-database-zap"
-          title="Machine not found"
-          description="This machine is not available. It may have been removed or is temporarily hidden."
+          :title="$t('machine_details.machine_not_found')"
+          :description="$t('machine_details.not_available_desc')"
         />
       </div>
 
@@ -64,7 +65,7 @@ const formatPrice = (value) => {
                 {{ machine.name }}
               </h1>
               <p class="text-sm text-medium-gray-600">
-                Model code:
+                {{ $t('machine_details.model_code') }}:
                 <span class="font-mono">{{ machine.code }}</span>
               </p>
               <div
@@ -87,10 +88,10 @@ const formatPrice = (value) => {
             <div class="flex items-center justify-between gap-4">
               <div>
                 <p class="text-sm font-semibold dark:text-charcoal-300">
-                  Manufacturer information
+                  {{ $t('machine_details.manufacturer_info') }}
                 </p>
                 <p class="text-xs text-medium-gray-700">
-                  Open the official machine page in a new tab.
+                  {{ $t('machine_details.manufacturer_desc') }}
                 </p>
               </div>
               <UButton
@@ -101,7 +102,7 @@ const formatPrice = (value) => {
                 icon="i-lucide-external-link"
                 class="cursor-pointer"
               >
-                Visit page
+                {{ $t('machine_details.visit_page') }}
               </UButton>
             </div>
           </UCard>
@@ -112,13 +113,13 @@ const formatPrice = (value) => {
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <p class="text-sm font-semibold dark:text-charcoal-300">
-                  Starting price
+                  {{ $t('machine_details.starting_price') }}
                 </p>
                 <p class="text-2xl font-bold text-deep-teal-600">
                   {{ formatPrice(machine.base_price) }}
                 </p>
                 <p class="text-xs text-medium-gray-700 mt-1">
-                  Exact pricing will be confirmed based on your configuration and options.
+                  {{ $t('machine_details.price_disclaimer') }}
                 </p>
               </div>
               <div class="flex flex-col sm:flex-row gap-3">
@@ -129,7 +130,7 @@ const formatPrice = (value) => {
                   size="lg"
                   class="cursor-pointer"
                 >
-                  Build &amp; Price
+                  {{ $t('catalog.build_price') }}
                 </UButton>
                 <UButton
                   to="/build-and-price"
@@ -138,7 +139,7 @@ const formatPrice = (value) => {
                   size="lg"
                   class="cursor-pointer"
                 >
-                  Quick quote
+                  {{ $t('machine_details.quick_quote') }}
                 </UButton>
               </div>
             </div>
@@ -148,7 +149,7 @@ const formatPrice = (value) => {
             <template #header>
               <div class="flex items-center justify-between">
                 <h2 class="text-lg font-semibold dark:text-charcoal-300">
-                  Key technical specifications
+                  {{ $t('machine_details.tech_specs') }}
                 </h2>
                 <UBadge
                   :color="machine.available ? 'success' : 'error'"
@@ -156,7 +157,7 @@ const formatPrice = (value) => {
                   size="sm"
                   :ui="{ rounded: 'rounded-full' }"
                 >
-                  {{ machine.available ? 'Available for quote' : 'Currently unavailable' }}
+                  {{ machine.available ? $t('machine_details.available_quote') : $t('machine_details.unavailable') }}
                 </UBadge>
               </div>
             </template>
@@ -176,8 +177,7 @@ const formatPrice = (value) => {
               </div>
             </div>
             <div v-else class="text-sm text-medium-gray-700">
-              Specifications for this machine will be available soon. You can still request a quote and our team will
-              provide detailed information.
+              {{ $t('machine_details.specs_soon') }}
             </div>
           </UCard>
         </div>

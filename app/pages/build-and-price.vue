@@ -1,21 +1,22 @@
 <script setup>
 import * as v from 'valibot';
 
+const { t } = useI18n()
 const toast = useToast()
 
-const steps = [{
+const steps = computed(() => [{
   id: 'step1',
-  label: 'Choose Machine',
+  label: t('build_price.steps_labels.step1'),
 }, {
   id: 'step2',
-  label: 'Main Characteristics'
+  label: t('build_price.steps_labels.step2')
 }, {
   id: 'step3',
-  label: 'Optional Characteristics'
+  label: t('build_price.steps_labels.step3')
 }, {
   id: 'step4',
-  label: 'Your Details'
-}]
+  label: t('build_price.steps_labels.step4')
+}])
 
 const currentStep = ref(1)
 const selectedMachine = ref(null)
@@ -108,11 +109,11 @@ async function submitQuote() {
       method: 'POST',
       body: quoteData
     })
-    toast.add({ title: 'Success!', description: 'Your quote has been submitted successfully.' })
+    toast.add({ title: t('build_price.success_title'), description: t('build_price.success_desc') })
     currentStep.value = 1 // Reset to first step
     selectedMachine.value = null
   } catch (error) {
-    toast.add({ title: 'Error!', description: 'Failed to submit quote.', color: 'error' })
+    toast.add({ title: t('build_price.error_title'), description: t('build_price.error_desc'), color: 'error' })
     console.error('Error submitting quote:', error)
   }
 }
@@ -120,7 +121,7 @@ async function submitQuote() {
 
 <template>
   <div class="container mx-auto py-12">
-    <h1 class="text-4xl font-bold text-center mb-8 py-8">Build & Price Your Machine</h1>
+    <h1 class="text-4xl font-bold text-center mb-8 py-8">{{ $t('build_price.page_title') }}</h1>
 
     <div class="max-w-3xl mx-auto">
       <div class="flex justify-between mb-8">
@@ -134,12 +135,12 @@ async function submitQuote() {
 
       <UCard>
         <div v-if="loading">
-          <p>Loading machines...</p>
+          <p>{{ $t('build_price.loading_machines') }}</p>
         </div>
         <div v-else>
           <!-- Step 1: Choose Machine -->
           <div v-if="currentStep === 1">
-            <h2 class="text-2xl font-semibold mb-4 dark:text-white">Step 1: Choose Your Machine</h2>
+            <h2 class="text-2xl font-semibold mb-4 dark:text-white">{{ $t('build_price.step1_title') }}</h2>
             <div class="grid grid-cols-2 gap-4 dark:text-white">
               <div v-for="machine in machines" :key="machine.id"
                 @click="selectedMachine = machine"
@@ -151,7 +152,7 @@ async function submitQuote() {
 
           <!-- Step 2: Main Characteristics -->
           <div v-if="currentStep === 2" class="space-y-4">
-            <h2 class="text-2xl font-semibold mb-4 dark:text-white">Step 2: Main Characteristics for {{ selectedMachine.name }}</h2>
+            <h2 class="text-2xl font-semibold mb-4 dark:text-white">{{ $t('build_price.step2_title', { name: selectedMachine.name }) }}</h2>
             <div v-for="char in currentMachineCharacteristics.main" :key="char.id">
               <UFormField :label="char.name">
                 <UInput v-if="char.type === 'text'" v-model="mainChars[char.id]" />
@@ -162,7 +163,7 @@ async function submitQuote() {
 
           <!-- Step 3: Optional Characteristics -->
           <div v-if="currentStep === 3" class="space-y-4">
-            <h2 class="text-2xl font-semibold mb-4 dark:text-white">Step 3: Optional Characteristics for {{ selectedMachine.name }}</h2>
+            <h2 class="text-2xl font-semibold mb-4 dark:text-white">{{ $t('build_price.step3_title', { name: selectedMachine.name }) }}</h2>
              <div v-for="char in currentMachineCharacteristics.optional" :key="char.id">
                 <UCheckbox v-model="optionalChars[char.id]" :label="char.name" />
             </div>
@@ -170,18 +171,18 @@ async function submitQuote() {
 
           <!-- Step 4: User Details -->
           <div v-if="currentStep === 4">
-            <h2 class="text-2xl font-semibold mb-4 dark:text-white">Step 4: Your Details</h2>
+            <h2 class="text-2xl font-semibold mb-4 dark:text-white">{{ $t('build_price.step4_title') }}</h2>
             <UForm :schema="schema" :state="userDetails" @submit="submitQuote" class="space-y-4">
-              <UFormField label="Full Name" name="name">
+              <UFormField :label="$t('contact_form.full_name')" name="name">
                 <UInput v-model="userDetails.name" />
               </UFormField>
-              <UFormField label="Email" name="email">
+              <UFormField :label="$t('contact_form.email_address')" name="email">
                 <UInput v-model="userDetails.email" type="email" />
               </UFormField>
-              <UFormField label="Phone" name="phone">
+              <UFormField :label="$t('contact_form.telephone')" name="phone">
                 <UInput v-model="userDetails.phone" />
               </UFormField>
-              <UFormField label="Company" name="company">
+              <UFormField :label="$t('contact_form.company')" name="company">
                 <UInput v-model="userDetails.company" />
               </UFormField>
             </UForm>
@@ -190,10 +191,10 @@ async function submitQuote() {
 
         <template #footer>
           <div class="flex justify-between">
-            <UButton v-if="currentStep > 1" @click="prevStep" color="neutral">Previous</UButton>
+            <UButton v-if="currentStep > 1" @click="prevStep" color="neutral">{{ $t('build_price.prev') }}</UButton>
             <div v-else></div>
-            <UButton v-if="currentStep < steps.length" @click="nextStep" :disabled="currentStep === 1 && !selectedMachine">Next</UButton>
-            <UButton v-if="currentStep === steps.length" @click="submitQuote" color="primary">Submit Quote</UButton>
+            <UButton v-if="currentStep < steps.length" @click="nextStep" :disabled="currentStep === 1 && !selectedMachine">{{ $t('build_price.next') }}</UButton>
+            <UButton v-if="currentStep === steps.length" @click="submitQuote" color="primary">{{ $t('build_price.submit') }}</UButton>
           </div>
         </template>
       </UCard>

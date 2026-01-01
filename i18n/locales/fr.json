@@ -179,5 +179,21 @@
         "build_price": "Configurer & Prix",
         "fetch_error_title": "Nous n'avons pas pu charger le catalogue.",
         "fetch_error_desc": "Impossible de charger les machines pour le moment."
+    },
+    "machine_details": {
+        "back_to_catalog": "Retour au catalogue",
+        "machine_not_found": "Machine non trouvée",
+        "not_available_desc": "Cette machine n'est pas disponible. Elle a peut-être été retirée ou est temporairement masquée.",
+        "model_code": "Code du modèle",
+        "manufacturer_info": "Informations du fabricant",
+        "manufacturer_desc": "Ouvrez la page officielle de la machine dans un nouvel onglet.",
+        "visit_page": "Visiter la page",
+        "starting_price": "Prix de départ",
+        "price_disclaimer": "Le prix exact sera confirmé en fonction de votre configuration et de vos options.",
+        "quick_quote": "Devis rapide",
+        "tech_specs": "Spécifications techniques clés",
+        "available_quote": "Disponible pour devis",
+        "unavailable": "Actuellement indisponible",
+        "specs_soon": "Les spécifications de cette machine seront bientôt disponibles. Vous pouvez toujours demander un devis et notre équipe vous fournira des informations détaillées."
     }
 }

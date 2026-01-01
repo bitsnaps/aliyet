@@ -112,14 +112,13 @@ const formatPrice = (value) => {
     <div class="container mx-auto px-4 md:px-8">
       <div class="mb-10">
         <p class="uppercase text-xs font-semibold tracking-[0.2em] text-deep-teal-500 mb-3">
-          Products Catalog
+          {{ $t('catalog.badge') }}
         </p>
         <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-charcoal-900 mb-4">
-          Explore Industrial Machines.
+          {{ $t('catalog.heading') }}
         </h1>
         <p class="text-base md:text-lg text-medium-gray-700 max-w-3xl">
-          Browse available machines across all categories. Select a model to view details or continue directly to
-          the Build &amp; Price configuration.
+          {{ $t('catalog.description') }}
         </p>
       </div>
 
@@ -302,7 +301,7 @@ const formatPrice = (value) => {
                         size="sm"
                         class="cursor-pointer w-full sm:w-auto"
                       >
-                        Read more
+                        {{ $t('catalog.read_more') }}
                       </UButton>
                       <UButton
                         :to="`/build-and-price?machineId=${machine.id}`"
@@ -311,7 +310,7 @@ const formatPrice = (value) => {
                         size="sm"
                         class="cursor-pointer w-full sm:w-auto"
                       >
-                        Build &amp; Price
+                        {{ $t('catalog.build_price') }}
                       </UButton>
                     </div>
                   </div>

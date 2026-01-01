@@ -180,6 +180,22 @@
         "fetch_error_title": "We couldn't load the catalog.",
         "fetch_error_desc": "Unable to load machines at the moment."
     },
+    "machine_details": {
+        "back_to_catalog": "Back to catalog",
+        "machine_not_found": "Machine not found",
+        "not_available_desc": "This machine is not available. It may have been removed or is temporarily hidden.",
+        "model_code": "Model code",
+        "manufacturer_info": "Manufacturer information",
+        "manufacturer_desc": "Open the official machine page in a new tab.",
+        "visit_page": "Visit page",
+        "starting_price": "Starting price",
+        "price_disclaimer": "Exact pricing will be confirmed based on your configuration and options.",
+        "quick_quote": "Quick quote",
+        "tech_specs": "Key technical specifications",
+        "available_quote": "Available for quote",
+        "unavailable": "Currently unavailable",
+        "specs_soon": "Specifications for this machine will be available soon. You can still request a quote and our team will provide detailed information."
+    },
     "admin": {
         "dashboard": "Dashboard",
         "machines": "Machines",
