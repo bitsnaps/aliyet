@@ -165,6 +165,21 @@ export const useModels = (sequelize) => {
     }
   })
 
+  const Settings = sequelize.define('Settings', {
+    group: { type: DataTypes.STRING(191), unique: true, allowNull: false },
+    data: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      get() {
+        const value = this.getDataValue('data');
+        return value ? JSON.parse(value) : null;
+      },
+      set(value) {
+        this.setDataValue('data', value ? JSON.stringify(value) : null);
+      },
+    }
+  })
+
   // --- 5. Junction Tables (Explicit Definition for Metadata/Ordering) ---
 
   const ConfigCategoryConfigurations = sequelize.define('ConfigCategoryConfigurations', {
@@ -243,6 +258,7 @@ export const useModels = (sequelize) => {
     OptionalReplacements,
     Users,
     ClientConfigSets,
+    Settings,
     // Junctions (Useful for direct queries)
     ConfigCategoryConfigurations,
     ConfigOptionalCompatibility,

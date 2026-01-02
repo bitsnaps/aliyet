@@ -1,6 +1,14 @@
+import { useDB } from '../../utils/db';
+
 export default defineEventHandler(async (event) => {
-  // Mock data for settings
-  const settings = {
+  const { models } = await useDB();
+  const { Settings } = models;
+
+  // Fetch all settings
+  const allSettings = await Settings.findAll();
+
+  // Default settings structure
+  const defaults = {
     general: {
       siteName: 'Aliyaat',
       contactEmail: 'contact@aliyaat.com',
@@ -14,7 +22,19 @@ export default defineEventHandler(async (event) => {
       emailNotifications: true,
       newQuoteAlerts: true
     }
-  }
+  };
 
-  return settings
+  // Merge database settings into defaults
+  const settings = { ...defaults };
+  
+  allSettings.forEach(setting => {
+    if (setting.group && setting.data) {
+      settings[setting.group] = {
+        ...settings[setting.group], // Keep defaults if keys are missing in DB
+        ...setting.data
+      };
+    }
+  });
+
+  return settings;
 })

@@ -3,6 +3,8 @@ definePageMeta({
   layout: 'admin'
 })
 
+const toast = useToast()
+
 const { data: settings, pending } = await useFetch('/api/admin/settings')
 
 const items = [{
@@ -25,11 +27,31 @@ const form = reactive({
   notifications: { ...settings.value?.notifications }
 })
 
+const isSaving = ref(false)
+
 const saveSettings = async () => {
-  // TODO: Implement save logic
-  console.log('Saving settings:', form)
-  const toast = useToast()
-  toast.add({ title: 'Settings saved', description: 'Your changes have been saved successfully.' })
+  isSaving.value = true
+  
+  try {
+    await $fetch('/api/admin/settings', {
+      method: 'PUT',
+      body: form
+    })
+    
+    toast.add({
+      title: 'Settings saved',
+      description: 'Your changes have been saved successfully.',
+      color: 'success'
+    })
+  } catch (error) {
+    toast.add({
+      title: 'Error',
+      description: error.data?.message || 'Failed to save settings.',
+      color: 'error'
+    })
+  } finally {
+    isSaving.value = false
+  }
 }
 </script>
 
@@ -46,6 +68,7 @@ const saveSettings = async () => {
         label="Save Changes" 
         color="primary" 
         size="md"
+        :loading="isSaving"
         @click="saveSettings"
       />
     </div>
@@ -55,20 +78,20 @@ const saveSettings = async () => {
         <UCard>
           <template #header>
             <h3 class="text-lg font-semibold text-charcoal-900 dark:text-white">General Settings</h3>
-            <p class="text-sm text-charcoal-500">Basic information about your website.</p>
+            <p class="text-sm dark:text-charcoal-300">Basic information about your website.</p>
           </template>
           
           <div class="space-y-4">
             <UFormField label="Site Name" name="siteName">
-              <UInput v-model="form.general.siteName" />
+              <UInput v-model="form.general.siteName" class="w-full" />
             </UFormField>
             
             <UFormField label="Contact Email" name="contactEmail">
-              <UInput v-model="form.general.contactEmail" type="email" />
+              <UInput v-model="form.general.contactEmail" type="email" class="w-full" />
             </UFormField>
             
             <UFormField label="Support Phone" name="supportPhone">
-              <UInput v-model="form.general.supportPhone" />
+              <UInput v-model="form.general.supportPhone" class="w-full" />
             </UFormField>
           </div>
         </UCard>
@@ -78,16 +101,16 @@ const saveSettings = async () => {
         <UCard>
           <template #header>
             <h3 class="text-lg font-semibold text-charcoal-900 dark:text-white">SEO Configuration</h3>
-            <p class="text-sm text-charcoal-500">Manage default search engine optimization settings.</p>
+            <p class="text-sm dark:text-charcoal-300">Manage default search engine optimization settings.</p>
           </template>
           
           <div class="space-y-4">
             <UFormField label="Default Meta Title" name="metaTitle">
-              <UInput v-model="form.seo.metaTitle" />
+              <UInput v-model="form.seo.metaTitle" class="w-full" />
             </UFormField>
             
             <UFormField label="Default Meta Description" name="metaDescription">
-              <UTextarea v-model="form.seo.metaDescription" />
+              <UTextarea v-model="form.seo.metaDescription" class="w-full" />
             </UFormField>
           </div>
         </UCard>
@@ -97,14 +120,14 @@ const saveSettings = async () => {
         <UCard>
           <template #header>
             <h3 class="text-lg font-semibold text-charcoal-900 dark:text-white">Notification Preferences</h3>
-            <p class="text-sm text-charcoal-500">Control how and when you receive alerts.</p>
+            <p class="text-sm dark:text-charcoal-300">Control how and when you receive alerts.</p>
           </template>
           
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <div>
                 <div class="font-medium text-charcoal-900 dark:text-white">Email Notifications</div>
-                <div class="text-sm text-charcoal-500">Receive daily summaries via email.</div>
+                <div class="text-sm dark:text-charcoal-300">Receive daily summaries via email.</div>
               </div>
               <USwitch v-model="form.notifications.emailNotifications" />
             </div>
@@ -112,7 +135,7 @@ const saveSettings = async () => {
             <div class="flex items-center justify-between">
               <div>
                 <div class="font-medium text-charcoal-900 dark:text-white">New Quote Alerts</div>
-                <div class="text-sm text-charcoal-500">Get notified immediately when a new quote is requested.</div>
+                <div class="text-sm dark:text-charcoal-300">Get notified immediately when a new quote is requested.</div>
               </div>
               <USwitch v-model="form.notifications.newQuoteAlerts" />
             </div>
