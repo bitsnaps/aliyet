@@ -20,6 +20,7 @@
     "bcryptjs": "^3.0.3",
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.15.3",
+    "nodemailer": "^7.0.11",
     "nuxt": "^4.2.0",
     "nuxt-lucide-icons": "2.0.0",
     "sequelize": "^6.37.7",
@@ -27,7 +28,7 @@
     "valibot": "^1.2.0",
     "vue": "^3.5.22",
     "vue-router": "^4.6.3",
-    "nodemailer": "^7.0.11"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.76",

@@ -1,4 +1,6 @@
 <script setup>
+import DataImportModal from '~/components/admin/DataImportModal.vue'
+
 definePageMeta({
   layout: 'admin'
 })
@@ -7,6 +9,7 @@ const toast = useToast()
 
 // Modals state
 const isFormModalOpen = ref(false)
+const isImportModalOpen = ref(false)
 const isDeleteConfirmOpen = ref(false)
 const isEditing = ref(false)
 const isSaving = ref(false)
@@ -124,17 +127,34 @@ const confirmDelete = async () => {
         <h2 class="text-2xl font-bold text-charcoal-900 dark:text-white">Categories</h2>
         <p class="dark:text-charcoal-300 text-sm mt-1">Manage machine categories for your catalog</p>
       </div>
-      <UButton
-        icon="i-lucide-plus"
-        label="Add Category"
-        color="primary"
-        size="md"
-        class="cursor-pointer"
-        @click="openFormModal()"
-      />
+      <div class="flex gap-2">
+        <UButton
+          icon="i-lucide-upload"
+          label="Import"
+          color="neutral"
+          variant="outline"
+          size="md"
+          class="cursor-pointer"
+          @click="isImportModalOpen = true"
+        />
+        <UButton
+          icon="i-lucide-plus"
+          label="Add Category"
+          color="primary"
+          size="md"
+          class="cursor-pointer"
+          @click="openFormModal()"
+        />
+      </div>
     </div>
 
     <!-- Modals -->
+    <DataImportModal
+      v-model:open="isImportModalOpen"
+      model="Categories"
+      @success="refresh"
+    />
+
     <UModal v-model:open="isFormModalOpen" description="Category" :title="`${isEditing ? 'Edit' : 'Add'} Category`">
       <template #body>
         <UForm :state="state" @submit="handleFormSubmit">
