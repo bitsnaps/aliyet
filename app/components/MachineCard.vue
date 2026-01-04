@@ -20,10 +20,10 @@ const keySpecs = computed(() => {
   return specs.slice(0, 4).map(s => `${s.parameter}: ${s.value}${s.unit ? ' ' + s.unit : ''}`)
 })
 
-const shortDescription = computed(() => {
-    const desc = props.machine.description || ''
-    return desc.length > 140 ? desc.slice(0, 140) + '…' : desc
-})
+// const shortDescription = computed(() => {
+//     const desc = props.machine.description || ''
+//     return desc.length > 140 ? desc.slice(0, 140) + '…' : desc
+// })
 
 const imageUrl = computed(() => props.machine.metadata?.imageUrl || null)
 </script>
@@ -50,9 +50,9 @@ const imageUrl = computed(() => props.machine.metadata?.imageUrl || null)
                 </span>
             </div>
 
-            <p v-if="shortDescription" class="text-sm text-medium-gray-700 mt-2">
+            <!-- <p v-if="shortDescription" class="text-sm text-medium-gray-700 mt-2">
                 {{ shortDescription }}
-            </p>
+            </p> -->
 
             <div v-if="keySpecs.length" class="mt-3 flex flex-wrap gap-2">
                 <UBadge v-for="spec in keySpecs" :key="spec" color="neutral" variant="subtle" size="sm">

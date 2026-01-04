@@ -202,7 +202,7 @@ const { locales, setLocale } = useI18n();
             </div>
           </div>
 
-          <div class="mt-8 md:hidden">
+          <div class="mt-8">
             <UButton
               to="/catalog"
               variant="outline"

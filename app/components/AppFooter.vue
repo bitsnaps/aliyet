@@ -9,8 +9,7 @@ const { contacts } = useSiteData();
           <div class="lg:col-span-2">
             <a href="/" class="flex items-center gap-2 mb-4">
               <div class="text-white p-2 rounded-md">
-                <!-- <UIcon name="i-lucide-cog" class="w-7 h-7" /> -->
-                 <img src="/logo.svg" class="w-8 h-8" />
+                 <img src="/logo.svg" class="w-12 h-12" />
               </div>
               <span class="text-2xl font-extrabold tracking-tight text-white">Aliyaat</span>
             </a>
