@@ -28,6 +28,7 @@ const categories = computed(() => {
 
 // State
 const selectedCategoryId = ref(null)
+const search = ref('')
 const isConfiguratorOpen = ref(false)
 const configuratorMachine = ref(null)
 
@@ -41,7 +42,17 @@ watchEffect(() => {
 // Filtering
 const filteredMachines = computed(() => {
     if (!selectedCategoryId.value) return []
-    return machines.value.filter(m => String(m.category_id) === String(selectedCategoryId.value))
+    let result = machines.value.filter(m => String(m.category_id) === String(selectedCategoryId.value))
+    
+    const trimmed = search.value.trim().toLowerCase()
+    if (trimmed) {
+        result = result.filter(m => {
+            const name = (m.name || '').toLowerCase()
+            const code = (m.code || '').toLowerCase()
+            return name.includes(trimmed) || code.includes(trimmed)
+        })
+    }
+    return result
 })
 
 function openConfigurator(machine) {
@@ -126,16 +137,24 @@ const isSidebarOpen = ref(false)
             </div>
             <div class="hidden md:block w-1/3">
                  <!-- Native Input with Tailwind instead of UInput -->
-                 <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <UIcon name="i-heroicons-magnifying-glass" class="h-5 w-5 text-gray-400" />
-                    </div>
-                    <input 
-                        type="text" 
-                        placeholder="Search..." 
-                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                    />
-                 </div>
+                 <UInput
+                    v-model="search"
+                    icon="i-heroicons-magnifying-glass"
+                    placeholder="Search..."
+                    class="w-full"
+                    :ui="{ icon: { trailing: { pointer: '' } } }"
+                 >
+                    <template #trailing>
+                        <UButton
+                            v-show="search !== ''"
+                            color="gray"
+                            variant="link"
+                            icon="i-heroicons-x-mark"
+                            :padded="false"
+                            @click="search = ''"
+                        />
+                    </template>
+                 </UInput>
             </div>
         </header>
 
