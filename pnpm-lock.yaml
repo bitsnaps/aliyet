@@ -20,6 +20,9 @@ dependencies:
   mysql2:
     specifier: ^3.15.3
     version: 3.15.3
+  nodemailer:
+    specifier: ^7.0.11
+    version: 7.0.11
   nuxt:
     specifier: ^4.2.0
     version: 4.2.1(@vue/compiler-sfc@3.5.25)(eslint@9.39.2)(mysql2@3.15.3)(rollup@4.53.3)(sqlite3@5.1.7)(typescript@5.9.3)(vite@7.2.6)
@@ -58,9 +61,6 @@ devDependencies:
   happy-dom:
     specifier: ^20.0.10
     version: 20.0.11
-  nodemailer:
-    specifier: ^7.0.11
-    version: 7.0.11
   vitest:
     specifier: ^4.0.10
     version: 4.0.15(happy-dom@20.0.11)
@@ -6566,7 +6566,7 @@ packages:
   /nodemailer@7.0.11:
     resolution: {integrity: sha512-gnXhNRE0FNhD7wPSCGhdNh46Hs6nm+uTyg+Kq0cZukNQiYdnCsoQjodNP9BQVG9XrcK/v6/MgpAPBUFyzh9pvw==}
     engines: {node: '>=6.0.0'}
-    dev: true
+    dev: false
 
   /nopt@5.0.0:
     resolution: {integrity: sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ==}
