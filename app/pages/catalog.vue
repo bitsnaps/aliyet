@@ -63,25 +63,6 @@ const filteredMachines = computed(() => {
   return result
 })
 
-const machineRows = computed(() => {
-  return filteredMachines.value.map(m => {
-    const specs = Array.isArray(m.Specifications) ? m.Specifications : []
-    const keySpecs = specs.slice(0, 4).map(s => `${s.parameter}: ${s.value}${s.unit ? ' ' + s.unit : ''}`)
-    return {
-      id: m.id,
-      code: m.code,
-      name: m.name,
-      category: m.Category?.name || m.category_name || 'N/A',
-      categoryDescription: m.Category?.description || '',
-      basePrice: m.base_price,
-      available: m.available,
-      imageUrl: m.metadata?.imageUrl || null,
-      shortDescription: m.description ? m.description.slice(0, 140) + (m.description.length > 140 ? '…' : '') : '',
-      keySpecs,
-    }
-  })
-})
-
 const selectedCategory = computed(() => {
   if (selectedCategoryId.value === 'all') return null
   return categories.value.find(c => String(c.id) === String(selectedCategoryId.value)) || null
@@ -99,12 +80,6 @@ const activeDescription = computed(() => {
   return selectedCategory.value.description || t('catalog.description')
 })
 
-const formatPrice = (value) => {
-  if (value == null) return t('catalog.contact_for_price')
-  const num = Number(value)
-  if (Number.isNaN(num)) return t('catalog.contact_for_price')
-  return `$${num.toLocaleString()}`
-}
 </script>
 
 <template>
@@ -172,7 +147,7 @@ const formatPrice = (value) => {
       </div>
 
       <div v-else>
-        <div v-if="machineRows.length === 0" class="py-10">
+        <div v-if="filteredMachines.length === 0" class="py-10">
           <UEmpty
             icon="i-lucide-database-zap"
             :title="$t('catalog.no_machines')"
@@ -231,91 +206,37 @@ const formatPrice = (value) => {
                 </p>
               </div>
               <UBadge color="neutral" variant="subtle" size="sm" :ui="{ rounded: 'rounded-full' }">
-                {{ $t('catalog.models_count', { count: machineRows.length }) }}
+                {{ $t('catalog.models_count', { count: filteredMachines.length }) }}
               </UBadge>
             </div>
 
             <div class="space-y-4">
-              <UCard
-                v-for="machine in machineRows"
+              <MachineCard
+                v-for="machine in filteredMachines"
                 :key="machine.id"
-                :ui="{ body: { padding: 'p-4 md:p-6' } }"
+                :machine="machine"
               >
-                <div class="flex flex-col lg:flex-row lg:items-center gap-6">
-                  <div class="flex items-start gap-4 flex-1">
-                    <div class="w-20 h-20 rounded-xl overflow-hidden bg-light-gray-300 flex-shrink-0">
-                      <img
-                        v-if="machine.imageUrl"
-                        :src="machine.imageUrl"
-                        :alt="machine.name"
-                        class="w-full h-full object-cover"
-                      >
-                      <div v-else class="w-full h-full flex items-center justify-center text-medium-gray-600">
-                        <UIcon name="i-lucide-factory" class="w-8 h-8 opacity-40" />
-                      </div>
-                    </div>
-
-                    <div class="min-w-0">
-                      <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-                        <p class="text-lg font-semibold dark:text-charcoal-300 truncate">
-                          {{ machine.name }}
-                        </p>
-                        <span class="font-mono text-xs text-medium-gray-700">
-                          {{ machine.code }}
-                        </span>
-                      </div>
-
-                      <p v-if="machine.shortDescription" class="text-sm text-medium-gray-700 mt-2">
-                        {{ machine.shortDescription }}
-                      </p>
-
-                      <div v-if="machine.keySpecs.length" class="mt-3 flex flex-wrap gap-2">
-                        <UBadge
-                          v-for="spec in machine.keySpecs"
-                          :key="spec"
-                          color="neutral"
-                          variant="subtle"
-                          size="sm"
-                        >
-                          {{ spec }}
-                        </UBadge>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="flex flex-col sm:flex-row lg:flex-col lg:items-end gap-3 lg:min-w-56">
-                    <div class="text-left lg:text-right">
-                      <p class="text-xs font-semibold uppercase tracking-wide text-medium-gray-600">
-                        {{ $t('catalog.starting_price') }}
-                      </p>
-                      <p class="text-xl font-bold text-deep-teal-600">
-                        {{ formatPrice(machine.basePrice) }}
-                      </p>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
-                      <UButton
-                        :to="`/machines/${machine.id}`"
-                        color="neutral"
-                        variant="outline"
-                        size="sm"
-                        class="cursor-pointer w-full sm:w-auto"
-                      >
-                        {{ $t('catalog.read_more') }}
-                      </UButton>
-                      <UButton
-                        :to="`/build-and-price?machineId=${machine.id}`"
-                        color="primary"
-                        variant="solid"
-                        size="sm"
-                        class="cursor-pointer w-full sm:w-auto"
-                      >
-                        {{ $t('catalog.build_price') }}
-                      </UButton>
-                    </div>
-                  </div>
-                </div>
-              </UCard>
+                <template #actions="{ machine }">
+                  <UButton
+                    :to="`/machines/${machine.id}`"
+                    color="neutral"
+                    variant="outline"
+                    size="sm"
+                    class="cursor-pointer w-full sm:w-auto"
+                  >
+                    {{ $t('catalog.read_more') }}
+                  </UButton>
+                  <UButton
+                    :to="`/build-and-price?machineId=${machine.id}`"
+                    color="primary"
+                    variant="solid"
+                    size="sm"
+                    class="cursor-pointer w-full sm:w-auto"
+                  >
+                    {{ $t('catalog.build_price') }}
+                  </UButton>
+                </template>
+              </MachineCard>
             </div>
           </div>
         </div>

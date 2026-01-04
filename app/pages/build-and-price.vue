@@ -44,14 +44,6 @@ const filteredMachines = computed(() => {
     return machines.value.filter(m => String(m.category_id) === String(selectedCategoryId.value))
 })
 
-// Formatting
-const formatPrice = (value) => {
-  if (value == null) return t('catalog.contact_for_price')
-  const num = Number(value)
-  if (Number.isNaN(num)) return t('catalog.contact_for_price')
-  return `$${num.toLocaleString()}`
-}
-
 function openConfigurator(machine) {
     configuratorMachine.value = machine
     isConfiguratorOpen.value = true
@@ -157,56 +149,23 @@ const isSidebarOpen = ref(false)
                 <p class="text-gray-500">No machines found in this category.</p>
             </div>
 
-            <div v-for="machine in filteredMachines" :key="machine.id" class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
-                <div class="flex flex-col lg:flex-row items-center p-6 gap-6">
-                    <!-- Image & Name -->
-                    <div class="flex flex-col items-center w-full lg:w-1/4 shrink-0">
-                         <div class="w-full aspect-[4/3] bg-gray-50 dark:bg-gray-900 rounded-md overflow-hidden flex items-center justify-center mb-3">
-                            <img 
-                                v-if="machine.metadata?.imageUrl" 
-                                :src="machine.metadata.imageUrl" 
-                                :alt="machine.name" 
-                                class="w-full h-full object-contain p-2"
-                            />
-                            <UIcon v-else name="i-lucide-factory" class="w-16 h-16 text-gray-300" />
-                        </div>
-                        <h3 class="text-xl font-bold text-primary-600 dark:text-primary-400">{{ machine.name }}</h3>
-                        <p class="text-xs text-gray-400">{{ machine.code }}</p>
-                    </div>
-
-                    <!-- Features -->
-                    <div class="flex-1 w-full border-t lg:border-t-0 lg:border-l lg:border-r border-gray-100 dark:border-gray-700 py-4 lg:px-6">
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-                            <div v-for="(spec, idx) in (machine.Specifications || []).slice(0, 4)" :key="idx" class="flex flex-col items-center justify-center p-2">
-                                <span class="text-lg font-bold text-gray-800 dark:text-gray-100">
-                                    {{ spec.value }} <span class="text-xs font-normal text-gray-500">{{ spec.unit }}</span>
-                                </span>
-                                <span class="text-xs text-gray-500 uppercase mt-1">{{ spec.parameter }}</span>
-                            </div>
-                             <div v-if="(!machine.Specifications || machine.Specifications.length === 0)" class="col-span-4 text-gray-400 text-sm italic">
-                                Specs coming soon
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Price & Action -->
-                    <div class="flex flex-col items-center justify-center w-full lg:w-1/5 gap-4 shrink-0">
-                        <div class="text-center">
-                            <p class="text-xs text-gray-500 uppercase">{{ $t('catalog.starting_price') }}</p>
-                            <p class="text-xl font-bold text-gray-900 dark:text-white">{{ formatPrice(machine.base_price) }}</p>
-                        </div>
-                        <UButton 
-                            color="primary" 
-                            variant="solid" 
-                            size="lg" 
-                            class="w-full justify-center font-bold"
-                            @click="openConfigurator(machine)"
-                        >
-                            BUILD
-                        </UButton>
-                    </div>
-                </div>
-            </div>
+            <MachineCard
+                v-for="machine in filteredMachines"
+                :key="machine.id"
+                :machine="machine"
+            >
+                <template #actions="{ machine }">
+                    <UButton
+                        color="primary"
+                        variant="solid"
+                        size="lg"
+                        class="w-full justify-center font-bold"
+                        @click="openConfigurator(machine)"
+                    >
+                        BUILD
+                    </UButton>
+                </template>
+            </MachineCard>
             
             <!-- Bottom spacing -->
             <div class="h-20 md:h-0"></div>
