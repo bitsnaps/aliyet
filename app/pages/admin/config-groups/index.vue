@@ -1,4 +1,6 @@
 <script setup>
+import DataImportModal from '~/components/admin/DataImportModal.vue'
+
 definePageMeta({
   layout: 'admin'
 });
@@ -23,6 +25,7 @@ const columns = [
 ];
 
 const isConfirmDeleteOpen = ref(false);
+const isImportModalOpen = ref(false);
 const currentGroup = ref(null);
 
 const openDeleteModal = (group) => {
@@ -57,7 +60,10 @@ const deleteItem = async () => {
   <div class="space-y-6">
     <div class="flex items-center justify-between">
       <h1 class="text-2xl font-semibold text-charcoal-900 dark:text-white">Configuration Groups</h1>
-      <UButton to="/admin/config-groups/new" label="Add New Group" icon="i-lucide-plus" color="primary" />
+      <div class="flex gap-2">
+        <UButton label="Import" icon="i-lucide-upload" color="neutral" variant="soft" @click="isImportModalOpen = true" />
+        <UButton to="/admin/config-groups/new" label="Add New Group" icon="i-lucide-plus" color="primary" />
+      </div>
     </div>
 
     <UCard :ui="{ body: { padding: 'p-0' } }">
@@ -88,5 +94,11 @@ const deleteItem = async () => {
         </div>
       </template>
     </UModal>
+
+    <DataImportModal
+      v-model:open="isImportModalOpen"
+      model="ConfigCategories"
+      @success="refresh"
+    />
   </div>
 </template>
