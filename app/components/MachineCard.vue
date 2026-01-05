@@ -33,9 +33,9 @@ const imageUrl = computed(() => props.machine.metadata?.imageUrl || null)
     <div class="flex flex-col lg:flex-row lg:items-center gap-6">
       <div class="flex items-start gap-4 flex-1">
         <!-- Image -->
-        <div class="w-20 h-20 rounded-xl overflow-hidden bg-light-gray-300 flex-shrink-0">
-            <img v-if="imageUrl" :src="imageUrl" :alt="machine.name" class="w-full h-full object-cover">
-            <div v-else class="w-full h-full flex items-center justify-center text-medium-gray-600">
+        <div class="w-20 h-20 rounded-xl overflow-hidden bg-white flex-shrink-0">
+            <img v-if="imageUrl" :src="imageUrl" :alt="machine.name" class="w-full h-full object-contain p-1">
+            <div v-else class="w-full h-full flex items-center justify-center text-medium-gray-600 bg-light-gray-300">
                 <UIcon name="i-lucide-factory" class="w-8 h-8 opacity-40" />
             </div>
         </div>
