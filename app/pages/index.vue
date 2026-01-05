@@ -192,7 +192,7 @@ const { locales, setLocale } = useI18n();
                     to="/catalog"
                     color="action-teal"
                     variant="solid"
-                    class="font-bold light:text-charcoal-500 text-action-teal-500"
+                    class="font-bold light:text-charcoal-500 text-action-teal-300"
                     size="sm"
                   >
                     {{ $t('products.configure_price') }} <UIcon name="i-lucide-arrow-right" class="w-4 h-4 ml-2" />
