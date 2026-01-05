@@ -20,7 +20,7 @@ watchEffect(() => {
 })
 
 useHead({
-  title: machine.value ? `${machine.value.name} - ${t('machine_details.page_title_suffix')}` : t('machine_details.page_title_default'),
+  title: machine.value ? `Machine: ${machine.value.name}` : 'Machine',
 })
 
 const formatPrice = (value) => {
@@ -54,37 +54,82 @@ const formatPrice = (value) => {
         />
       </div>
 
-      <div v-else class="grid lg:grid-cols-[2fr,3fr] gap-8 items-start">
-        <div class="space-y-4">
+      <div v-else class="grid lg:grid-cols-2 gap-8 items-start">
+        <!-- Left Column: Image -->
+        <div>
+          <div
+            v-if="machine.metadata?.imageUrl"
+            class="w-full aspect-[4/3] rounded-xl overflow-hidden bg-white border border-light-gray-300 shadow-sm"
+          >
+            <img
+              :src="machine.metadata.imageUrl"
+              :alt="machine.name"
+              class="w-full h-full object-contain p-4"
+            >
+          </div>
+          <div v-else class="w-full aspect-[4/3] rounded-xl overflow-hidden bg-light-gray-300 flex items-center justify-center text-medium-gray-600">
+            <UIcon name="i-lucide-factory" class="w-20 h-20 opacity-40" />
+          </div>
+        </div>
+
+        <!-- Right Column: Details -->
+        <div class="space-y-6">
           <UCard>
-            <div class="space-y-3">
-              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-deep-teal-500">
+            <div class="mb-2">
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-deep-teal-500 mb-2">
                 {{ machine.Category?.name || 'Machine' }}
               </p>
-              <h1 class="text-3xl md:text-4xl font-extrabold dark:text-white">
+              <h1 class="text-3xl md:text-4xl font-extrabold dark:text-white mb-2">
                 {{ machine.name }}
               </h1>
               <p class="text-sm text-medium-gray-600">
                 {{ $t('machine_details.model_code') }}:
                 <span class="font-mono">{{ machine.code }}</span>
               </p>
-              <div
-                v-if="machine.metadata?.imageUrl"
-                class="mt-4 w-full aspect-[4/3] rounded-xl overflow-hidden bg-light-gray-300"
-              >
-                <img
-                  :src="machine.metadata.imageUrl"
-                  :alt="machine.name"
-                  class="w-full h-full object-cover"
-                >
+            </div>
+
+            <p v-if="machine.description" class="text-base text-medium-gray-700 dark:text-medium-gray-200">
+              {{ machine.description }}
+            </p>
+          </UCard>
+          <UCard>
+            <div class="flex flex-col gap-4">
+              <div>
+                <p class="text-sm font-semibold dark:text-charcoal-300">
+                  {{ $t('machine_details.starting_price') }}
+                </p>
+                <p class="text-2xl font-bold text-deep-teal-600">
+                  {{ formatPrice(machine.base_price) }}
+                </p>
+                <p class="text-xs dark:text-medium-gray-500 mt-1">
+                  {{ $t('machine_details.price_disclaimer') }}
+                </p>
               </div>
-              <p v-if="machine.description" class="text-base md:text-lg dark:text-medium-gray-200 mt-4">
-                {{ machine.description }}
-              </p>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <UButton
+                  :to="`/build-and-price?machineId=${machineId}`"
+                  color="primary"
+                  variant="solid"
+                  size="lg"
+                  class="cursor-pointer flex-1 justify-center"
+                >
+                  {{ $t('catalog.build_price') }}
+                </UButton>
+                <UButton
+                  to="/build-and-price"
+                  color="neutral"
+                  variant="outline"
+                  size="lg"
+                  class="cursor-pointer flex-1 justify-center"
+                >
+                  {{ $t('machine_details.quick_quote') }}
+                </UButton>
+              </div>
             </div>
           </UCard>
 
-          <UCard v-if="machine.url">
+          <!-- Manufacturer Information -->
+          <!-- <UCard v-if="machine.url">
             <div class="flex items-center justify-between gap-4">
               <div>
                 <p class="text-sm font-semibold dark:text-charcoal-300">
@@ -105,46 +150,11 @@ const formatPrice = (value) => {
                 {{ $t('machine_details.visit_page') }}
               </UButton>
             </div>
-          </UCard>
+          </UCard> -->
         </div>
+      </div>
 
-        <div class="space-y-6">
-          <UCard>
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <p class="text-sm font-semibold dark:text-charcoal-300">
-                  {{ $t('machine_details.starting_price') }}
-                </p>
-                <p class="text-2xl font-bold text-deep-teal-600">
-                  {{ formatPrice(machine.base_price) }}
-                </p>
-                <p class="text-xs text-medium-gray-700 mt-1">
-                  {{ $t('machine_details.price_disclaimer') }}
-                </p>
-              </div>
-              <div class="flex flex-col sm:flex-row gap-3">
-                <UButton
-                  :to="`/build-and-price?machineId=${machineId}`"
-                  color="primary"
-                  variant="solid"
-                  size="lg"
-                  class="cursor-pointer"
-                >
-                  {{ $t('catalog.build_price') }}
-                </UButton>
-                <UButton
-                  to="/build-and-price"
-                  color="neutral"
-                  variant="outline"
-                  size="lg"
-                  class="cursor-pointer"
-                >
-                  {{ $t('machine_details.quick_quote') }}
-                </UButton>
-              </div>
-            </div>
-          </UCard>
-
+      <div class="grid lg:grid-cols-1 mt-4">
           <UCard>
             <template #header>
               <div class="flex items-center justify-between">
@@ -180,8 +190,9 @@ const formatPrice = (value) => {
               {{ $t('machine_details.specs_soon') }}
             </div>
           </UCard>
-        </div>
       </div>
+
+
     </div>
   </section>
 </template>
