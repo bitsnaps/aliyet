@@ -67,9 +67,6 @@
         "view_catalog": "عرض الكتالوج الكامل",
         "configure_price": "التخصيص والسعر",
         "machine_types": {
-            "turning": "مركز خراطة",
-            "machining": "مركز تشغيل",
-            "edm": "آلة EDM",
             "turning_centers": "مراكز الخراطة",
             "machining_centers": "مراكز التشغيل",
             "edm_machines": "آلات EDM"

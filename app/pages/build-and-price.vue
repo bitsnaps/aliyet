@@ -1,6 +1,7 @@
 <script setup>
 const { t } = useI18n()
 const toast = useToast()
+const route = useRoute()
 
 // Data Fetching
 const { data: machinesFetch, error: machinesError } = await useFetch('/api/machines')
@@ -20,10 +21,24 @@ const categories = computed(() => {
     if (id == null || !name) continue
     const key = String(id)
     if (!map.has(key)) {
-      map.set(key, { id: key, name, description: machine?.Category?.description || '' })
+      map.set(key, {
+        id: key,
+        name,
+        description: machine?.Category?.description || '',
+        machine_type: machine?.Category?.metadata?.machine_type
+      })
     }
   }
   return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name))
+})
+
+// Initialize filters from query params
+const typeFilter = computed(() => route.query.type)
+
+// Filter categories based on type
+const filteredCategories = computed(() => {
+  if (!typeFilter.value) return categories.value
+  return categories.value.filter(c => c.machine_type === typeFilter.value)
 })
 
 // State
@@ -34,8 +49,14 @@ const configuratorMachine = ref(null)
 
 // Initialize selected category
 watchEffect(() => {
-    if (!selectedCategoryId.value && categories.value.length > 0) {
-        selectedCategoryId.value = categories.value[0].id
+    // If we have a type filter, we should only auto-select from filtered categories
+    const availableCategories = filteredCategories.value
+    
+    // If currently selected category is not in the available list (due to filter change), or nothing selected
+    const isValidSelection = selectedCategoryId.value && availableCategories.find(c => c.id === selectedCategoryId.value)
+    
+    if (!isValidSelection && availableCategories.length > 0) {
+        selectedCategoryId.value = availableCategories[0].id
     }
 })
 
@@ -73,12 +94,11 @@ const isSidebarOpen = ref(false)
             <h2 class="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">Categories</h2>
         </div>
         <nav class="flex-1 p-2 space-y-1">
-            <button 
-                v-for="category in categories" 
+            <button
+                v-for="category in filteredCategories"
                 :key="category.id"
                 @click="selectedCategoryId = category.id"
-                :class="[
-                    'w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors cursor-pointer',
+                :class="['w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors cursor-pointer',
                     selectedCategoryId === category.id 
                         ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400' 
                         : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -106,8 +126,8 @@ const isSidebarOpen = ref(false)
                 <UButton icon="i-heroicons-x-mark" color="gray" variant="ghost" @click="isSidebarOpen = false" />
             </div>
              <nav class="flex-1 overflow-y-auto p-2 space-y-1">
-                <button 
-                    v-for="category in categories" 
+                <button
+                    v-for="category in filteredCategories"
                     :key="category.id"
                     @click="selectedCategoryId = category.id; isSidebarOpen = false"
                     :class="[
@@ -144,10 +164,9 @@ const isSidebarOpen = ref(false)
                     class="w-full"
                     :ui="{ icon: { trailing: { pointer: '' } } }"
                  >
-                    <template #trailing>
+                    <template v-if="search?.length" #trailing>
                         <UButton
-                            v-show="search !== ''"
-                            color="gray"
+                            color="neutral"
                             variant="link"
                             icon="i-heroicons-x-mark"
                             :padded="false"

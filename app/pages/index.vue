@@ -1,7 +1,8 @@
 <script setup>
 const { services, machineTypes, clients, contacts } = useSiteData();
-const selectedMachineForQuote = ref('turning');
 const { locales, setLocale } = useI18n();
+
+const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers');
 
 </script>
 <template>
@@ -189,7 +190,7 @@ const { locales, setLocale } = useI18n();
                 <h3 class="text-white text-2xl font-bold mb-2">{{ machine.label }}</h3>
                 <div class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 transition-all duration-300">
                   <UButton
-                    to="/catalog"
+                    :to="`/catalog?type=${machine.key}`"
                     color="action-teal"
                     variant="solid"
                     class="font-bold light:text-charcoal-500 text-action-teal-300"
@@ -272,7 +273,7 @@ const { locales, setLocale } = useI18n();
                 </div>
 
                 <UButton
-                  to="/build-and-price"
+                  :to="`/build-and-price?type=${selectedMachineForQuote}`"
                   :disabled="!selectedMachineForQuote"
                   color="action-teal"
                   variant="solid"

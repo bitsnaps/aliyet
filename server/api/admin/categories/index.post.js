@@ -13,7 +13,8 @@ export default defineEventHandler(async (event) => {
   try {
     const newCategory = await Categories.create({
       name: body.name,
-      description: body.description
+      description: body.description,
+      metadata: body.metadata
     });
     return {
       statusCode: 201,

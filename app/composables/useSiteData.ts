@@ -17,10 +17,16 @@ export const useSiteData = () => {
     { title: t('services.list.training.title'), description: t('services.list.training.description'), icon: 'i-lucide-users' },
   ]);
 
+  // const MachineType = Object.freeze({
+  //   TURNING: 'turning_centers',
+  //   MACHINING: 'machining_centers',
+  //   EDM: 'edm_machines'
+  // });
+
   const machineTypes = computed(() => [
-    { id: 'turning', label: t('products.machine_types.turning') },
-    { id: 'machining', label: t('products.machine_types.machining') },
-    { id: 'edm', label: t('products.machine_types.edm') },
+    { id: 'turning_centers', label: t('products.machine_types.turning') },
+    { id: 'machining_centers', label: t('products.machine_types.machining') },
+    { id: 'edm_machines', label: t('products.machine_types.edm') },
   ]);
 
   const clients = ref([

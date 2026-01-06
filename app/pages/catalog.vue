@@ -1,5 +1,6 @@
 <script setup>
 const { t } = useI18n()
+const route = useRoute()
 
 useHead({
   title: `${t('catalog.title')} - Aliyaat`,
@@ -33,15 +34,29 @@ const categories = computed(() => {
     if (id == null || !name) continue
     const key = String(id)
     if (!map.has(key)) {
-      map.set(key, { id: key, name, description: machine?.Category?.description || '' })
+      map.set(key, {
+        id: key,
+        name,
+        description: machine?.Category?.description || '',
+        machine_type: machine?.Category?.metadata?.machine_type
+      })
     }
   }
   return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name))
 })
 
+// Initialize filters from query params
+const typeFilter = computed(() => route.query.type)
+
+// Filter categories based on type
+const filteredCategories = computed(() => {
+  if (!typeFilter.value) return categories.value
+  return categories.value.filter(c => c.machine_type === typeFilter.value)
+})
+
 const categoryItems = computed(() => {
   const base = [{ label: t('catalog.all_categories'), value: 'all' }]
-  const rest = categories.value.map(c => ({ label: c.name, value: String(c.id) }))
+  const rest = filteredCategories.value.map(c => ({ label: c.name, value: String(c.id) }))
   return [...base, ...rest]
 })
 
@@ -66,6 +81,27 @@ const filteredMachines = computed(() => {
 const selectedCategory = computed(() => {
   if (selectedCategoryId.value === 'all') return null
   return categories.value.find(c => String(c.id) === String(selectedCategoryId.value)) || null
+})
+
+// Auto-select category if type is present and only one category matches, or if only filtering by type
+watchEffect(() => {
+    if (typeFilter.value && filteredCategories.value.length === 1 && selectedCategoryId.value === 'all') {
+        selectedCategoryId.value = filteredCategories.value[0].id
+    }
+})
+
+// Computed property for the actual list of machines to show
+const displayMachines = computed(() => {
+    let result = filteredMachines.value
+    
+    // If a type filter is active, further filter machines to ensure they belong to allowed categories
+    if (typeFilter.value) {
+        result = result.filter(m => {
+             const cat = categories.value.find(c => String(c.id) === String(m.category_id))
+             return cat && cat.machine_type === typeFilter.value
+        })
+    }
+    return result
 })
 
 const activeTitle = computed(() => {
@@ -147,7 +183,7 @@ const activeDescription = computed(() => {
       </div>
 
       <div v-else>
-        <div v-if="filteredMachines.length === 0" class="py-10">
+        <div v-if="displayMachines.length === 0" class="py-10">
           <UEmpty
             icon="i-lucide-database-zap"
             :title="$t('catalog.no_machines')"
@@ -206,13 +242,13 @@ const activeDescription = computed(() => {
                 </p>
               </div>
               <UBadge color="neutral" variant="subtle" size="sm" :ui="{ rounded: 'rounded-full' }">
-                {{ $t('catalog.models_count', { count: filteredMachines.length }) }}
+                {{ $t('catalog.models_count', { count: displayMachines.length }) }}
               </UBadge>
             </div>
 
             <div class="space-y-4">
               <MachineCard
-                v-for="machine in filteredMachines"
+                v-for="machine in displayMachines"
                 :key="machine.id"
                 :machine="machine"
               >

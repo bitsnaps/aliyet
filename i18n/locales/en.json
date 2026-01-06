@@ -67,9 +67,6 @@
         "view_catalog": "View Full Catalog",
         "configure_price": "Configure & Price",
         "machine_types": {
-            "turning": "Turning Center",
-            "machining": "Machining Center",
-            "edm": "EDM Machine",
             "turning_centers": "Turning Centers",
             "machining_centers": "Machining Centers",
             "edm_machines": "EDM Machines"

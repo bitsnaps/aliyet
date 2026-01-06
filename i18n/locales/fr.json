@@ -67,9 +67,6 @@
         "view_catalog": "Voir le Catalogue Complet",
         "configure_price": "Configurer & Prix",
         "machine_types": {
-            "turning": "Centre de Tournage",
-            "machining": "Centre d'Usinage",
-            "edm": "Machine EDM",
             "turning_centers": "Centres de Tournage",
             "machining_centers": "Centres d'Usinage",
             "edm_machines": "Machines EDM"
