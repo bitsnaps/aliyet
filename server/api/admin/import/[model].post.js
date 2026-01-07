@@ -12,7 +12,8 @@ export default defineEventHandler(async (event) => {
     let XLSX;
     try {
       addLog('Attempting to dynamically import xlsx...');
-      const _xlsx = await import('xlsx');
+      //const _xlsx = await import('xlsx');
+      const _xlsx = await import('xlsx/xlsx.mjs');
       XLSX = _xlsx.default || _xlsx;
       addLog('xlsx imported successfully.');
     } catch (e) {
