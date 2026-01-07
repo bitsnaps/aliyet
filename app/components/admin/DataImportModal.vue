@@ -120,19 +120,15 @@ const handleImport = async () => {
       </div>
       
       <div v-else class="space-y-6">
+        
         <!-- File Upload -->
         <UFormField label="Excel File" help="Supported formats: .xlsx, .xls">
            <UInput type="file" accept=".xlsx, .xls" @change="handleFileChange" class="w-full" />
         </UFormField>
 
-        <!-- Duplicate Handling -->
-        <UFormField label="Duplicate Handling">
-          <URadioGroup v-model="mode" :items="modes" />
-        </UFormField>
-
         <!-- Field Mapping -->
-        <div>
-          <div class="flex items-center justify-between mb-2">
+        <div class="mb-2">
+          <div class="flex items-center justify-between">
             <span class="text-sm font-medium text-gray-700 dark:text-gray-200">Fields to Import</span>
             <UButton 
               size="xs" 
@@ -140,6 +136,7 @@ const handleImport = async () => {
               color="primary" 
               :label="selectedFields.length === schema.length ? 'Deselect All' : 'Select All'" 
               @click="toggleAllFields"
+              class="cursor-pointer"
             />
           </div>
           
@@ -160,6 +157,12 @@ const handleImport = async () => {
             </div>
           </div>
         </div>
+
+        <!-- Duplicate Handling -->
+        <UFormField label="Duplicate Handling">
+          <URadioGroup v-model="mode" :items="modes" />
+        </UFormField>
+
       </div>
     </template>
 
