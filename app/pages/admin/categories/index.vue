@@ -22,7 +22,8 @@ const defaultCategory = {
   metadata: {}
 }
 const state = ref({ ...defaultCategory })
-const metadataList = ref([])
+const metadataString = ref('{}')
+const metadataError = ref('')
 
 // Data
 const { data: categories, pending, refresh } = await useFetch('/api/admin/categories', {
@@ -65,33 +66,27 @@ const openFormModal = (category = null) => {
         ...category,
         metadata: category.metadata || {}
     }
-    // Convert object to array for editing
-    metadataList.value = Object.entries(state.value.metadata || {}).map(([key, value]) => ({ key, value }))
+    metadataString.value = JSON.stringify(state.value.metadata, null, 2)
   } else {
     isEditing.value = false
     selectedCategory.value = null
     state.value = { ...defaultCategory }
-    metadataList.value = []
+    metadataString.value = '{\n  "machine_type": ""\n}'
   }
+  metadataError.value = ''
   isFormModalOpen.value = true
 }
 
-const addMetadataItem = () => {
-  metadataList.value.push({ key: '', value: '' })
-}
-
-const removeMetadataItem = (index) => {
-  metadataList.value.splice(index, 1)
-}
-
 const handleFormSubmit = async () => {
+  // Validate JSON
+  try {
+    state.value.metadata = JSON.parse(metadataString.value)
+  } catch (e) {
+    metadataError.value = 'Invalid JSON format: ' + e.message
+    return
+  }
+
   isSaving.value = true
-  
-  // Convert array back to object
-  state.value.metadata = metadataList.value.reduce((acc, item) => {
-    if (item.key) acc[item.key] = item.value
-    return acc
-  }, {})
 
   const method = isEditing.value ? 'PUT' : 'POST'
   
@@ -191,21 +186,16 @@ const confirmDelete = async () => {
           </UFormField>
 
           <div class="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
-            <div class="flex justify-between items-center mb-2">
-              <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Metadata</h3>
-              <UButton size="xs" color="neutral" variant="soft" icon="i-lucide-plus" label="Add Field" @click="addMetadataItem" class="cursor-pointer" />
-            </div>
-            
-            <div class="space-y-2">
-              <div v-for="(item, index) in metadataList" :key="index" class="flex gap-2">
-                <UInput v-model="item.key" placeholder="Key (e.g. machine_type)" class="flex-1" size="sm" />
-                <UInput v-model="item.value" placeholder="Value" class="flex-1" size="sm" />
-                <UButton color="error" variant="ghost" icon="i-lucide-trash" size="sm" @click="removeMetadataItem(index)" class="cursor-pointer" />
-              </div>
-              <div v-if="metadataList.length === 0" class="text-xs text-gray-500 italic text-center py-2">
-                No extra metadata defined.
-              </div>
-            </div>
+            <UFormField label="Metadata (JSON)" name="metadata" :error="metadataError">
+              <UTextarea
+                v-model="metadataString"
+                :rows="6"
+                placeholder="{}"
+                class="font-mono text-sm w-full"
+                autoresize
+              />
+            </UFormField>
+
             <div class="mt-2 text-xs text-gray-500">
               <p>Common keys: <code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">machine_type</code> (values: turning_centers, machining_centers, edm_machines)</p>
             </div>
