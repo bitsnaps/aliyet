@@ -6,9 +6,6 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'node-server', // Builds a standalone Node server
-    /*externals: {
-      external: ['xlsx'] // This tells Nitro builder not to bundle xlsx into the output files
-    }*/
   },
   modules: ['@nuxt/ui', 'nuxt-lucide-icons', '@nuxt/fonts', '@nuxtjs/i18n'],
   i18n: {
