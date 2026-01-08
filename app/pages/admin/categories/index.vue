@@ -157,8 +157,7 @@ const confirmDelete = async () => {
           color="neutral"
           variant="outline"
           size="md"
-          class="cursor-pointer"
-          @click="isImportModalOpen = true"
+          class="cursor-pointer" @click="isImportModalOpen = true"
         />
         <UButton
           icon="i-lucide-download"
@@ -166,8 +165,7 @@ const confirmDelete = async () => {
           color="neutral"
           variant="outline"
           size="md"
-          class="cursor-pointer"
-          @click="isExportModalOpen = true"
+          class="cursor-pointer" @click="isExportModalOpen = true"
         />
         <UButton
           icon="i-lucide-plus"

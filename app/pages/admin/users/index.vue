@@ -1,4 +1,7 @@
 <script setup>
+import DataImportModal from '~/components/admin/DataImportModal.vue'
+import DataExportModal from '~/components/admin/DataExportModal.vue'
+
 definePageMeta({
   layout: 'admin'
 })
@@ -8,6 +11,8 @@ const toast = useToast()
 // Modals state
 const isDeleteConfirmOpen = ref(false)
 const isDeleting = ref(false)
+const isImportModalOpen = ref(false)
+const isExportModalOpen = ref(false)
 const selectedUser = ref(null)
 
 // Data
@@ -77,19 +82,34 @@ const confirmDelete = async () => {
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
         <h2 class="text-2xl font-bold text-charcoal-900 dark:text-white">Users</h2>
-        <p class="dark:text-charcoal-300 text-sm mt-1">Manage system users and their roles.</p>
+          <p class="dark:text-charcoal-300 text-sm mt-1">Manage system users and their roles.</p>
+        </div>
+        <div class="flex gap-2">
+          <UButton label="Import" icon="i-lucide-upload" color="neutral" variant="soft"  class="cursor-pointer" @click="isImportModalOpen = true" />
+          <UButton label="Export" icon="i-lucide-download" color="neutral" variant="soft" class="cursor-pointer" @click="isExportModalOpen = true" />
+          <UButton
+            icon="i-lucide-plus"
+            label="Add User"
+            color="primary"
+            size="md"
+            to="/admin/users/new"
+          />
+        </div>
       </div>
-      <UButton
-        icon="i-lucide-plus"
-        label="Add User"
-        color="primary"
-        size="md"
-        to="/admin/users/new"
+  
+      <!-- Modals -->
+      <DataImportModal
+        v-model:open="isImportModalOpen"
+        model="Users"
+        @success="refresh"
       />
-    </div>
-
-    <!-- Modals -->
-    <UModal v-model:open="isDeleteConfirmOpen" :description="`Username: ${selectedUser?.username}`" title="Confirm Deletion">
+  
+      <DataExportModal
+        v-model:open="isExportModalOpen"
+        model="Users"
+      />
+  
+      <UModal v-model:open="isDeleteConfirmOpen" :description="`Username: ${selectedUser?.username}`" title="Confirm Deletion">
       <template #body>
         <p>Are you sure you want to delete the user <UBadge color="neutral" variant="subtle">{{ selectedUser?.name }}</UBadge>?</p>
         <p class="mt-1">This action cannot be undone.</p>

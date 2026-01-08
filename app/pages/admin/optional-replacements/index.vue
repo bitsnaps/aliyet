@@ -1,4 +1,7 @@
 <script setup>
+import DataImportModal from '~/components/admin/DataImportModal.vue'
+import DataExportModal from '~/components/admin/DataExportModal.vue'
+
 definePageMeta({
   layout: 'admin'
 });
@@ -25,6 +28,8 @@ const columns = [
 ];
 
 const isConfirmDeleteOpen = ref(false);
+const isImportModalOpen = ref(false);
+const isExportModalOpen = ref(false);
 const currentOption = ref(null);
 
 const openDeleteModal = (item) => {
@@ -59,7 +64,11 @@ const deleteItem = async () => {
   <div class="space-y-6">
     <div class="flex items-center justify-between">
       <h1 class="text-2xl font-semibold">Optional Replacements</h1>
-      <UButton to="/admin/optional-replacements/new" label="Add New" icon="i-lucide-plus" color="primary" />
+      <div class="flex gap-2">
+        <UButton label="Import" icon="i-lucide-upload" color="neutral" variant="soft"  class="cursor-pointer" @click="isImportModalOpen = true" />
+        <UButton label="Export" icon="i-lucide-download" color="neutral" variant="soft" class="cursor-pointer" @click="isExportModalOpen = true" />
+        <UButton to="/admin/optional-replacements/new" label="Add New" icon="i-lucide-plus" color="primary" />
+      </div>
     </div>
 
     <UCard :ui="{ body: { padding: 'p-0' } }">
@@ -87,6 +96,17 @@ const deleteItem = async () => {
         </template>
       </UTable>
     </UCard>
+
+    <DataImportModal
+      v-model:open="isImportModalOpen"
+      model="OptionalReplacements"
+      @success="refresh"
+    />
+
+    <DataExportModal
+      v-model:open="isExportModalOpen"
+      model="OptionalReplacements"
+    />
 
     <!-- Delete Confirmation Modal -->
     <UModal v-model:open="isConfirmDeleteOpen" title="Confirm Deletion" description="Are you sure you want to delete this item? This action cannot be undone.">

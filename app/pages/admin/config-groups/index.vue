@@ -1,5 +1,6 @@
 <script setup>
 import DataImportModal from '~/components/admin/DataImportModal.vue'
+import DataExportModal from '~/components/admin/DataExportModal.vue'
 
 definePageMeta({
   layout: 'admin'
@@ -26,6 +27,7 @@ const columns = [
 
 const isConfirmDeleteOpen = ref(false);
 const isImportModalOpen = ref(false);
+const isExportModalOpen = ref(false);
 const currentGroup = ref(null);
 
 const openDeleteModal = (group) => {
@@ -61,7 +63,8 @@ const deleteItem = async () => {
     <div class="flex items-center justify-between">
       <h1 class="text-2xl font-semibold text-charcoal-900 dark:text-white">Configuration Groups</h1>
       <div class="flex gap-2">
-        <UButton label="Import" icon="i-lucide-upload" color="neutral" variant="soft" @click="isImportModalOpen = true" />
+        <UButton label="Import" icon="i-lucide-upload" color="neutral" variant="soft"  class="cursor-pointer" @click="isImportModalOpen = true" />
+        <UButton label="Export" icon="i-lucide-download" color="neutral" variant="soft" class="cursor-pointer" @click="isExportModalOpen = true" />
         <UButton to="/admin/config-groups/new" label="Add New Group" icon="i-lucide-plus" color="primary" />
       </div>
     </div>
@@ -99,6 +102,11 @@ const deleteItem = async () => {
       v-model:open="isImportModalOpen"
       model="ConfigCategories"
       @success="refresh"
+    />
+
+    <DataExportModal
+      v-model:open="isExportModalOpen"
+      model="ConfigCategories"
     />
   </div>
 </template>

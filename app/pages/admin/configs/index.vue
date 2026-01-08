@@ -1,4 +1,7 @@
 <script setup>
+import DataImportModal from '~/components/admin/DataImportModal.vue'
+import DataExportModal from '~/components/admin/DataExportModal.vue'
+
 definePageMeta({
   layout: 'admin',
   
@@ -10,6 +13,8 @@ const toast = useToast()
 const isDeleteConfirmOpen = ref(false)
 const isDeleting = ref(false)
 const isFormModalOpen = ref(false)
+const isImportModalOpen = ref(false)
+const isExportModalOpen = ref(false)
 
 const selectedConfig = ref(null)
 
@@ -82,19 +87,34 @@ const onFormSaved = async () => {
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
         <h2 class="text-2xl font-bold text-charcoal-900 dark:text-white">Configuration Groups</h2>
-        <p class="dark:text-charcoal-300 text-sm mt-1">Manage option groups for the Build & Price tool.</p>
+          <p class="dark:text-charcoal-300 text-sm mt-1">Manage option groups for the Build & Price tool.</p>
+        </div>
+  
+        <div class="flex gap-2">
+          <UButton label="Import" icon="i-lucide-upload" color="neutral" variant="soft"  class="cursor-pointer" @click="isImportModalOpen = true" />
+          <UButton label="Export" icon="i-lucide-download" color="neutral" variant="soft" class="cursor-pointer" @click="isExportModalOpen = true" />
+          <UButton
+            icon="i-lucide-plus"
+            label="Add Group"
+            color="primary"
+            size="md"
+            @click="openFormModal()"
+          />
+        </div>
       </div>
-
-      <UButton 
-        icon="i-lucide-plus" 
-        label="Add Group" 
-        color="primary" 
-        size="md"
-        @click="openFormModal()"
+  
+      <DataImportModal
+        v-model:open="isImportModalOpen"
+        model="Configurations"
+        @success="refresh"
       />
-    </div>  
-
-    <!-- Delete Confirmation Modal -->
+  
+      <DataExportModal
+        v-model:open="isExportModalOpen"
+        model="Configurations"
+      />
+  
+      <!-- Delete Confirmation Modal -->
     <UModal v-model:open="isDeleteConfirmOpen" title="Confirm Deletion" description="Delete a configuration group">
         <template #body>
           <p>Are you sure you want to delete the configuration group <UBadge color="neutral" variant="subtle">{{ selectedConfig?.name }}</UBadge>?</p>

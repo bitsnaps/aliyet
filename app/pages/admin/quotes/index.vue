@@ -1,4 +1,7 @@
 <script setup>
+import DataImportModal from '~/components/admin/DataImportModal.vue'
+import DataExportModal from '~/components/admin/DataExportModal.vue'
+
 definePageMeta({
   layout: 'admin'
 })
@@ -8,6 +11,8 @@ const toast = useToast()
 // Modals state
 const isDeleteConfirmOpen = ref(false)
 const isDeleting = ref(false)
+const isImportModalOpen = ref(false)
+const isExportModalOpen = ref(false)
 const selectedQuote = ref(null)
 
 // Data
@@ -84,18 +89,33 @@ const formatDate = (dateString) => {
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
         <h2 class="text-2xl font-bold text-charcoal-900 dark:text-white">Quotes</h2>
-        <p class="text-charcoal-500 text-sm mt-1">Manage your clients quotes</p>
+          <p class="text-charcoal-500 text-sm mt-1">Manage your clients quotes</p>
+        </div>
+        <div class="flex gap-2">
+          <UButton label="Import" icon="i-lucide-upload" color="neutral" variant="soft"  class="cursor-pointer" @click="isImportModalOpen = true" />
+          <UButton label="Export" icon="i-lucide-download" color="neutral" variant="soft" class="cursor-pointer" @click="isExportModalOpen = true" />
+          <UButton
+            icon="i-lucide-plus"
+            label="Add Quote"
+            color="primary"
+            size="md"
+            to="/admin/quotes/new"
+          />
+        </div>
       </div>
-      <UButton 
-        icon="i-lucide-plus" 
-        label="Add Quote" 
-        color="primary" 
-        size="md"
-        to="/admin/quotes/new"
+  
+      <DataImportModal
+        v-model:open="isImportModalOpen"
+        model="ClientConfigSets"
+        @success="refresh"
       />
-    </div>
-
-    <UModal v-model:open="isDeleteConfirmOpen" :description="`Quote ID: ${selectedQuote?.id}`" title="Confirm Deletion">      
+  
+      <DataExportModal
+        v-model:open="isExportModalOpen"
+        model="ClientConfigSets"
+      />
+  
+      <UModal v-model:open="isDeleteConfirmOpen" :description="`Quote ID: ${selectedQuote?.id}`" title="Confirm Deletion">
         <template #body>
           <p>Are you sure you want to delete the quote <UBadge color="neutral" variant="subtle">{{ selectedQuote?.name }}</UBadge>?</p>
           <p>This action cannot be undone.</p>
