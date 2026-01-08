@@ -1,5 +1,6 @@
 <script setup>
 import DataImportModal from '~/components/admin/DataImportModal.vue'
+import DataExportModal from '~/components/admin/DataExportModal.vue'
 
 definePageMeta({
   layout: 'admin'
@@ -10,10 +11,12 @@ const toast = useToast()
 // Modals state
 const isFormModalOpen = ref(false)
 const isImportModalOpen = ref(false)
+const isExportModalOpen = ref(false)
 const isDeleteConfirmOpen = ref(false)
 const isEditing = ref(false)
 const isSaving = ref(false)
 const isDeleting = ref(false)
+const isExporting = ref(false)
 
 const selectedCategory = ref(null)
 const defaultCategory = {
@@ -136,6 +139,7 @@ const confirmDelete = async () => {
     isDeleting.value = false
   }
 }
+
 </script>
 
 <template>
@@ -157,6 +161,15 @@ const confirmDelete = async () => {
           @click="isImportModalOpen = true"
         />
         <UButton
+          icon="i-lucide-download"
+          label="Export"
+          color="neutral"
+          variant="outline"
+          size="md"
+          class="cursor-pointer"
+          @click="isExportModalOpen = true"
+        />
+        <UButton
           icon="i-lucide-plus"
           label="Add Category"
           color="primary"
@@ -172,6 +185,11 @@ const confirmDelete = async () => {
       v-model:open="isImportModalOpen"
       model="Categories"
       @success="refresh"
+    />
+
+    <DataExportModal
+      v-model:open="isExportModalOpen"
+      model="Categories"
     />
 
     <UModal v-model:open="isFormModalOpen" description="Category" :title="`${isEditing ? 'Edit' : 'Add'} Category`">
