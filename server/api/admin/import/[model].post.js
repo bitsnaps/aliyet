@@ -1,27 +1,15 @@
 import { useDB } from '../../../utils/db';
 import { readMultipartFormData } from 'h3';
+import ExcelJS from 'exceljs';
 
 export default defineEventHandler(async (event) => {
   try {
-    // 1. Dynamic Import of XLSX (mini version to avoid codepage issues in production)
-    // Using the mjs build directly avoids the dependency on cpexcel.js which causes issues in bundled environments
-    let XLSX;
-    try {
-      const _xlsx = await import('xlsx/xlsx.mjs');
-      XLSX = _xlsx.default || _xlsx;
-    } catch (e) {
-      throw createError({
-        statusCode: 500,
-        statusMessage: `Server Error: Failed to load xlsx library. ${e.message}`
-      });
-    }
-
     const modelName = getRouterParam(event, 'model');
     
-    // 2. Database Connection
+    // 1. Database Connection
     const { sequelize, models } = await useDB();
 
-    // 3. Model Lookup
+    // 2. Model Lookup
     const targetModelName = Object.keys(models).find(m => m.toLowerCase() === modelName.toLowerCase());
     if (!targetModelName) {
       throw createError({
@@ -31,7 +19,7 @@ export default defineEventHandler(async (event) => {
     }
     const Model = models[targetModelName];
 
-    // 4. Parse Form Data
+    // 3. Parse Form Data
     const formData = await readMultipartFormData(event);
     if (!formData || formData.length === 0) {
       throw createError({ statusCode: 400, statusMessage: 'No file uploaded.' });
@@ -44,7 +32,7 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 400, statusMessage: 'File field is missing.' });
     }
 
-    // 5. Parse Options
+    // 4. Parse Options
     let options = { mode: 'SKIP', selectedFields: [] };
     if (optionsPart) {
       try {
@@ -54,23 +42,71 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    // 6. Parse Excel File
-    let workbook;
+    // 5. Parse Excel File using ExcelJS
+    const workbook = new ExcelJS.Workbook();
     try {
-      workbook = XLSX.read(filePart.data, { type: 'buffer' });
+      await workbook.xlsx.load(filePart.data);
     } catch (e) {
-      throw createError({ statusCode: 400, statusMessage: 'Invalid Excel file.' });
+      throw createError({ statusCode: 400, statusMessage: `Invalid Excel file: ${e.message}` });
     }
 
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
-    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+    const worksheet = workbook.getWorksheet(1); // ExcelJS uses 1-based indexing for worksheets
+    if (!worksheet) {
+       return { success: true, count: 0, message: 'File is empty (no worksheet found).' };
+    }
 
-    if (!jsonData || jsonData.length === 0) {
+    // Extract Data
+    // ExcelJS rows are 1-based. Row 1 is header.
+    const jsonData = [];
+    const headerRow = worksheet.getRow(1);
+    
+    if (headerRow.cellCount === 0) {
+       return { success: true, count: 0, message: 'File is empty.' };
+    }
+
+    // Map column index to header name
+    const headers = {};
+    headerRow.eachCell((cell, colNumber) => {
+        headers[colNumber] = cell.value ? String(cell.value).trim() : '';
+    });
+
+    // Iterate over data rows (starting from row 2)
+    worksheet.eachRow((row, rowNumber) => {
+        if (rowNumber === 1) return; // Skip header
+
+        const rowData = {};
+        let hasData = false;
+        
+        row.eachCell((cell, colNumber) => {
+            const header = headers[colNumber];
+            if (header) {
+                // Handle different cell types if necessary (e.g. formulas, rich text)
+                // For now, we take the raw value or result
+                let value = cell.value;
+                if (typeof value === 'object' && value !== null) {
+                     if (value.hasOwnProperty('result')) {
+                         value = value.result; // Formula result
+                     } else if (value.hasOwnProperty('text')) {
+                         value = value.text; // Rich text
+                     } else if (value.hasOwnProperty('hyperlink')) {
+                         value = value.text || value.hyperlink; // Hyperlink
+                     }
+                }
+                rowData[header] = value;
+                hasData = true;
+            }
+        });
+
+        if (hasData) {
+            jsonData.push(rowData);
+        }
+    });
+
+    if (jsonData.length === 0) {
       return { success: true, count: 0, message: 'File is empty.' };
     }
 
-    // 7. Normalize Data
+    // 6. Normalize Data
     const modelAttributes = Object.keys(Model.rawAttributes);
     const normalizedData = jsonData.map(row => {
       const newRow = {};
@@ -84,7 +120,7 @@ export default defineEventHandler(async (event) => {
       return newRow;
     });
 
-    // 8. Transactional Import
+    // 7. Transactional Import
     const t = await sequelize.transaction();
     let successCount = 0;
     let errors = [];
