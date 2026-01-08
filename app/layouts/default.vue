@@ -8,9 +8,9 @@ useHead({
 </script>
 <template>
   <div class="antialiased">
-    <AppHeader />
+    <LayoutHeader />
     <MobileOverlay />
     <slot />
-    <AppFooter />
+    <LayoutFooter />
   </div>
 </template>
