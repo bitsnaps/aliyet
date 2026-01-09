@@ -1,5 +1,6 @@
 <script setup>
 const { contacts } = useSiteData();
+const localePath = useLocalePath();
 </script>
 <template>
     <!-- Footer -->
@@ -7,12 +8,12 @@ const { contacts } = useSiteData();
       <div class="container mx-auto px-4 md:px-8 py-16">
         <div class="grid md:grid-cols-4 lg:grid-cols-5 gap-12">
           <div class="lg:col-span-2">
-            <a href="/" class="flex items-center gap-2 mb-4">
+            <NuxtLink :to="localePath('/')" class="flex items-center gap-2 mb-4">
               <div class="text-white p-2 rounded-md">
                  <img src="/logo.svg" class="w-12 h-12" />
               </div>
               <span class="text-2xl font-extrabold tracking-tight text-white">Aliyaat</span>
-            </a>
+            </NuxtLink>
             <p class="text-slate-400 max-w-sm">
               {{ $t('footer.description') }}
             </p>
@@ -27,17 +28,17 @@ const { contacts } = useSiteData();
           <div>
             <h4 class="font-bold text-white mb-4">{{ $t('footer.company') }}</h4>
             <ul class="space-y-3">
-              <li><a href="/#about" class="hover:text-white">{{ $t('nav.about') }}</a></li>
-              <li><a href="/#services" class="hover:text-white">{{ $t('nav.services') }}</a></li>
-              <li><a href="/#products" class="hover:text-white">{{ $t('nav.products') }}</a></li>
-              <li><a href="/catalog" class="hover:text-white">{{ $t('nav.catalog') }}</a></li>
+              <li><NuxtLink :to="localePath('/') + '#about'" class="hover:text-white">{{ $t('nav.about') }}</NuxtLink></li>
+              <li><NuxtLink :to="localePath('/') + '#services'" class="hover:text-white">{{ $t('nav.services') }}</NuxtLink></li>
+              <li><NuxtLink :to="localePath('/') + '#products'" class="hover:text-white">{{ $t('nav.products') }}</NuxtLink></li>
+              <li><NuxtLink :to="localePath('catalog')" class="hover:text-white">{{ $t('nav.catalog') }}</NuxtLink></li>
             </ul>
           </div>
 
           <div>
             <h4 class="font-bold text-white mb-4">{{ $t('footer.support') }}</h4>
             <ul class="space-y-3">
-              <li><a href="/#contact" class="hover:text-white">{{ $t('nav.contact') }}</a></li>
+              <li><NuxtLink :to="localePath('/') + '#contact'" class="hover:text-white">{{ $t('nav.contact') }}</NuxtLink></li>
               <li><a href="#" class="hover:text-white">{{ $t('footer.faq') }}</a></li>
               <li><a href="#" class="hover:text-white">{{ $t('footer.terms') }}</a></li>
             </ul>

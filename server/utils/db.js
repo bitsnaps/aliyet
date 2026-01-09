@@ -60,20 +60,20 @@ export const useDB = async () => {
   // Initialize models
   const models = useModels(sequelizeInstance);
 
-  // Sync all models in dev or test
-  if (env !== 'production') {
-    await sequelizeInstance.sync({ alter: env === 'development', 
-      // force: true // to avoid index accumulation.
-    });
-  }
-
   try {
+    // Sync all models in dev or test
+    if (env !== 'production') {
+      await sequelizeInstance.sync({ alter: env === 'development', 
+        // force: true // to avoid index accumulation.
+      });
+    }
+
     await sequelizeInstance.authenticate();
     if (env === 'development') {
       console.log(`✅ DB Connected (${env})`);
     }
   } catch (err) {
-    console.error('❌ DB Connection Error:', err);
+    console.error('❌ DB Error:', err);
   }
 
   return { sequelize: sequelizeInstance, models };

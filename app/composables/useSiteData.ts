@@ -1,12 +1,13 @@
 export const useSiteData = () => {
   const { t } = useI18n();
+  const localePath = useLocalePath();
 
   const navLinks = computed(() => [
-    { name: t('nav.about'), href: '/#about' },
-    { name: t('nav.services'), href: '/#services' },
-    { name: t('nav.products'), href: '/#products' },
-    { name: t('nav.catalog'), href: '/catalog' },
-    { name: t('nav.contact'), href: '/#contact' },
+    { name: t('nav.about'), href: localePath('/') + '#about' },
+    { name: t('nav.services'), href: localePath('/') + '#services' },
+    { name: t('nav.products'), href: localePath('/') + '#products' },
+    { name: t('nav.catalog'), href: localePath('catalog') },
+    { name: t('nav.contact'), href: localePath('/') + '#contact' },
   ]);
 
   const services = computed(() => [

@@ -3,6 +3,7 @@ const { navLinks } = useSiteData();
 const { isOpen, close } = useMobileMenu();
 
 const { locale, locales, setLocale } = useI18n();
+const localePath = useLocalePath();
 
 const items = computed(() => locales.value.map(l => ([{
   label: l.name,
@@ -47,7 +48,7 @@ const items = computed(() => locales.value.map(l => ([{
             </UButton>
           </div>
           <UButton
-            to="/build-and-price"
+            :to="localePath('/build-and-price')"
             @click="close"
             color="action-teal"
             variant="solid"

@@ -2,6 +2,7 @@
 const { t } = useI18n()
 const route = useRoute()
 const toast = useToast()
+const localePath = useLocalePath()
 
 const machineId = route.params.id
 
@@ -35,7 +36,7 @@ const formatPrice = (value) => {
   <section class="bg-light-gray-200 min-h-screen py-24">
     <div class="container mx-auto px-4 md:px-8">
       <NuxtLink
-        to="/catalog"
+        :to="localePath('catalog')"
         class="inline-flex items-center text-sm text-deep-teal-600 hover:text-deep-teal-700 mb-6"
       >
         <UIcon name="i-lucide-arrow-left" class="w-4 h-4 mr-2" />
@@ -107,7 +108,7 @@ const formatPrice = (value) => {
               </div>
               <div class="flex flex-col sm:flex-row gap-3">
                 <UButton
-                  :to="`/build-and-price?machineId=${machineId}`"
+                  :to="{ path: localePath('build-and-price'), query: { machineId: machineId } }"
                   color="primary"
                   variant="solid"
                   size="lg"
@@ -116,7 +117,7 @@ const formatPrice = (value) => {
                   {{ $t('catalog.build_price') }}
                 </UButton>
                 <UButton
-                  to="/build-and-price"
+                  :to="localePath('build-and-price')"
                   color="neutral"
                   variant="outline"
                   size="lg"

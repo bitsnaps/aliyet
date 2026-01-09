@@ -5,12 +5,13 @@ const props = defineProps({
   error: Object as () => NuxtError,
 })
 
+const localePath = useLocalePath()
 </script>
 
 <template>
   <div>
     <h2>{{ error?.statusCode }}</h2>
     <br>
-    <p>Back to <a href="/">Home</a></p>
+    <p>Back to <NuxtLink :to="localePath('/')">Home</NuxtLink></p>
   </div>
 </template>

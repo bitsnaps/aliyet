@@ -4,6 +4,7 @@ const { isOpen, toggle } = useMobileMenu();
 const isScrolled = ref(false);
 const route = useRoute();
 const { locale, locales, setLocale } = useI18n();
+const localePath = useLocalePath();
 
 const isSolidHeader = computed(() => isScrolled.value || !['/','/fr','/ar'].includes(route.path))
 
@@ -45,7 +46,7 @@ onUnmounted(() => {
     >
       <div class="container mx-auto px-4 md:px-8 flex items-center justify-between">
         <!-- Logo -->
-        <NuxtLink to="/" class="flex items-center gap-2 cursor-pointer">
+        <NuxtLink :to="localePath('/')" class="flex items-center gap-2 cursor-pointer">
           <div class="text-white p-2 rounded-md">
              <img src="/logo.svg" class="w-8 h-8" />
           </div>
@@ -84,7 +85,7 @@ onUnmounted(() => {
             </UButton>
           </UDropdownMenu>
           <UButton
-            to="/build-and-price"
+            :to="localePath('/build-and-price')"
             color="action-teal"
             variant="solid"
             :class="(isSolidHeader ? 'text-charcoal-500' : 'text-slate-200')+' font-bold shadow-lg shadow-action-teal-500/20'"

@@ -1,6 +1,7 @@
 <script setup>
 const { t } = useI18n()
 const route = useRoute()
+const localePath = useLocalePath()
 
 useHead({
   title: `${t('catalog.title')} - Aliyaat`,
@@ -254,7 +255,7 @@ const activeDescription = computed(() => {
               >
                 <template #actions="{ machine }">
                   <UButton
-                    :to="`/machines/${machine.id}`"
+                    :to="localePath({ name: 'machines-id', params: { id: machine.id } })"
                     color="neutral"
                     variant="outline"
                     size="sm"
@@ -263,7 +264,7 @@ const activeDescription = computed(() => {
                     {{ $t('catalog.read_more') }}
                   </UButton>
                   <UButton
-                    :to="`/build-and-price?machineId=${machine.id}`"
+                    :to="{ path: localePath('build-and-price'), query: { machineId: machine.id } }"
                     color="primary"
                     variant="solid"
                     size="sm"

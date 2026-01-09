@@ -1,6 +1,7 @@
 <script setup>
 const { services, machineTypes, clients, contacts } = useSiteData();
 const { locales, setLocale } = useI18n();
+const localePath = useLocalePath();
 
 const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers');
 
@@ -27,7 +28,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
               </p>
               <div class="mt-10 mb-2 flex flex-col sm:flex-row gap-4">
                 <UButton
-                  to="#services"
+                  :to="localePath('/') + '#services'"
                   size="xl"
                   color="deep-teal"
                   variant="solid"
@@ -37,7 +38,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
                   {{ $t('hero.explore_services') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
                 </UButton>
                 <UButton
-                  to="#build-price"
+                  :to="localePath('/') + '#build-price'"
                   size="xl"
                   color="white"
                   variant="outline"
@@ -128,10 +129,10 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
               </div>
               <h3 class="text-xl font-bold text-slate-900 mb-3">{{ service.title }}</h3>
               <p class="text-slate-600 flex-grow">{{ service.description }}</p>
-              <a href="#contact" class="mt-6 text-deep-teal-500 font-semibold flex items-center group">
+              <NuxtLink :to="localePath('/') + '#contact'" class="mt-6 text-deep-teal-500 font-semibold flex items-center group">
                 {{ $t('services.inquire_now') }}
                 <UIcon name="i-lucide-arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </NuxtLink>
             </div>
 
             <!-- CTA Card -->
@@ -139,7 +140,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
               <h3 class="text-2xl font-bold mb-4">{{ $t('services.cta_title') }}</h3>
               <p class="text-light-gray-200 mb-8">{{ $t('services.cta_description') }}</p>
               <UButton
-                to="#contact"
+                :to="localePath('/') + '#contact'"
                 color="action-teal"
                 variant="solid"
                 class="font-bold text-white w-full justify-center py-3 border border-action-teal-500 hover:bg-action-teal-500/90"
@@ -161,7 +162,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
               <p class="text-lg text-slate-600 max-w-2xl">{{ $t('products.description') }}</p>
             </div>
             <UButton
-              to="/catalog"
+              :to="localePath('catalog')"
               variant="ghost"
               color="deep-teal"
               class="hidden md:flex items-center font-bold text-deep-teal-500 hover:text-action-teal-500 transition-colors mt-4 md:mt-0"
@@ -190,7 +191,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
                 <h3 class="text-white text-2xl font-bold mb-2">{{ machine.label }}</h3>
                 <div class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 transition-all duration-300">
                   <UButton
-                    :to="`/catalog?type=${machine.key}`"
+                    :to="{ path: localePath('catalog'), query: { type: machine.key } }"
                     color="action-teal"
                     variant="solid"
                     class="font-bold light:text-charcoal-500 text-action-teal-300"
@@ -205,7 +206,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
 
           <div class="mt-8">
             <UButton
-              to="/catalog"
+              :to="localePath('catalog')"
               variant="outline"
               color="deep-teal"
               class="flex items-center justify-center font-bold w-full py-3"
@@ -273,7 +274,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
                 </div>
 
                 <UButton
-                  :to="`/build-and-price?type=${selectedMachineForQuote}`"
+                  :to="{ path: localePath('build-and-price'), query: { type: selectedMachineForQuote } }"
                   :disabled="!selectedMachineForQuote"
                   color="action-teal"
                   variant="solid"
