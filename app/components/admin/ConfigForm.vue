@@ -1,5 +1,5 @@
 <script setup>
-import { object, string } from 'valibot'
+import * as v from 'valibot'
 
 const props = defineProps({
   config: {
@@ -16,11 +16,12 @@ const isNew = !props.config
 
 const state = ref({
   name: props.config?.name || '',
-  description: props.config?.description || ''
+  description: props.config?.description || '',
+  type: props.config?.type || 'select'
 })
 
-const schema = object({
-  name: string('Name is required'),
+const schema = v.object({
+  name: v.pipe(v.string(), v.minLength(1, 'Name is required')),
 })
 
 const save = async () => {
@@ -53,6 +54,16 @@ const save = async () => {
 
     <UFormField label="Description" name="description" help="A brief explanation of what this group is for.">
       <UTextarea v-model="state.description" class="w-full" />
+    </UFormField>
+
+    <UFormField label="Input Type" name="type" required help="How the user selects this option.">
+      <USelectMenu
+        v-model="state.type"
+        :items="[{ label: 'Dropdown Selection', value: 'select' }, { label: 'Text Input', value: 'text' }, { label: 'Checkbox', value: 'checkbox' }]"
+        value-key="value"
+        placeholder="Select Input Type"
+        class="w-full"
+      />
     </UFormField>
 
     <div class="flex justify-end gap-3 mt-6">

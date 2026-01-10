@@ -71,12 +71,30 @@ export const useModels = (sequelize) => {
   const Configurations = sequelize.define('Configurations', {
     name: { type: DataTypes.STRING(191), unique: true, allowNull: false },
     description: { type: DataTypes.TEXT },
+    type: { type: DataTypes.STRING, defaultValue: 'select' }, // 'select', 'text', 'checkbox'
     price: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0.00 },
     available: { type: DataTypes.BOOLEAN, defaultValue: true },
     metadata: {
       type: DataTypes.TEXT,
       allowNull: true,
       note: 'Stores the extra data as a JSON blob',
+      get() {
+        const value = this.getDataValue('metadata');
+        return value ? JSON.parse(value) : null;
+      },
+      set(value) {
+        this.setDataValue('metadata', value ? JSON.stringify(value) : null);
+      },
+    }
+  })
+
+  const ConfigOptions = sequelize.define('ConfigOptions', {
+    name: { type: DataTypes.STRING(191), allowNull: false },
+    price: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0.00 },
+    sort_order: { type: DataTypes.INTEGER, defaultValue: 0 },
+    metadata: {
+      type: DataTypes.TEXT,
+      allowNull: true,
       get() {
         const value = this.getDataValue('metadata');
         return value ? JSON.parse(value) : null;
@@ -222,6 +240,10 @@ export const useModels = (sequelize) => {
   Configurations.belongsToMany(OptionalReplacements, { through: ReplacementCompatibility, foreignKey: 'configuration_id' })
   OptionalReplacements.belongsToMany(Configurations, { through: ReplacementCompatibility, foreignKey: 'optional_replacement_id' })
 
+  // Configurations -> ConfigOptions
+  Configurations.hasMany(ConfigOptions, { foreignKey: 'config_id', onDelete: 'CASCADE' })
+  ConfigOptions.belongsTo(Configurations, { foreignKey: 'config_id' })
+
   // Users -> ClientConfigSets
   Users.hasMany(ClientConfigSets, { foreignKey: 'user_id' })
   ClientConfigSets.belongsTo(Users, { foreignKey: 'user_id' })
@@ -254,6 +276,7 @@ export const useModels = (sequelize) => {
     Machines,
     Specifications,
     Configurations,
+    ConfigOptions,
     OptionalAdditions,
     OptionalReplacements,
     Users,

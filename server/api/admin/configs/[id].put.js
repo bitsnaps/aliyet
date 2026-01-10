@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
   const configPayload = {
     name: body.name,
     description: body.description,
+    type: body.type || 'select',
   };
 
   try {

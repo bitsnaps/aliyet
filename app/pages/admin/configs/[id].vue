@@ -1,4 +1,7 @@
 <script setup>
+import DataImportModal from '~/components/admin/DataImportModal.vue'
+import DataExportModal from '~/components/admin/DataExportModal.vue'
+
 definePageMeta({
   layout: 'admin',
 })
@@ -24,6 +27,8 @@ const { data: options, pending: optionsPending, refresh: refreshOptions } = useF
 const loading = ref(false)
 const isFormModalOpen = ref(false)
 const isDeleteConfirmOpen = ref(false)
+const isImportModalOpen = ref(false)
+const isExportModalOpen = ref(false)
 const selectedOption = ref(null)
 
 const columns = [
@@ -74,25 +79,32 @@ const confirmDelete = async () => {
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div class="flex items-center gap-2 text-sm text-charcoal-500 mb-2">
-            <NuxtLink to="/admin/configs" class="hover:text-deep-teal-600">Configuration Groups</NuxtLink>
+            <NuxtLink to="/admin/configs" class="hover:text-deep-teal-600">Configurations</NuxtLink>
             <UIcon name="i-lucide-chevron-right" class="w-4 h-4" />
             <span class="text-charcoal-900 font-medium">{{ config.name }}</span>
           </div>
           <h2 class="text-2xl font-bold text-charcoal-900 dark:text-white">Manage Options</h2>
           <p class="dark:text-charcoal-300 text-sm mt-1">{{ config.description }}</p>
+          <div class="mt-2">
+            <UBadge :color="config.type === 'select' ? 'primary' : 'neutral'" variant="subtle">Type: {{ config.type }}</UBadge>
+          </div>
         </div>
 
-        <UButton 
-          icon="i-lucide-plus" 
-          label="Add Option" 
-          color="primary" 
-          size="md"
-          @click="openFormModal()"
-        />
+        <div v-if="config.type === 'select'" class="flex gap-2">
+          <UButton label="Import" icon="i-lucide-upload" color="neutral" variant="soft"  class="cursor-pointer" @click="isImportModalOpen = true" />
+          <UButton label="Export" icon="i-lucide-download" color="neutral" variant="soft" class="cursor-pointer" @click="isExportModalOpen = true" />
+          <UButton
+            icon="i-lucide-plus"
+            label="Add Option"
+            color="primary"
+            size="md"
+            @click="openFormModal()"
+          />
+        </div>
       </div>
 
-      <!-- Options Table -->
-      <UCard :ui="{ body: { padding: 'p-0' } }">
+      <!-- Options Table (Only for Select type) -->
+      <UCard v-if="config.type === 'select'" :ui="{ body: { padding: 'p-0' } }">
         <UTable
           :data="options"
           :columns="columns"
@@ -113,17 +125,40 @@ const confirmDelete = async () => {
           </template>
         </UTable>
       </UCard>
+      
+      <div v-else class="text-center py-12 border border-dashed border-gray-300 rounded-lg">
+        <UIcon name="i-lucide-info" class="w-12 h-12 text-gray-400 mx-auto mb-2" />
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white">No Options Required</h3>
+        <p class="text-gray-500 mt-1">This configuration is set to "<strong>{{ config.type }}</strong>", so it doesn't need predefined options.</p>
+      </div>
     </template>
     
     <div v-else class="text-center py-12">
-      <h3 class="text-xl font-semibold">Configuration Group Not Found</h3>
-      <p class="text-charcoal-400 mt-2">The requested group could not be loaded.</p>
+      <h3 class="text-xl font-semibold">Configuration Not Found</h3>
+      <p class="text-charcoal-400 mt-2">The requested configuration could not be loaded.</p>
       <UButton to="/admin/configs" label="Back to Groups" variant="soft" class="mt-4" />
     </div>
 
     <!-- Modals -->
-    <UModal v-model:open="isFormModalOpen" :title="selectedOption ? 'Edit Option' : 'Add New Option'">
-      <AdminConfigOptionForm :option="selectedOption" :config-id="configId" @saved="onFormSaved" @closed="isFormModalOpen = false" />
+    <DataImportModal
+        v-model:open="isImportModalOpen"
+        model="ConfigOptions"
+        :parent-id="configId"
+        parent-field="config_id"
+        @success="refreshOptions"
+    />
+
+    <DataExportModal
+        v-model:open="isExportModalOpen"
+        model="ConfigOptions"
+        :parent-id="configId"
+        parent-field="config_id"
+    />
+
+    <UModal v-model:open="isFormModalOpen" :title="selectedOption ? 'Edit Option' : 'Add New Option'" :description="`Configuration Option ID: ${configId}`">
+      <template #body>
+        <AdminConfigOptionForm :option="selectedOption" :config-id="configId" @saved="onFormSaved" @closed="isFormModalOpen = false" />
+      </template>
     </UModal>
 
     <UModal v-model:open="isDeleteConfirmOpen" title="Confirm Deletion">

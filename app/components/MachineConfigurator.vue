@@ -36,44 +36,14 @@ const schema = v.object({
   company: v.optional(v.string())
 });
 
-// Hardcoded characteristics for demo/prototype
-const allCharacteristics = {
-  'default': {
-    main: [
-      { id: 'main_def_1', name: 'Control System', type: 'select', options: ['Fanuc', 'Siemens', 'Heidenhain'] },
-      { id: 'main_def_2', name: 'Spindle Speed', type: 'select', options: ['8,000 RPM', '10,000 RPM', '12,000 RPM', '15,000 RPM'] },
-    ],
-    optional: [
-      { id: 'opt_def_1', name: 'Coolant Through Spindle', type: 'checkbox' },
-      { id: 'opt_def_2', name: '4th Axis Preparation', type: 'checkbox' },
-      { id: 'opt_def_3', name: 'Chip Conveyor', type: 'checkbox' },
-      { id: 'opt_def_4', name: 'Automatic Tool Changer (High Cap)', type: 'checkbox' },
-    ]
-  },
-  '1': { 
-    main: [
-      { id: 'main_1_1', name: 'Control System', type: 'select', options: ['Fanuc', 'Siemens', 'Heidenhain'] },
-      { id: 'main_1_2', name: 'Spindle Speed', type: 'text' },
-    ],
-    optional: [
-      { id: 'opt_1_1', name: 'Coolant Through Spindle', type: 'checkbox' },
-      { id: 'opt_1_2', name: '4th Axis Preparation', type: 'checkbox' },
-    ]
-  },
-  '2': { 
-    main: [
-      { id: 'main_2_1', name: 'Table Size', type: 'text' },
-      { id: 'main_2_2', name: 'Max Workpiece Weight', type: 'text' },
-    ],
-    optional: [
-      { id: 'opt_2_1', name: 'Automatic Tool Changer', type: 'checkbox' },
-    ]
-  }
-};
+const { data: machineConfig, refresh: refreshConfig } = await useFetch(() => `/api/machines/${props.machine?.id}/config`, {
+  immediate: false,
+  watch: false
+});
 
 const currentMachineCharacteristics = computed(() => {
-  if (!props.machine) return { main: [], optional: [] };
-  return allCharacteristics[props.machine.id] || allCharacteristics['default'];
+  if (!machineConfig.value?.data) return { main: [], optional: [] };
+  return machineConfig.value.data;
 });
 
 const steps = computed(() => [
@@ -89,10 +59,20 @@ watch(() => props.modelValue, (val) => {
   }
 });
 
-watch(() => props.machine, () => {
-  mainChars.value = {};
-  optionalChars.value = {};
-  currentStep.value = 1;
+watch(() => props.machine, async (newMachine) => {
+  if (newMachine?.id) {
+    mainChars.value = {};
+    optionalChars.value = {};
+    currentStep.value = 1;
+    await refreshConfig();
+  }
+});
+
+// Initial fetch if machine exists
+onMounted(() => {
+  if (props.machine?.id) {
+    refreshConfig();
+  }
 });
 
 function close() {
@@ -229,7 +209,7 @@ async function submitQuote() {
                             class="block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white py-2 px-3"
                         >
                             <option value="" disabled selected>Select {{ char.name }}</option>
-                            <option v-for="opt in char.options" :key="opt" :value="opt">{{ opt }}</option>
+                            <option v-for="opt in char.options" :key="opt.id" :value="opt.name">{{ opt.name }}</option>
                         </select>
                     </div>
                 </div>

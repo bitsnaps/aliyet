@@ -13,6 +13,7 @@ export default defineEventHandler(async (event) => {
         id: c.id,
         name: c.name,
         description: c.description,
+        type: c.type,
       }))
     }
   } catch (error) {

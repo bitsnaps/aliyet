@@ -79,7 +79,9 @@ async function initDb() {
             <UIcon name="i-lucide-cog" class="w-12 h-12" />
           </UButton>
         </div>
-        <h1 class="text-2xl font-bold text-center text-white">Setup</h1>
+        <h1 class="text-2xl font-bold text-center text-white">
+          <NuxtLink :to="$localePath('/')+'login'">Login</NuxtLink>
+        </h1>
       </template>
 
       <UForm :state="state" class="space-y-4" @submit="initDb">

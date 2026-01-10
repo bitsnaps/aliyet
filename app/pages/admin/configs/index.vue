@@ -28,6 +28,7 @@ const { data: configs, pending, error, refresh } = await useFetch('/api/admin/co
 const columns = [
   { accessorKey: 'name', header: 'Name', enableSorting: true },
   { accessorKey: 'description', header: 'Description', enableSorting: false },
+  { accessorKey: 'type', header: 'Type', enableSorting: true },
   { accessorKey: 'actions', header: 'Actions', enableSorting: false }
 ]
 
@@ -166,10 +167,15 @@ const onFormSaved = async () => {
           <span class="text-charcoal-700 dark:text-charcoal-300">{{ row.original.description || '-' }}</span>
         </template>
 
+        <template #type-cell="{ row }">
+          <UBadge :color="row.original.type === 'select' ? 'primary' : 'neutral'" variant="subtle">{{ row.original.type || 'select' }}</UBadge>
+        </template>
+
         <template #actions-cell="{ row }">
           <div class="flex flex-row items-center gap-1">
-            <UButton @click="handleDelete(row.original)" color="error" variant="outline" icon="i-lucide-trash" size="md" />
+            <UButton :to="`/admin/configs/${row.original.id}`" color="neutral" variant="outline" icon="i-lucide-list" size="md" label="Options" />
             <UButton @click="openFormModal(row.original)" color="neutral" variant="outline" icon="i-lucide-edit" size="md" />
+            <UButton @click="handleDelete(row.original)" color="error" variant="outline" icon="i-lucide-trash" size="md" />
           </div>
         </template>
       </UTable>

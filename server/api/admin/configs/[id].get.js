@@ -24,6 +24,7 @@ export default defineEventHandler(async (event) => {
       id: config.id,
       name: config.name,
       description: config.description,
+      type: config.type,
     };
 
     return {

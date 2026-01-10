@@ -1,5 +1,5 @@
 <script setup>
-import { object, string, number } from 'valibot'
+import * as v from 'valibot'
 
 const props = defineProps({
   option: {
@@ -24,9 +24,9 @@ const state = ref({
   config_id: props.configId
 })
 
-const schema = object({
-  name: string('Name is required'),
-  price: number('Price must be a number'),
+const schema = v.object({
+  name: v.pipe(v.string(), v.minLength(1, 'Name is required')),
+  price: v.number('Price must be a number'),
 })
 
 const save = async () => {
@@ -61,11 +61,11 @@ const save = async () => {
 <template>
   <UForm :schema="schema" :state="state" class="space-y-4 p-4" @submit="save">
     <UFormField label="Option Name" name="name" required>
-      <UInput v-model="state.name" placeholder="e.g. 12,000 RPM Spindle" />
+      <UInput v-model="state.name" placeholder="e.g. 12,000 RPM Spindle" class="w-full" />
     </UFormField>
 
     <UFormField label="Price Adjustment (USD)" name="price" help="Enter a positive or negative value to adjust the base price.">
-      <UInput v-model="state.price" type="number" step="0.01">
+      <UInput v-model="state.price" type="number" step="0.01" class="w-full">
         <template #leading>$</template>
       </UInput>
     </UFormField>
