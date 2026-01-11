@@ -30,8 +30,8 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
                 <UButton
                   :to="localePath('/') + '#services'"
                   size="xl"
-                  color="deep-teal"
-                  variant="solid"
+                  color="success"
+                  variant="outline"
                   class="font-bold text-white text-lg px-8 py-4 hover:text-slate-900 hover:bg-slate-100 border-2"
                   :ui="{ rounded: 'rounded-md' }"
                 >
@@ -40,7 +40,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
                 <UButton
                   :to="localePath('/') + '#build-price'"
                   size="xl"
-                  color="white"
+                  color="primary"
                   variant="outline"
                   class="font-bold text-lg px-8 py-4 text-white hover:text-slate-900 hover:bg-slate-100 border-2"
                   :ui="{ rounded: 'rounded-md' }"
@@ -141,8 +141,8 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
               <p class="text-light-gray-200 mb-8">{{ $t('services.cta_description') }}</p>
               <UButton
                 :to="localePath('/') + '#contact'"
-                color="action-teal"
-                variant="solid"
+                color="neutral"
+                variant="outline"
                 class="font-bold text-white w-full justify-center py-3 border border-action-teal-500 hover:bg-action-teal-500/90"
                 size="lg"
               >
@@ -164,7 +164,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
             <UButton
               :to="localePath('catalog')"
               variant="ghost"
-              color="deep-teal"
+              color="neutral"
               class="hidden md:flex items-center font-bold text-deep-teal-500 hover:text-action-teal-500 transition-colors mt-4 md:mt-0"
             >
               {{ $t('products.view_catalog') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
@@ -192,8 +192,8 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
                 <div class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 transition-all duration-300">
                   <UButton
                     :to="{ path: localePath('catalog'), query: { type: machine.key } }"
-                    color="action-teal"
-                    variant="solid"
+                    color="neutral"
+                    variant="ghost"
                     class="font-bold light:text-charcoal-500 text-action-teal-300"
                     size="sm"
                   >
@@ -208,8 +208,8 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
             <UButton
               :to="localePath('catalog')"
               variant="outline"
-              color="deep-teal"
-              class="flex items-center justify-center font-bold w-full py-3"
+              color="ghost"
+              class="flex items-center justify-center font-bold w-full text-deep-teal-500 hover:text-action-teal-500 py-3"
             >
               {{ $t('products.view_catalog') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
             </UButton>
@@ -276,9 +276,9 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
                 <UButton
                   :to="{ path: localePath('build-and-price'), query: { type: selectedMachineForQuote } }"
                   :disabled="!selectedMachineForQuote"
-                  color="action-teal"
+                  color="neutral"
                   variant="solid"
-                  class="font-bold text-charcoal-500 text-lg w-full justify-center py-4 border-2 border-charcoal-500 cursor-pointer"
+                  class="font-bold text-charcoal-500 hover:bg-action-teal-500 text-lg w-full justify-center py-4 border-2 border-charcoal-500 cursor-pointer"
                   size="xl"
                 >
                   {{ $t('build_price.widget.continue') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />

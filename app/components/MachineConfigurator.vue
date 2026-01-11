@@ -309,9 +309,9 @@ async function submitQuote() {
             <UButton 
                 v-if="currentStep > 1" 
                 @click="prevStep" 
-                color="white" 
-                variant="solid"
-                class="flex-1 justify-center"
+                color="secondary" 
+                variant="subtle"
+                class="flex-1 justify-center cursor-pointer"
             >
                 {{ $t('build_price.prev') }}
             </UButton>
@@ -322,7 +322,7 @@ async function submitQuote() {
                 @click="nextStep" 
                 color="primary" 
                 variant="solid"
-                class="flex-1 justify-center"
+                class="flex-1 justify-center cursor-pointer"
             >
                 {{ $t('build_price.next') }}
                 <template #trailing>
