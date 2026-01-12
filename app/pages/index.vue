@@ -182,9 +182,11 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
               :key="idx"
               class="group relative overflow-hidden rounded-2xl bg-charcoal-500 aspect-[4/3]"
             >
-              <div class="absolute inset-0 bg-slate-800 flex items-center justify-center text-slate-600">
-                 <UIcon name="i-lucide-factory" class="w-12 h-12 opacity-20" />
-              </div>
+              <img
+                :src="`/images/machine_types/${machine.key}.jpg`"
+                :alt="machine.label"
+                class="absolute inset-0 w-full h-full object-cover bg-white"
+              />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 md:opacity-60 group-hover:opacity-90 transition-opacity duration-300"></div>
               
               <div class="absolute bottom-0 left-0 p-6 w-full">
