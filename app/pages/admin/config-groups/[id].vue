@@ -82,5 +82,10 @@ const save = async () => {
     </div>
     
     <AdminConfigGroupForm v-model="state" />
+
+    <div v-if="!isNew" class="border-t border-gray-200 dark:border-gray-700 pt-6">
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Manage Associations</h2>
+      <AdminConfigGroupAssociations :group-id="route.params.id" />
+    </div>
   </div>
 </template>
