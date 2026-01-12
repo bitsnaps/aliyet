@@ -3,6 +3,8 @@ const { services, machineTypes, clients, contacts } = useSiteData();
 const { locales, setLocale } = useI18n();
 const localePath = useLocalePath();
 
+const experienceYears = new Date().getFullYear() - 2019;
+
 const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers');
 
 </script>
@@ -76,20 +78,24 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
             <h4 class="text-deep-teal-500 font-bold uppercase tracking-wider mb-4">{{ $t('about.subtitle') }}</h4>
             <h2 class="text-4xl font-bold text-slate-900 mb-6 leading-tight">{{ $t('about.title') }}</h2>
             <p class="text-lg text-slate-600 mb-6 leading-relaxed">
-              {{ $t('about.description') }}
+              {{ $t('about.description', { years: experienceYears }) }}
             </p>
             <ul class="space-y-3">
               <li class="flex items-center gap-3 text-slate-700 font-medium">
-                <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-action-teal-500" />
-                {{ $t('about.features.certified') }}
+                <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-action-teal-500 flex-shrink-0" />
+                {{ $t('about.features.expertise', { years: experienceYears }) }}
               </li>
               <li class="flex items-center gap-3 text-slate-700 font-medium">
-                <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-action-teal-500" />
-                {{ $t('about.features.rapid') }}
+                <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-action-teal-500 flex-shrink-0" />
+                {{ $t('about.features.responsiveness') }}
               </li>
               <li class="flex items-center gap-3 text-slate-700 font-medium">
-                <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-action-teal-500" />
-                {{ $t('about.features.transparent') }}
+                <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-action-teal-500 flex-shrink-0" />
+                {{ $t('about.features.solution') }}
+              </li>
+              <li class="flex items-center gap-3 text-slate-700 font-medium">
+                <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-action-teal-500 flex-shrink-0" />
+                {{ $t('about.features.reliability') }}
               </li>
             </ul>
           </div>

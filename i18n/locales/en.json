@@ -14,7 +14,7 @@
         "build_price": "Build & Price"
     },
     "hero": {
-        "description": "Your trusted partner for expert industrial maintenance and seamless machine procurement. Minimize downtime, maximize efficiency.",
+        "description": "Our mission is to be the strategic partner for industrial performance in Algeria. We provide comprehensive solutions for CNC machines – from distribution and installation to maintenance and troubleshooting.",
         "explore_services": "Explore Services",
         "get_quote": "Get Machine Quote"
     },
@@ -22,18 +22,19 @@
         "title": "Trusted by industry leaders"
     },
     "about": {
-        "subtitle": "About Aliyaat",
-        "title": "Ensuring Industrial Excellence Through Reliability.",
-        "description": "Aliyaat was founded with a clear mission: to bridge the gap between top-tier industrial machinery and the workshops that rely on them. We are more than just a service provider; we are your technical partner on the factory floor.",
+        "subtitle": "Who are we?",
+        "title": "Your Strategic Partner for Industrial Performance",
+        "description": "ALIYET provides general industrial machine maintenance, specializing in the installation, maintenance, troubleshooting, and distribution of CNC machines. With {years} years of practical experience, ALIYET offers integrated solutions and cutting-edge services while respecting the shortest deadlines and ensuring a high quality of service.",
         "features": {
-            "certified": "Certified expert technicians",
-            "rapid": "Rapid response for corrective maintenance",
-            "transparent": "Transparent procurement facilitation"
+            "expertise": "Specialized Expertise: {years} years dedicated to the CNC ecosystem.",
+            "responsiveness": "Maximum Responsiveness: Quick response to minimize costly downtime.",
+            "solution": "Complete Solution: Distribution, installation, maintenance, and troubleshooting.",
+            "reliability": "Reliability & Quality: Premium service preserving your investment."
         }
     },
     "services": {
         "title": "Comprehensive Maintenance Services",
-        "description": "From emergency fixes to long-term optimization, our diverse range of services ensures your machinery operates at peak performance.",
+        "description": "We provide troubleshooting and corrective as well as preventive maintenance for your CNC machines to guarantee their performance and longevity.",
         "inquire_now": "Inquire Now",
         "cta_title": "Need Custom Service?",
         "cta_description": "Contact our technical team to discuss your specific factory requirements.",
@@ -41,23 +42,23 @@
         "list": {
             "corrective": {
                 "title": "Corrective Maintenance",
-                "description": "Rapid, on-site emergency repairs to minimize operational downtime and restore functionality."
+                "description": "Reduce your downtime. Intervention within the shortest possible timeframe, accurate diagnosis, supply of spare parts, and effective fault repair."
             },
             "preventive": {
                 "title": "Preventive Maintenance",
-                "description": "Scheduled inspections and servicing to prevent failures and extend the lifespan of your machinery."
+                "description": "Maximize your uptime. Anticipate failures, ensure consistent productivity, reduce repair costs, and extend equipment lifespan."
             },
             "procurement": {
-                "title": "Procurement Support",
-                "description": "Expert assistance in sourcing, vetting, and acquiring the ideal machinery for your specific needs."
+                "title": "Machine Distribution",
+                "description": "We facilitate the sourcing of high-quality industrial machines tailored to your production needs."
             },
             "consultation": {
                 "title": "Technical Consultation",
                 "description": "Strategic advice on optimizing your production line, improving efficiency, and long-term planning."
             },
             "training": {
-                "title": "Operator Training",
-                "description": "Comprehensive training programs to ensure your team can operate new machinery safely and effectively."
+                "title": "Training & Skills Transfer",
+                "description": "Strengthening the autonomy of your teams. Training modules for your operators and technicians on best practices."
             }
         }
     },

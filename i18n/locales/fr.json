@@ -14,7 +14,7 @@
         "build_price": "Configurer & Prix"
     },
     "hero": {
-        "description": "Votre partenaire de confiance pour la maintenance industrielle experte et l'acquisition transparente de machines. Minimisez les temps d'arrêt, maximisez l'efficacité.",
+        "description": "Notre mission est d'être le partenaire stratégique de la performance industrielle en Algérie. Nous fournissons des solutions complètes pour les machines CNC – de la distribution et l'installation à la maintenance et au dépannage.",
         "explore_services": "Explorer les Services",
         "get_quote": "Obtenir un Devis"
     },
@@ -22,18 +22,19 @@
         "title": "Approuvé par les leaders de l'industrie"
     },
     "about": {
-        "subtitle": "À Propos d'Aliyaat",
-        "title": "Assurer l'Excellence Industrielle par la Fiabilité.",
-        "description": "Aliyaat a été fondée avec une mission claire : combler le fossé entre les machines industrielles de premier plan et les ateliers qui en dépendent. Nous sommes plus qu'un simple fournisseur de services ; nous sommes votre partenaire technique sur le terrain.",
+        "subtitle": "Qui sommes-nous ?",
+        "title": "Votre Partenaire Stratégique pour la Performance Industrielle",
+        "description": "ALIYET assure la maintenance de machines industrielles en général, se spécialisant dans l'installation, la maintenance, le dépannage et la distribution de machines CNC. Forts de {years} ans d'expérience pratique, ALIYET intervient en proposant des solutions intégrées et des services de pointe tout en respectant les délais les plus brefs et en assurant une haute qualité de service.",
         "features": {
-            "certified": "Techniciens experts certifiés",
-            "rapid": "Réponse rapide pour la maintenance corrective",
-            "transparent": "Facilitation transparente de l'approvisionnement"
+            "expertise": "Expertise Spécialisée : {years} ans dédiés à l'écosystème CNC.",
+            "responsiveness": "Réactivité Maximale : Intervention rapide pour préserver votre productivité.",
+            "solution": "Solution Complète : Distribution, installation, maintenance et dépannage.",
+            "reliability": "Fiabilité et Qualité : Service haut de gamme pérennisant votre investissement."
         }
     },
     "services": {
         "title": "Services de Maintenance Complets",
-        "description": "Des réparations d'urgence à l'optimisation à long terme, notre gamme diversifiée de services garantit que vos machines fonctionnent à leur plein potentiel.",
+        "description": "Nous assurons le dépannage et la maintenance corrective ainsi que préventive de vos machines CNC afin de garantir leur performance et leur longévité.",
         "inquire_now": "S'enquérir Maintenant",
         "cta_title": "Besoin d'un Service Personnalisé ?",
         "cta_description": "Contactez notre équipe technique pour discuter des besoins spécifiques de votre usine.",
@@ -41,23 +42,23 @@
         "list": {
             "corrective": {
                 "title": "Maintenance Corrective",
-                "description": "Réparations d'urgence rapides sur site pour minimiser les temps d'arrêt opérationnels et restaurer la fonctionnalité."
+                "description": "Réduisez vos temps d'arrêt. Intervention rapide, diagnostic précis, fourniture de pièces et réparation efficace."
             },
             "preventive": {
                 "title": "Maintenance Préventive",
-                "description": "Inspections et entretiens programmés pour prévenir les pannes et prolonger la durée de vie de vos machines."
+                "description": "Maximisez votre taux de disponibilité. Anticipez les défaillances, assurez une productivité constante et réduisez vos coûts."
             },
             "procurement": {
-                "title": "Support à l'Approvisionnement",
-                "description": "Assistance experte dans la recherche, l'évaluation et l'acquisition des machines idéales pour vos besoins spécifiques."
+                "title": "Distribution de Machines",
+                "description": "Nous facilitons la recherche de machines industrielles de haute qualité adaptées à vos besoins de production."
             },
             "consultation": {
                 "title": "Consultation Technique",
                 "description": "Conseils stratégiques sur l'optimisation de votre ligne de production, l'amélioration de l'efficacité et la planification à long terme."
             },
             "training": {
-                "title": "Formation des Opérateurs",
-                "description": "Programmes de formation complets pour s'assurer que votre équipe peut utiliser les nouvelles machines en toute sécurité et efficacement."
+                "title": "Formation & Transfert de Compétences",
+                "description": "Renforcer l'autonomie de vos équipes. Modules de formation pour opérateurs et techniciens sur les bonnes pratiques."
             }
         }
     },
