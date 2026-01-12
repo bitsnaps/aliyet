@@ -33,6 +33,8 @@ const columns = [
 ]
 
 const search = ref('')
+const page = ref(1)
+const pageCount = 10
 
 const filteredRows = computed(() => {
   if (!configs.value) return []
@@ -47,6 +49,16 @@ const filteredRows = computed(() => {
   }
 
   return filtered
+})
+
+const paginatedRows = computed(() => {
+  const start = (page.value - 1) * pageCount
+  const end = start + pageCount
+  return filteredRows.value.slice(start, end)
+})
+
+watch(search, () => {
+  page.value = 1
 })
 
 const openFormModal = (config = null) => {
@@ -151,8 +163,8 @@ const onFormSaved = async () => {
 
     <!-- Table -->
     <UCard :ui="{ body: { padding: 'p-0' } }" >
-      <UTable 
-        :data="filteredRows"
+      <UTable
+        :data="paginatedRows"
         :columns="columns"
         :loading="pending"
         :loading-state="{ icon: 'i-lucide-loader', label: 'Loading...' }"
@@ -179,6 +191,9 @@ const onFormSaved = async () => {
           </div>
         </template>
       </UTable>
+      <div class="flex justify-end p-4 border-t border-light-gray-200">
+        <UPagination v-model:page="page" :items-per-page="pageCount" :total="filteredRows.length" :ui="{ wrapper: 'gap-1' }" />
+      </div>
     </UCard>
 
   </div>

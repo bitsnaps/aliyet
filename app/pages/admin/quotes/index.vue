@@ -54,6 +54,16 @@ const filteredRows = computed(() => {
   return filtered
 })
 
+const paginatedRows = computed(() => {
+  const start = (page.value - 1) * pageCount
+  const end = start + pageCount
+  return filteredRows.value.slice(start, end)
+})
+
+watch(search, () => {
+  page.value = 1
+})
+
 const handleDelete = (row) => {
   selectedQuote.value = row
   isDeleteConfirmOpen.value = true
@@ -144,7 +154,7 @@ const formatDate = (dateString) => {
     <!-- Table -->
     <UCard :ui="{ body: { padding: 'p-0' } }">
       <UTable 
-        :data="filteredRows"
+        :data="paginatedRows"
         :columns="columns"
         :loading="pending"
         :loading-state="{ icon: 'i-lucide-loader', label: 'Loading...' }"
@@ -181,7 +191,7 @@ const formatDate = (dateString) => {
       
       <!-- Pagination -->
       <div class="flex justify-end p-4 border-t border-light-gray-200">
-        <UPagination v-model="page" :page-count="pageCount" :total="filteredRows.length" :ui="{ wrapper: 'gap-1' }" />
+        <UPagination v-model:page="page" :items-per-page="pageCount" :total="filteredRows.length" :ui="{ wrapper: 'gap-1' }" />
       </div>
     </UCard>
   </div>

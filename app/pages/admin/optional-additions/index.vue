@@ -15,6 +15,34 @@ const { data, pending, error, refresh } = await useFetch('/api/admin/optional-ad
 
 const items = computed(() => data.value || []);
 
+const search = ref('')
+const page = ref(1)
+const pageCount = 10
+
+const filteredRows = computed(() => {
+  if (!items.value) return []
+  
+  let filtered = [...items.value]
+
+  if (search.value) {
+    filtered = filtered.filter(item =>
+      item.name.toLowerCase().includes(search.value.toLowerCase())
+    )
+  }
+
+  return filtered
+})
+
+const paginatedRows = computed(() => {
+  const start = (page.value - 1) * pageCount
+  const end = start + pageCount
+  return filteredRows.value.slice(start, end)
+})
+
+watch(search, () => {
+  page.value = 1
+})
+
 if (error.value) {
   toast.add({ title: 'Error', description: 'Could not fetch optional additions.', color: 'error' });
 }
@@ -71,8 +99,21 @@ const deleteItem = async () => {
       </div>
     </div>
 
+    <!-- Filters -->
+    <UCard :ui="{ body: { padding: 'p-4' } }">
+      <div class="flex items-center justify-between">
+        <UInput
+          v-model="search"
+          icon="i-lucide-search"
+          placeholder="Search optional additions..."
+          class="w-full sm:w-80"
+          color="neutral"
+        />
+      </div>
+    </UCard>
+
     <UCard :ui="{ body: { padding: 'p-0' } }">
-      <UTable :columns="columns" :data="items" :loading="pending">
+      <UTable :columns="columns" :data="paginatedRows" :loading="pending">
         <template #ConfigCategories-cell="{ row }">
           <div v-if="row.original.ConfigCategories?.length" class="flex flex-wrap gap-1">
             <UBadge v-for="cat in row.original.ConfigCategories" :key="cat.id" color="neutral" variant="subtle" size="sm">
@@ -95,6 +136,9 @@ const deleteItem = async () => {
           </div>
         </template>
       </UTable>
+      <div class="flex justify-end p-4 border-t border-light-gray-200">
+        <UPagination v-model:page="page" :items-per-page="pageCount" :total="filteredRows.length" :ui="{ wrapper: 'gap-1' }" />
+      </div>
     </UCard>
 
     <DataImportModal
