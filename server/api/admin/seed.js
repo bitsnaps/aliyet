@@ -1,4 +1,4 @@
-import { useDB, seedDatabase } from '../../utils/db';
+import { seedDatabase } from '../../utils/db';
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);

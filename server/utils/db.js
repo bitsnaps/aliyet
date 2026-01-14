@@ -106,27 +106,7 @@ export const seedDatabase = async () => {
     return true;
   }
 
-  // --- Seed Configuration Associations (Fix for missing associations in production) ---
-  // Check if we have the "Spindle Config Group" and associated configs but no links
-  const configCategory = await ConfigCategories.findByPk(1);
-  if (configCategory) {
-    const configs = await Configurations.findAll({ where: { id: [1, 2] } });
-    if (configs.length > 0) {
-      const existingAssociations = await ConfigCategoryConfigurations.count({
-        where: { config_category_id: 1, configuration_id: [1, 2] }
-      });
 
-      if (existingAssociations === 0) {
-        console.log('⚠️ Missing configuration associations found. Seeding now...');
-        const associations = [
-          { config_category_id: 1, configuration_id: 1, sort_order: 0 },
-          { config_category_id: 1, configuration_id: 2, sort_order: 1 }
-        ];
-        await ConfigCategoryConfigurations.bulkCreate(associations);
-        console.log('✅ Configuration associations seeded');
-      }
-    }
-  }
 
   return false;
 };
