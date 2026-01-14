@@ -61,10 +61,10 @@ export const useModels = (sequelize) => {
   })
 
   const Specifications = sequelize.define('Specifications', {
-    parameter: { type: DataTypes.STRING, allowNull: false },
-    value: { type: DataTypes.STRING, allowNull: false },
-    unit: { type: DataTypes.STRING, allowNull: true },
-    sort_order: { type: DataTypes.INTEGER, defaultValue: 0 }
+    parameter: { type: DataTypes.STRING(120), allowNull: false },
+    unit: { type: DataTypes.STRING(30), allowNull: true },
+  }, {
+    indexes: [{ unique: true, fields: ['parameter', 'unit'] }]
   })
 
   // --- 3. Configuration & Options ---
@@ -201,6 +201,11 @@ export const useModels = (sequelize) => {
 
   // --- 5. Junction Tables (Explicit Definition for Metadata/Ordering) ---
 
+  const MachineSpecifications = sequelize.define('MachineSpecifications', {
+    value: { type: DataTypes.STRING, allowNull: false },
+    sort_order: { type: DataTypes.INTEGER, defaultValue: 0 }
+  })
+
   const ConfigCategoryConfigurations = sequelize.define('ConfigCategoryConfigurations', {
     sort_order: { type: DataTypes.INTEGER, defaultValue: 0 }
   })
@@ -226,8 +231,8 @@ export const useModels = (sequelize) => {
   Machines.belongsTo(ConfigCategories, { foreignKey: 'config_category_id' })
 
   // Machines -> Specifications
-  Machines.hasMany(Specifications, { foreignKey: 'machine_id' })
-  Specifications.belongsTo(Machines, { foreignKey: 'machine_id' })
+  Machines.belongsToMany(Specifications, { through: MachineSpecifications, foreignKey: 'machine_id' })
+  Specifications.belongsToMany(Machines, { through: MachineSpecifications, foreignKey: 'specification_id' })
 
   // Config Categories <-> Configurations (Many-to-Many with Order)
   ConfigCategories.belongsToMany(Configurations, { through: ConfigCategoryConfigurations, foreignKey: 'config_category_id' })
@@ -284,6 +289,7 @@ export const useModels = (sequelize) => {
     ClientConfigSets,
     Settings,
     // Junctions (Useful for direct queries)
+    MachineSpecifications,
     ConfigCategoryConfigurations,
     ConfigOptionalCompatibility,
     ReplacementCompatibility,

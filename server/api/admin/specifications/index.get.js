@@ -6,13 +6,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     const specs = await Specifications.findAll({
-      include: [
-        {
-          model: Machines,
-          attributes: ['name', 'code', 'id'],
-        },
-      ],
-      order: [['created_at', 'DESC']],
+      order: [['parameter', 'ASC']],
     });
 
     return {

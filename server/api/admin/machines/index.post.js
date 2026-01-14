@@ -25,15 +25,26 @@ export default defineEventHandler(async (event) => {
     const newMachine = await Machines.create(machinePayload, { transaction })
 
     if (specs && specs.length > 0) {
-      const specsPayload = specs
-        .filter(s => s.parameter && s.value) // Ensure spec is not empty
-        .map((spec, index) => ({
-          ...spec,
-          machine_id: newMachine.id,
-          sort_order: index,
-        }))
-      
-      await Specifications.bulkCreate(specsPayload, { transaction })
+      for (const [index, specData] of specs.entries()) {
+        if (!specData.parameter || !specData.value) continue;
+        
+        const [spec] = await Specifications.findOrCreate({
+          where: { 
+            parameter: specData.parameter,
+            unit: specData.unit || null 
+          },
+          defaults: { 
+            parameter: specData.parameter, 
+            unit: specData.unit || null 
+          },
+          transaction
+        });
+
+        await newMachine.addSpecification(spec, {
+          through: { value: specData.value, sort_order: index },
+          transaction
+        });
+      }
     }
 
     await transaction.commit()

@@ -15,10 +15,13 @@ export default defineEventHandler(async (event) => {
       include: [
         {
           model: Specifications,
-          attributes: ['parameter', 'value', 'unit'],
-          order: [['sort_order', 'ASC']],
+          attributes: ['id', 'parameter', 'unit'],
+          through: {
+            attributes: ['value', 'sort_order']
+          }
         },
       ],
+      order: [[Specifications, models.MachineSpecifications, 'sort_order', 'ASC']],
     })
 
     if (!machine) {
@@ -40,8 +43,9 @@ export default defineEventHandler(async (event) => {
       url: machine.url,
       imageUrl: machine.metadata?.imageUrl || null,
       specs: machine.Specifications.map(s => ({
+        id: s.id,
         parameter: s.parameter,
-        value: s.value,
+        value: s.MachineSpecifications.value,
         unit: s.unit
       }))
     };

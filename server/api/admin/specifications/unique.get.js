@@ -5,12 +5,10 @@ export default defineEventHandler(async (event) => {
   const { Specifications } = models;
 
   try {
+    // This endpoint might be redundant now as index.get.js returns unique specs (conceptually)
+    // But for backward compatibility or strict unique check:
     const uniqueSpecs = await Specifications.findAll({
-      attributes: [
-        'parameter',
-        'unit'
-      ],
-      group: ['parameter', 'unit'],
+      attributes: ['id', 'parameter', 'unit'],
       order: [['parameter', 'ASC']]
     });
 

@@ -106,7 +106,5 @@ export const seedDatabase = async () => {
     return true;
   }
 
-
-
   return false;
 };

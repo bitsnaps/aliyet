@@ -43,20 +43,42 @@ export default defineEventHandler(async (event) => {
     // Update machine details
     await machine.update(machinePayload, { transaction })
 
-    // Delete existing specs
-    await Specifications.destroy({ where: { machine_id: machineId }, transaction })
+    // Update specs associations
+    // 1. Remove all associations
+    await machine.setSpecifications([], { transaction });
 
-    // Create new specs
+    // 2. Add new associations
     if (specs && specs.length > 0) {
-      const specsPayload = specs
-        .filter(s => s.parameter && s.value) // Ensure spec is not empty
-        .map((spec, index) => ({
-          ...spec,
-          machine_id: machineId,
-          sort_order: index,
-        }))
-      
-      await Specifications.bulkCreate(specsPayload, { transaction })
+      for (const [index, specData] of specs.entries()) {
+        if (!specData.parameter || !specData.value) continue;
+
+        // Find or create the specification (parameter, unit)
+        // Note: unit can be null, so we need to handle it carefully in where clause
+        const whereClause = { parameter: specData.parameter };
+        if (specData.unit) {
+          whereClause.unit = specData.unit;
+        } else {
+          whereClause.unit = null;
+        }
+
+        const [spec] = await Specifications.findOrCreate({
+          where: whereClause,
+          defaults: {
+             parameter: specData.parameter,
+             unit: specData.unit
+          },
+          transaction
+        });
+        
+        // Add association with value and sort_order
+        await machine.addSpecification(spec, {
+          through: {
+            value: specData.value,
+            sort_order: index
+          },
+          transaction
+        });
+      }
     }
 
     await transaction.commit()

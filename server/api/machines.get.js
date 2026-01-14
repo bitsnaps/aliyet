@@ -13,15 +13,29 @@ export default defineEventHandler(async (event) => {
         },
         {
           model: Specifications,
-          attributes: ['parameter', 'value', 'unit', 'sort_order'],
+          attributes: ['parameter', 'unit'],
+          through: {
+             attributes: ['value', 'sort_order']
+          }
         }
       ],
-      order: [['code', 'ASC'], [Specifications, 'sort_order', 'ASC']]
+      order: [['code', 'ASC'], [Specifications, models.MachineSpecifications, 'sort_order', 'ASC']]
     })
+
+    const machinesData = machines.map(machine => {
+      const m = machine.toJSON();
+      if (m.Specifications) {
+        m.Specifications = m.Specifications.map(s => ({
+          ...s,
+          value: s.MachineSpecifications?.value
+        }));
+      }
+      return m;
+    });
 
     return {
       success: true,
-      data: machines
+      data: machinesData
     }
   } catch (error) {
     console.error('Database fetch error:', error)

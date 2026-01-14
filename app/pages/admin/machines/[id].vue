@@ -96,8 +96,28 @@ const confirmSelectedSpecs = () => {
   isSpecModalOpen.value = false
 }
 
-const addSpec = () => {
-  state.value.specs.push({ parameter: '', value: '', unit: '' })
+const newSpec = ref({ parameter: '', unit: '' })
+const creatingSpec = ref(false)
+
+const createAndAddSpec = async () => {
+  if (!newSpec.value.parameter) return
+  creatingSpec.value = true
+  try {
+    const res = await $fetch('/api/admin/specifications', {
+      method: 'POST',
+      body: newSpec.value
+    })
+    if (res.success) {
+      toast.add({ title: 'Specification Created', color: 'success' })
+      selectedSpecs.value.push(res.data)
+      await refreshUniqueSpecs()
+      newSpec.value = { parameter: '', unit: '' }
+    }
+  } catch (err) {
+    toast.add({ title: 'Error creating spec', description: err.data?.statusMessage, color: 'error' })
+  } finally {
+    creatingSpec.value = false
+  }
 }
 
 const removeSpec = (index) => {
@@ -258,7 +278,6 @@ const save = async () => {
               <h3 class="font-semibold dark:text-charcoal-300">Specifications</h3>
               <div class="flex gap-2">
                 <UButton size="xs" color="neutral" variant="outline" icon="i-lucide-list-plus" label="Select Existing" @click="openSpecModal" class="cursor-pointer" />
-                <UButton size="xs" color="neutral" variant="soft" icon="i-lucide-plus" label="Add New" @click="addSpec" class="cursor-pointer" />
               </div>
             </div>
           </template>
@@ -282,13 +301,13 @@ const save = async () => {
                  {{ idx + 1 }}
                </div>
                <div class="flex-1">
-                 <UInput v-model="spec.parameter" placeholder="Parameter (e.g. Max RPM)" size="sm" class="w-full" />
+                 <UInput v-model="spec.parameter" placeholder="Parameter (e.g. Max RPM)" size="sm" class="w-full" disabled />
                </div>
                <div class="flex-1">
-                 <UTextarea v-model="spec.value" placeholder="Value (e.g. 5000)" :rows="1" autoresize size="sm" class="w-full" />
+                 <UInput v-model="spec.value" placeholder="Value (e.g. 5000)" size="sm" class="w-full" />
                </div>
                <div class="w-24">
-                 <UInput v-model="spec.unit" placeholder="Unit" size="sm" class="w-full" />
+                 <UInput v-model="spec.unit" placeholder="Unit" size="sm" class="w-full" disabled />
                </div>
                <UButton color="error" variant="subtle" icon="i-lucide-x" size="sm" @click="removeSpec(idx)" class="cursor-pointer" />
              </div>
@@ -367,61 +386,90 @@ const save = async () => {
   <!-- Specification Selection Modal -->
   <UModal
     v-model:open="isSpecModalOpen"
-    title="Select Existing Specifications"
-    description="Choose from specifications used in other machines"
+    title="Manage Specifications"
+    description="Select existing specifications or create new ones"
     :scrollable="true"
     :ui="{ footer: 'flex justify-end gap-2' }"
   >
     <template #body>
-      <div class="space-y-4">
-        <UInput
-          v-model="searchQuery"
-          icon="i-lucide-search"
-          placeholder="Search specifications..."
-          class="w-full"
-        >
-          <template v-if="searchQuery?.length" #trailing>
-            <UButton
-              color="neutral"
-              variant="link"
-              size="sm"
-              icon="i-lucide-circle-x"
-              aria-label="Clear input"
-              @click="searchQuery = ''"
-            />
-          </template>        
-      </UInput>
+      <UTabs :items="[{ label: 'Select Existing', slot: 'select' }, { label: 'Create New', slot: 'create' }]" class="w-full">
+        <template #select>
+          <div class="space-y-4 pt-4">
+            <UInput
+              v-model="searchQuery"
+              icon="i-lucide-search"
+              placeholder="Search specifications..."
+              class="w-full"
+            >
+              <template v-if="searchQuery?.length" #trailing>
+                <UButton
+                  color="neutral"
+                  variant="link"
+                  size="sm"
+                  icon="i-lucide-circle-x"
+                  aria-label="Clear input"
+                  @click="searchQuery = ''"
+                />
+              </template>        
+            </UInput>
 
-        <div v-if="uniqueSpecsPending" class="flex justify-center py-4">
-          <UIcon name="i-lucide-loader" class="w-8 h-8 animate-spin text-charcoal-400" />
-        </div>
-        <div v-else-if="!filteredSpecs || filteredSpecs.length === 0" class="text-center py-4 dark:text-charcoal-400">
-          {{ searchQuery ? 'No matching specifications found.' : 'No existing specifications found.' }}
-        </div>
-        <div v-else class="max-h-64 overflow-y-auto border border-gray-200 dark:border-gray-700 rounded-md">
-          <UTable
-            :data="filteredSpecs"
-            :columns="[
-              { accessorKey: 'select', header: `# ${selectedSpecs.length ? selectedSpecs.length: ''}` },
-              { accessorKey: 'parameter', header: 'Parameter' },
-              { accessorKey: 'unit', header: 'Unit' }
-            ]"
-          >
-            <template #select-cell="{ row }">
-              <UCheckbox
-                :model-value="selectedSpecs.some(s => s.parameter === row.original.parameter && s.unit === row.original.unit)"
-                @update:model-value="(checked) => {
-                  if (checked) {
-                    selectedSpecs.push(row.original)
-                  } else {
-                    selectedSpecs = selectedSpecs.filter(s => !(s.parameter === row.original.parameter && s.unit === row.original.unit))
-                  }
-                }"
-              />
-            </template>
-          </UTable>
-        </div>
-      </div>
+            <div v-if="uniqueSpecsPending" class="flex justify-center py-4">
+              <UIcon name="i-lucide-loader" class="w-8 h-8 animate-spin text-charcoal-400" />
+            </div>
+            <div v-else-if="!filteredSpecs || filteredSpecs.length === 0" class="text-center py-4 dark:text-charcoal-400">
+              {{ searchQuery ? 'No matching specifications found.' : 'No specifications found.' }}
+            </div>
+            <div v-else class="max-h-64 overflow-y-auto border border-gray-200 dark:border-gray-700 rounded-md">
+              <UTable
+                :data="filteredSpecs"
+                :columns="[
+                  { accessorKey: 'select', header: `# ${selectedSpecs.length ? selectedSpecs.length: ''}` },
+                  { accessorKey: 'parameter', header: 'Parameter' },
+                  { accessorKey: 'unit', header: 'Unit' }
+                ]"
+              >
+                <template #select-cell="{ row }">
+                  <UCheckbox
+                    :model-value="selectedSpecs.some(s => s.parameter === row.original.parameter && s.unit === row.original.unit)"
+                    @update:model-value="(checked) => {
+                      if (checked) {
+                        selectedSpecs.push(row.original)
+                      } else {
+                        selectedSpecs = selectedSpecs.filter(s => !(s.parameter === row.original.parameter && s.unit === row.original.unit))
+                      }
+                    }"
+                  />
+                </template>
+              </UTable>
+            </div>
+          </div>
+        </template>
+
+        <template #create>
+          <div class="space-y-4 pt-4">
+             <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-md space-y-3">
+               <UFormField label="Parameter Name" required>
+                 <UInput v-model="newSpec.parameter" placeholder="e.g. Max Spindle Speed" class="w-full" />
+               </UFormField>
+               <UFormField label="Unit" help="Optional">
+                 <UInput v-model="newSpec.unit" placeholder="e.g. RPM" class="w-full" />
+               </UFormField>
+               <div class="flex justify-end pt-2">
+                 <UButton 
+                   label="Create & Select" 
+                   icon="i-lucide-plus" 
+                   :loading="creatingSpec" 
+                   @click="createAndAddSpec" 
+                   :disabled="!newSpec.parameter"
+                 />
+               </div>
+             </div>
+             <div class="text-xs text-gray-500">
+               <p>Once created, the specification will be automatically selected.</p>
+             </div>
+          </div>
+        </template>
+      </UTabs>
     </template>
 
     <template #footer>

@@ -20,9 +20,7 @@ const isDeleting = ref(false)
 const selectedSpec = ref(null)
 const defaultSpec = {
   parameter: '',
-  value: '',
   unit: '',
-  machine_id: null
 }
 const state = ref({ ...defaultSpec })
 
@@ -33,19 +31,10 @@ const { data: specifications, pending, refresh } = await useFetch('/api/admin/sp
   server: false,
 })
 
-// Fetch Machines for the dropdown
-const { data: machines, pending: machinesPending } = useFetch('/api/admin/machines', {
-  transform: (response) => response.data.map(m => ({ label: `${m.name} (${m.code})`, value: m.id })),
-  lazy: true,
-  server: false,
-})
-
 const columns = [
   { accessorKey: 'id', header: 'ID', enableSorting: true },
   { accessorKey: 'parameter', header: 'Parameter', enableSorting: true },
-  { accessorKey: 'value', header: 'Value', enableSorting: true },
   { accessorKey: 'unit', header: 'Unit', enableSorting: true },
-  { accessorKey: 'machine', header: 'Machine', enableSorting: true },
   { accessorKey: 'actions', header: 'Actions' }
 ]
 
@@ -63,7 +52,6 @@ const filteredRows = computed(() => {
       const searchLower = search.value.toLowerCase()
       return (
         s.parameter.toLowerCase().includes(searchLower) ||
-        (s.value && s.value.toString().toLowerCase().includes(searchLower)) ||
         (s.unit && s.unit.toLowerCase().includes(searchLower))
       )
     })
@@ -87,8 +75,7 @@ const openFormModal = (spec = null) => {
     isEditing.value = true
     selectedSpec.value = spec
     state.value = {
-        ...spec,
-        machine_id: spec.Machine?.id || spec.machine_id
+        ...spec
     }
   } else {
     isEditing.value = false
@@ -207,24 +194,8 @@ const confirmDelete = async () => {
             <UInput v-model="state.parameter" required class="w-full" placeholder="e.g. Max Spindle Speed" />
           </UFormField>
 
-          <UFormField label="Value" name="value" class="mt-2">
-            <UInput v-model="state.value" class="w-full" placeholder="e.g. 12000" />
-          </UFormField>
-
           <UFormField label="Unit" name="unit" class="mt-2">
             <UInput v-model="state.unit" class="w-full" placeholder="e.g. RPM" />
-          </UFormField>
-
-          <UFormField label="Machine" name="machine_id" required class="mt-2">
-             <USelectMenu
-                v-model="state.machine_id"
-                :items="machines"
-                value-key="value"
-                icon="i-lucide-search"
-                placeholder="Select Machine"
-                :loading="machinesPending"
-                class="w-full"
-              />
           </UFormField>
           
           <div class="flex justify-end gap-3 mt-6">
@@ -238,7 +209,7 @@ const confirmDelete = async () => {
     <UModal v-model:open="isDeleteConfirmOpen" description="Delete a Specification" title="Confirm Deletion">
         <template #body>
           <p>Are you sure you want to delete this specification?</p>
-          <p class="mt-1 font-medium">{{ selectedSpec?.parameter }}: {{ selectedSpec?.value }} {{ selectedSpec?.unit }}</p>
+          <p class="mt-1 font-medium">{{ selectedSpec?.parameter }} {{ selectedSpec?.unit ? '(' + selectedSpec?.unit + ')' : '' }}</p>
           <p class="mt-1 text-sm text-gray-500">This action cannot be undone.</p>
         </template>
         <template #footer>
@@ -280,20 +251,8 @@ const confirmDelete = async () => {
           <div class="font-medium">{{ row.original.parameter }}</div>
         </template>
 
-        <template #value-cell="{ row }">
-          <span>{{ row.original.value }}</span>
-        </template>
-
         <template #unit-cell="{ row }">
           <UBadge color="neutral" variant="subtle" size="xs" v-if="row.original.unit">{{ row.original.unit }}</UBadge>
-        </template>
-
-        <template #machine-cell="{ row }">
-           <div v-if="row.original.Machine">
-             <div class="font-medium text-sm">{{ row.original.Machine.name }}</div>
-             <div class="text-xs text-gray-500">{{ row.original.Machine.code }}</div>
-           </div>
-           <span v-else class="text-gray-400 italic">N/A</span>
         </template>
         
         <template #actions-cell="{ row }">

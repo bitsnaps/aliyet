@@ -21,10 +21,13 @@ export default defineEventHandler(async (event) => {
         },
         {
           model: Specifications,
-          attributes: ['parameter', 'value', 'unit', 'sort_order'],
+          attributes: ['parameter', 'unit'],
+          through: {
+            attributes: ['value', 'sort_order']
+          }
         },
       ],
-      order: [[Specifications, 'sort_order', 'ASC']],
+      order: [[Specifications, models.MachineSpecifications, 'sort_order', 'ASC']],
     })
 
     if (!machine) {
@@ -34,9 +37,17 @@ export default defineEventHandler(async (event) => {
       })
     }
 
+    const machineData = machine.toJSON();
+    if (machineData.Specifications) {
+      machineData.Specifications = machineData.Specifications.map(s => ({
+        ...s,
+        value: s.MachineSpecifications?.value
+      }));
+    }
+
     return {
       success: true,
-      data: machine,
+      data: machineData,
     }
   } catch (error) {
     if (error?.statusCode === 404) {
