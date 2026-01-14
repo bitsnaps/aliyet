@@ -9,6 +9,11 @@ const links = [
     to: '/admin'
   },
   {
+    label: 'Categories',
+    icon: 'i-lucide-folder-tree',
+    to: '/admin/categories'
+  },
+  {
     label: 'Machines',
     icon: 'i-lucide-cog',
     to: '/admin/machines'
@@ -17,11 +22,6 @@ const links = [
     label: 'Specifications',
     icon: 'i-lucide-list',
     to: '/admin/specifications'
-  },
-  {
-    label: 'Categories',
-    icon: 'i-lucide-folder-tree',
-    to: '/admin/categories'
   },
   {
     label: 'Config Groups',
