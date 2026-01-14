@@ -83,7 +83,7 @@ async function onSubmit() {
 
 <template>
     <div class="p-8 rounded-xl shadow-sm border border-slate-100 bg-deep-teal-500">
-        <h3 class="text-2xl font-bold dark:text-white mb-6">{{ $t('contact_form.title') }}</h3>
+        <h3 class="text-2xl font-bold dark:text-white mb-6 rtl:text-right">{{ $t('contact_form.title') }}</h3>
 
         <form class="space-y-6" @submit.prevent="onSubmit">
         <div class="grid sm:grid-cols-2 gap-6">

@@ -3,8 +3,8 @@
 
 @theme {
   /* Font families */
-  --font-sans: 'Plus Jakarta Sans', sans-serif;
-  --font-heading: 'Plus Jakarta Sans', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Cairo', sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'Cairo', sans-serif;
   
   /* Custom colors - need all shades from 50 to 950 */
   --color-deep-teal-50: #e6f5f7;
@@ -108,4 +108,19 @@
 
 .animate-fade-in-right {
   animation: fadeInRight 0.8s ease-out forwards;
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+[dir="rtl"] .animate-fade-in-right {
+  animation-name: fadeInLeft;
 }

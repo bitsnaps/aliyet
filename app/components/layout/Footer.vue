@@ -4,7 +4,7 @@ const localePath = useLocalePath();
 </script>
 <template>
     <!-- Footer -->
-    <footer class="bg-charcoal-500 text-slate-400">
+    <footer class="bg-charcoal-500 text-slate-400 rtl:text-right">
       <div class="container mx-auto px-4 md:px-8 py-16">
         <div class="grid md:grid-cols-4 lg:grid-cols-5 gap-12">
           <div class="lg:col-span-2">

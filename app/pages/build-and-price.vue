@@ -89,8 +89,8 @@ const isSidebarOpen = ref(false)
   <div class="flex h-[calc(100vh-64px)] overflow-hidden bg-gray-50 dark:bg-gray-900 relative">
     
     <!-- Sidebar (Desktop) -->
-    <aside class="hidden md:flex flex-col w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-y-auto shrink-0 mt-18">
-        <div class="p-4 border-b border-gray-100 dark:border-gray-700">
+    <aside class="hidden md:flex flex-col w-64 bg-white dark:bg-gray-800 border-r dark:border-gray-700 rtl:border-l rtl:border-r-0 overflow-y-auto shrink-0 mt-18">
+        <div class="p-4 border-b border-gray-100 dark:border-gray-700 rtl:text-right">
             <h2 class="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">Categories</h2>
         </div>
         <nav class="flex-1 p-2 space-y-1">
@@ -98,7 +98,7 @@ const isSidebarOpen = ref(false)
                 v-for="category in filteredCategories"
                 :key="category.id"
                 @click="selectedCategoryId = category.id"
-                :class="['w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors cursor-pointer',
+                :class="['w-full text-left rtl:text-right px-4 py-3 rounded-md text-sm font-medium transition-colors cursor-pointer',
                     selectedCategoryId === category.id 
                         ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400' 
                         : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -110,7 +110,7 @@ const isSidebarOpen = ref(false)
     </aside>
 
     <!-- Mobile Category Select Button -->
-    <div class="md:hidden fixed bottom-4 right-4 z-40">
+    <div class="md:hidden fixed bottom-4 right-4 rtl:right-auto rtl:left-4 z-40">
         <UButton icon="i-heroicons-list-bullet" color="primary" size="xl" :ui="{ rounded: 'rounded-full' }" @click="isSidebarOpen = true" />
     </div>
 
@@ -121,7 +121,7 @@ const isSidebarOpen = ref(false)
         
         <!-- Sidebar Content -->
         <div class="relative w-4/5 max-w-xs bg-white dark:bg-gray-800 h-full shadow-xl flex flex-col transform transition-transform duration-300 ease-in-out">
-            <div class="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700 rtl:flex-row-reverse">
                 <h2 class="font-bold text-xl dark:text-white">Categories</h2>
                 <UButton icon="i-heroicons-x-mark" color="gray" variant="ghost" @click="isSidebarOpen = false" />
             </div>
@@ -131,7 +131,7 @@ const isSidebarOpen = ref(false)
                     :key="category.id"
                     @click="selectedCategoryId = category.id; isSidebarOpen = false"
                     :class="[
-                        'w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors',
+                        'w-full text-left rtl:text-right px-4 py-3 rounded-md text-sm font-medium transition-colors',
                         selectedCategoryId === category.id 
                             ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400' 
                             : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -147,7 +147,7 @@ const isSidebarOpen = ref(false)
     <main class="flex-1 flex flex-col overflow-hidden relative mt-18">
         <!-- Header -->
         <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6 flex items-center justify-between shadow-sm z-10 shrink-0">
-             <div>
+             <div class="rtl:text-right">
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
                     {{ categories.find(c => c.id === selectedCategoryId)?.name || $t('build_price.page_title') }}
                 </h1>

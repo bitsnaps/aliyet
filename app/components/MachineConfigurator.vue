@@ -140,22 +140,22 @@ async function submitQuote() {
 </script>
 
 <template>
-  <div v-if="modelValue" class="fixed inset-0 z-50 flex justify-end">
+  <div v-if="modelValue" class="fixed inset-0 z-50 flex justify-end rtl:justify-start">
     <!-- Backdrop -->
     <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="close"></div>
 
     <!-- Slideover Panel (Custom Implementation) -->
-    <div class="relative w-full max-w-md bg-white dark:bg-gray-900 h-full shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out border-l border-gray-200 dark:border-gray-800">
+    <div class="relative w-full max-w-md bg-white dark:bg-gray-900 h-full shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out border-l border-gray-200 dark:border-gray-800 rtl:border-l-0 rtl:border-r">
       
       <!-- Header -->
-      <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between bg-white dark:bg-gray-900 sticky top-0 z-10">
-        <div>
+      <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between bg-white dark:bg-gray-900 sticky top-0 z-10 rtl:flex-row-reverse">
+        <div class="rtl:text-right">
            <h3 class="text-lg font-bold text-gray-900 dark:text-white">
             {{ $t('build_price.title') }}
           </h3>
           <p class="text-sm text-primary-600 dark:text-primary-400 font-medium">{{ machine?.name }}</p>
         </div>
-        <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-mr-2" @click="close" />
+        <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-mr-2 rtl:mr-0 rtl:-ml-2" @click="close" />
       </div>
 
       <!-- Steps Progress -->
@@ -194,7 +194,7 @@ async function submitQuote() {
                     <p>No main configuration options needed. <br>You can proceed to the next step.</p>
                 </div>
                 <div v-for="char in currentMachineCharacteristics.main" :key="char.id">
-                    <div class="mb-4">
+                    <div class="mb-4 rtl:text-right">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">{{ char.name }}</label>
                         <input 
                             v-if="char.type === 'text'" 
@@ -222,7 +222,7 @@ async function submitQuote() {
                     <p>No optional features available.</p>
                 </div>
                 <div v-for="char in currentMachineCharacteristics.optional" :key="char.id" 
-                  class="flex items-center gap-3 p-4 border rounded-xl dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/10 transition-all cursor-pointer"
+                  class="flex items-center gap-3 p-4 border rounded-xl dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/10 transition-all cursor-pointer rtl:flex-row-reverse"
                   @click="optionalChars[char.id] = !optionalChars[char.id]"
                 >
                     <input 
@@ -236,58 +236,58 @@ async function submitQuote() {
 
             <!-- Step 3: User Details -->
             <div v-if="currentStep === 3" class="space-y-5">
-                <div>
+                <div class="rtl:text-right">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">{{ $t('contact_form.full_name') }} <span class="text-red-500">*</span></label>
                     <div class="relative rounded-md shadow-sm">
-                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 rtl:left-auto rtl:right-0 rtl:pr-3 rtl:pl-0">
                             <UIcon name="i-heroicons-user" class="h-5 w-5 text-gray-400" />
                         </div>
                         <input 
                             type="text" 
                             v-model="userDetails.name" 
-                            class="block w-full rounded-md border-gray-300 dark:border-gray-600 pl-10 focus:border-primary-500 focus:ring-primary-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white py-2"
+                            class="block w-full rounded-md border-gray-300 dark:border-gray-600 pl-10 focus:border-primary-500 focus:ring-primary-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white py-2 rtl:pl-3 rtl:pr-10"
                         />
                     </div>
                 </div>
 
-                <div>
+                <div class="rtl:text-right">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">{{ $t('contact_form.email_address') }} <span class="text-red-500">*</span></label>
                     <div class="relative rounded-md shadow-sm">
-                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 rtl:left-auto rtl:right-0 rtl:pr-3 rtl:pl-0">
                             <UIcon name="i-heroicons-envelope" class="h-5 w-5 text-gray-400" />
                         </div>
                         <input 
                             type="email" 
                             v-model="userDetails.email" 
-                            class="block w-full rounded-md border-gray-300 dark:border-gray-600 pl-10 focus:border-primary-500 focus:ring-primary-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white py-2"
+                            class="block w-full rounded-md border-gray-300 dark:border-gray-600 pl-10 focus:border-primary-500 focus:ring-primary-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white py-2 rtl:pl-3 rtl:pr-10"
                         />
                     </div>
                 </div>
 
-                <div>
+                <div class="rtl:text-right">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">{{ $t('contact_form.telephone') }} <span class="text-red-500">*</span></label>
                     <div class="relative rounded-md shadow-sm">
-                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 rtl:left-auto rtl:right-0 rtl:pr-3 rtl:pl-0">
                             <UIcon name="i-heroicons-phone" class="h-5 w-5 text-gray-400" />
                         </div>
                         <input 
                             type="tel" 
                             v-model="userDetails.phone" 
-                            class="block w-full rounded-md border-gray-300 dark:border-gray-600 pl-10 focus:border-primary-500 focus:ring-primary-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white py-2"
+                            class="block w-full rounded-md border-gray-300 dark:border-gray-600 pl-10 focus:border-primary-500 focus:ring-primary-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white py-2 rtl:pl-3 rtl:pr-10"
                         />
                     </div>
                 </div>
 
-                <div>
+                <div class="rtl:text-right">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">{{ $t('contact_form.company') }}</label>
                     <div class="relative rounded-md shadow-sm">
-                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 rtl:left-auto rtl:right-0 rtl:pr-3 rtl:pl-0">
                             <UIcon name="i-heroicons-building-office" class="h-5 w-5 text-gray-400" />
                         </div>
                         <input 
                             type="text" 
                             v-model="userDetails.company" 
-                            class="block w-full rounded-md border-gray-300 dark:border-gray-600 pl-10 focus:border-primary-500 focus:ring-primary-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white py-2"
+                            class="block w-full rounded-md border-gray-300 dark:border-gray-600 pl-10 focus:border-primary-500 focus:ring-primary-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white py-2 rtl:pl-3 rtl:pr-10"
                         />
                     </div>
                 </div>
@@ -326,7 +326,7 @@ async function submitQuote() {
             >
                 {{ $t('build_price.next') }}
                 <template #trailing>
-                    <UIcon name="i-heroicons-arrow-right-20-solid" />
+                    <UIcon name="i-heroicons-arrow-right-20-solid" class="rtl:rotate-180" />
                 </template>
             </UButton>
             

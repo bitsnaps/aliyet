@@ -33,13 +33,13 @@ const formatPrice = (value) => {
 </script>
 
 <template>
-  <section class="bg-light-gray-200 min-h-screen py-24">
+  <section class="bg-light-gray-200 min-h-screen py-24 rtl:text-right">
     <div class="container mx-auto px-4 md:px-8">
       <NuxtLink
         :to="localePath('catalog')"
         class="inline-flex items-center text-sm text-deep-teal-600 hover:text-deep-teal-700 mb-6"
       >
-        <UIcon name="i-lucide-arrow-left" class="w-4 h-4 mr-2" />
+        <UIcon name="i-lucide-arrow-left" class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0 rtl:rotate-180" />
         {{ $t('machine_details.back_to_catalog') }}
       </NuxtLink>
 

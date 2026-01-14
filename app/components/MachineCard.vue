@@ -63,8 +63,8 @@ const imageUrl = computed(() => props.machine.metadata?.imageUrl || null)
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row lg:flex-col lg:items-end gap-3 lg:min-w-56">
-        <div class="text-left lg:text-right">
+      <div class="flex flex-col sm:flex-row lg:flex-col lg:items-end gap-3 lg:min-w-56 rtl:lg:items-start">
+        <div class="text-left lg:text-right rtl:text-right rtl:lg:text-left">
             <p class="text-xs font-semibold uppercase tracking-wide text-medium-gray-600">
                 {{ $t('catalog.starting_price') }}
             </p>

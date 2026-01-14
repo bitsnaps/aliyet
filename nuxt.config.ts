@@ -11,14 +11,15 @@ export default defineNuxtConfig({
   i18n: {
    defaultLocale: 'en',
     locales: [
-      { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
-      { code: 'fr', language: 'fr-FR', name: 'Français', file: 'fr.json' },
-      { code: 'ar', language: 'ar-DZ', name: 'العربية', file: 'ar.json' }
+      { code: 'en', language: 'en-US', name: 'English', file: 'en.json', dir: 'ltr' },
+      { code: 'fr', language: 'fr-FR', name: 'Français', file: 'fr.json', dir: 'ltr' },
+      { code: 'ar', language: 'ar-DZ', name: 'العربية', file: 'ar.json', dir: 'rtl' }
     ]    
   },  
   fonts: {
     families: [
       { name: 'Plus Jakarta Sans', provider: 'google' },
+      { name: 'Cairo', provider: 'google' },
     ],
     defaults: {
       weights: [400, 500, 600, 700],
@@ -60,9 +61,6 @@ export default defineNuxtConfig({
     buildAssetsDir: '/_nuxt/', // Standard assets directory    
     head: {
       title: 'Ailyaat',
-      htmlAttrs: {
-        lang: 'en',
-      },      
       link:  [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },        
       ],

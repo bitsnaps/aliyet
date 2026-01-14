@@ -21,11 +21,11 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
         <div class="container mx-auto px-4 md:px-8 relative z-10">
           <div class="grid md:grid-cols-2 gap-8 items-center">
             <div class="max-w-3xl animate-fade-in-right">
-              <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight font-heading">
+              <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight font-heading rtl:text-right">
                 <!-- Keep Your Factory <span class="text-action-teal-500">Running</span> -->
                  {{ $t('slogan') }}
               </h1>
-              <p class="mt-6 text-xl text-slate-300 max-w-xl leading-relaxed">
+              <p class="mt-6 text-xl text-slate-300 max-w-xl leading-relaxed rtl:text-right">
                 {{ $t('hero.description') }}
               </p>
               <div class="mt-10 mb-2 flex flex-col sm:flex-row gap-4">
@@ -37,7 +37,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
                   class="font-bold text-white text-lg px-8 py-4 hover:text-slate-900 hover:bg-slate-100 border-2"
                   :ui="{ rounded: 'rounded-md' }"
                 >
-                  {{ $t('hero.explore_services') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+                  {{ $t('hero.explore_services') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ms-2 rtl:rotate-180" />
                 </UButton>
                 <UButton
                   :to="localePath('/') + '#build-price'"
@@ -74,7 +74,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
       <!-- About Us Section -->
       <section id="about" class="py-20 md:py-32 bg-white">
         <div class="container mx-auto px-4 md:px-8 grid md:grid-cols-2 gap-16 items-center">
-          <div>
+          <div class="rtl:text-right">
             <h4 class="text-deep-teal-500 font-bold uppercase tracking-wider mb-4">{{ $t('about.subtitle') }}</h4>
             <h2 class="text-4xl font-bold text-slate-900 mb-6 leading-tight">{{ $t('about.title') }}</h2>
             <p class="text-lg text-slate-600 mb-6 leading-relaxed">
@@ -128,7 +128,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
             <div
               v-for="(service, idx) in services"
               :key="idx"
-              class="bg-white p-6 rounded-xl shadow-md border border-slate-100 hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
+              class="bg-white p-6 rounded-xl shadow-md border border-slate-100 hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rtl:text-right"
             >
               <div class="h-12 w-12 bg-action-teal-500/20 text-deep-teal-500 rounded-lg flex items-center justify-center mb-6">
                  <UIcon :name="service.icon" class="w-6 h-6" />
@@ -137,7 +137,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
               <p class="text-slate-600 flex-grow">{{ service.description }}</p>
               <NuxtLink :to="localePath('/') + '#contact'" class="mt-6 text-deep-teal-500 font-semibold flex items-center group">
                 {{ $t('services.inquire_now') }}
-                <UIcon name="i-lucide-arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                <UIcon name="i-lucide-arrow-right" class="w-4 h-4 ms-2 rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
               </NuxtLink>
             </div>
 
@@ -163,7 +163,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
       <section id="products" class="py-20 md:py-32 bg-white">
         <div class="container mx-auto px-4 md:px-8">
           <div class="flex flex-col md:flex-row justify-between items-end mb-12">
-            <div>
+            <div class="rtl:text-right">
               <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{{ $t('products.title') }}</h2>
               <p class="text-lg text-slate-600 max-w-2xl">{{ $t('products.description') }}</p>
             </div>
@@ -173,7 +173,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
               color="neutral"
               class="hidden md:flex items-center font-bold text-deep-teal-500 hover:text-action-teal-500 transition-colors mt-4 md:mt-0"
             >
-              {{ $t('products.view_catalog') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+              {{ $t('products.view_catalog') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ms-2 rtl:rotate-180" />
             </UButton>
           </div>
 
@@ -195,7 +195,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
               />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 md:opacity-60 group-hover:opacity-90 transition-opacity duration-300"></div>
               
-              <div class="absolute bottom-0 left-0 p-6 w-full">
+              <div class="absolute bottom-0 left-0 p-6 w-full rtl:text-right rtl:left-auto rtl:right-0">
                 <h3 class="text-white text-2xl font-bold mb-2">{{ machine.label }}</h3>
                 <div class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 transition-all duration-300">
                   <UButton
@@ -205,7 +205,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
                     class="font-bold light:text-charcoal-500 text-action-teal-300"
                     size="sm"
                   >
-                    {{ $t('products.configure_price') }} <UIcon name="i-lucide-arrow-right" class="w-4 h-4 ml-2" />
+                    {{ $t('products.configure_price') }} <UIcon name="i-lucide-arrow-right" class="w-4 h-4 ms-2 rtl:rotate-180" />
                   </UButton>
                 </div>
               </div>
@@ -219,7 +219,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
               color="ghost"
               class="flex items-center justify-center font-bold w-full text-deep-teal-500 hover:text-action-teal-500 py-3"
             >
-              {{ $t('products.view_catalog') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+              {{ $t('products.view_catalog') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ms-2 rtl:rotate-180" />
             </UButton>
           </div>
         </div>
@@ -228,13 +228,13 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
       <!-- Build & Price Feature Section -->
       <section id="build-price" class="py-20 bg-charcoal-500 text-white relative overflow-hidden">
         <!-- Abstract industrial background shapes -->
-        <div class="absolute top-0 right-0 -mt-24 -mr-24 text-deep-teal-500/20">
+        <div class="absolute top-0 right-0 -mt-24 -mr-24 rtl:right-auto rtl:left-0 rtl:-mr-0 rtl:-ml-24 text-deep-teal-500/20">
           <UIcon name="i-lucide-cog" class="w-[400px] h-[400px]" />
         </div>
         
         <div class="container mx-auto px-4 md:px-8 relative z-10">
           <div class="grid lg:grid-cols-5 gap-12 items-center">
-            <div class="lg:col-span-2">
+            <div class="lg:col-span-2 rtl:text-right">
               <span class="inline-block py-1 px-3 rounded-full bg-action-teal-500/20 text-action-teal-500 text-sm font-bold mb-6">
                 {{ $t('build_price.badge') }}
               </span>
@@ -250,7 +250,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
             </div>
 
             <!-- Interactive Widget Entry Point -->
-            <div class="lg:col-span-3 bg-white text-slate-900 rounded-2xl p-6 md:p-8 shadow-2xl">
+            <div class="lg:col-span-3 bg-white text-slate-900 rounded-2xl p-6 md:p-8 shadow-2xl rtl:text-right">
               <h3 class="text-2xl font-bold mb-6">{{ $t('build_price.widget.title') }}</h3>
               
               <div class="space-y-6">
@@ -289,7 +289,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
                   class="font-bold text-charcoal-500 hover:bg-action-teal-500 text-lg w-full justify-center py-4 border-2 border-charcoal-500 cursor-pointer"
                   size="xl"
                 >
-                  {{ $t('build_price.widget.continue') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+                  {{ $t('build_price.widget.continue') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ms-2 rtl:rotate-180" />
                 </UButton>
               </div>
             </div>
@@ -310,7 +310,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
 
           <div class="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
             <!-- Contact Info -->
-            <div class="space-y-8">
+            <div class="space-y-8 rtl:text-right">
               <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
                 <div class="bg-action-teal-500/20 p-3 rounded-lg text-deep-teal-500">
                   <UIcon name="i-lucide-phone" class="w-6 h-6" />

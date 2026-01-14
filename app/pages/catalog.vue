@@ -120,7 +120,7 @@ const activeDescription = computed(() => {
 </script>
 
 <template>
-  <section class="bg-light-gray-200 min-h-screen py-24">
+  <section class="bg-light-gray-200 min-h-screen py-24 rtl:text-right">
     <div class="container mx-auto px-4 md:px-8">
       <div class="mb-10">
         <p class="uppercase text-xs font-semibold tracking-[0.2em] text-deep-teal-500 mb-3">
