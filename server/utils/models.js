@@ -17,6 +17,7 @@ export const useModels = (sequelize) => {
   const Categories = sequelize.define('Categories', {
     name: { type: DataTypes.STRING(191), unique: true, allowNull: false },
     description: { type: DataTypes.STRING },
+    machine_type: { type: DataTypes.STRING(50), allowNull: true },
     metadata: {
       type: DataTypes.TEXT,
       allowNull: true,

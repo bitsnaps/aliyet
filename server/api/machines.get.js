@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
       include: [
         { 
           model: Categories,
-          attributes: ['id', 'name', 'description', 'metadata']
+          attributes: ['id', 'name', 'description', 'machine_type', 'metadata']
         },
         {
           model: Specifications,

@@ -22,6 +22,7 @@ const selectedCategory = ref(null)
 const defaultCategory = {
   name: '',
   description: '',
+  machine_type: '',
   metadata: {}
 }
 const state = ref({ ...defaultCategory })
@@ -38,6 +39,7 @@ const { data: categories, pending, refresh } = await useFetch('/api/admin/catego
 const columns = [
   { accessorKey: 'id', header: 'ID', enableSorting: true },
   { accessorKey: 'name', header: 'Name', enableSorting: true },
+  { accessorKey: 'machine_type', header: 'Machine Type', enableSorting: true },
   { accessorKey: 'description', header: 'Description', enableSorting: true },
   // { accessorKey: 'metadata', header: 'Metadata', enableSorting: false },
   { accessorKey: 'actions', header: 'Actions' }
@@ -84,7 +86,7 @@ const openFormModal = (category = null) => {
     isEditing.value = false
     selectedCategory.value = null
     state.value = { ...defaultCategory }
-    metadataString.value = '{\n  "machine_type": ""\n}'
+    metadataString.value = '{}'
   }
   metadataError.value = ''
   isFormModalOpen.value = true
@@ -207,6 +209,20 @@ const confirmDelete = async () => {
             <UInput v-model="state.name" required class="w-full" />
           </UFormField>
 
+          <UFormField label="Machine Type" name="machine_type" class="mt-2">
+            <USelectMenu
+                v-model="state.machine_type"
+                :items="[
+                    { label: 'Turning Center', value: 'turning_centers' },
+                    { label: 'Machining Center', value: 'machining_centers' },
+                    { label: 'EDM Machine', value: 'edm_machines' }
+                ]"
+                value-key="value"
+                placeholder="Select a machine type"
+                class="w-full"
+            />
+          </UFormField>
+
           <UFormField label="Description" name="description" class="mt-2">
             <UInput v-model="state.description" class="w-full" />
           </UFormField>
@@ -221,10 +237,6 @@ const confirmDelete = async () => {
                 autoresize
               />
             </UFormField>
-
-            <div class="mt-2 text-xs text-gray-500">
-              <p>Common keys: <code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">machine_type</code> (values: turning_centers, machining_centers, edm_machines)</p>
-            </div>
           </div>
           
           <div class="flex justify-end gap-3 mt-6">

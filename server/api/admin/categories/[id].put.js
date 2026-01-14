@@ -2,7 +2,7 @@ export default defineEventHandler(async (event) => {
     const { models } = await useDB();
   const { Categories } = models;
   const categoryId = event.context.params.id;
-  const { name, description, metadata } = await readBody(event);
+  const { name, description, machine_type, metadata } = await readBody(event);
 
   if (!name) {
     throw createError({
@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    await category.update({ name, description, metadata });
+    await category.update({ name, description, machine_type, metadata });
 
     return {
       statusCode: 200,

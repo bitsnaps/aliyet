@@ -39,7 +39,7 @@ const categories = computed(() => {
         id: key,
         name,
         description: machine?.Category?.description || '',
-        machine_type: machine?.Category?.metadata?.machine_type
+        machine_type: machine?.Category?.machine_type
       })
     }
   }

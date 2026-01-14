@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
     const newCategory = await Categories.create({
       name: body.name,
       description: body.description,
+      machine_type: body.machine_type,
       metadata: body.metadata
     });
     return {
