@@ -28,7 +28,9 @@ export default defineNuxtConfig({
     // preload: true,
   },
   routeRules: {
-    '/admin/*': { ssr: false },
+    '/admin/**': { ssr: false, headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
+    '/fr/admin/**': { ssr: false, headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
+    '/ar/admin/**': { ssr: false, headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
   },
   ui: {
     colorMode: true
