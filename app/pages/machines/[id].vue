@@ -10,8 +10,10 @@ const { data, error, pending } = await useFetch(`/api/machines/${machineId}`)
 
 const machine = computed(() => (data.value?.success ? data.value.data : null))
 
+const isConfiguratorOpen = ref(false)
+
 watchEffect(() => {
-  if (!process.client) return
+  if (!import.meta.client) return
   if (!error.value) return
   toast.add({
     title: t('machine_details.machine_not_found'),
@@ -117,11 +119,11 @@ const formatPrice = (value) => {
                   {{ $t('catalog.build_price') }}
                 </UButton>
                 <UButton
-                  :to="localePath('build-and-price')"
                   color="neutral"
                   variant="outline"
                   size="lg"
                   class="cursor-pointer flex-1 justify-center"
+                  @click="isConfiguratorOpen = true"
                 >
                   {{ $t('machine_details.quick_quote') }}
                 </UButton>
@@ -195,5 +197,10 @@ const formatPrice = (value) => {
 
 
     </div>
+
+    <MachineConfigurator 
+      v-model="isConfiguratorOpen" 
+      :machine="machine"
+    />
   </section>
 </template>

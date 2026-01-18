@@ -60,6 +60,17 @@ watchEffect(() => {
     }
 })
 
+// Auto-open configurator if machineId is in query
+watch(() => [machines.value, route.query.machineId], ([newMachines, machineId]) => {
+    if (machineId && newMachines.length > 0 && !isConfiguratorOpen.value) {
+        const machine = newMachines.find(m => String(m.id) === String(machineId))
+        if (machine) {
+            selectedCategoryId.value = String(machine.category_id)
+            openConfigurator(machine)
+        }
+    }
+}, { immediate: true })
+
 // Filtering
 const filteredMachines = computed(() => {
     if (!selectedCategoryId.value) return []
