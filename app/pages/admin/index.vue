@@ -7,7 +7,7 @@ definePageMeta({
 })
 
 // Fetch dashboard data asynchronously
-const { data: dashboard, status, error } = useFetch('/api/admin/dashboard');
+const { data: dashboard, status, error, refresh } = useFetch('/api/admin/dashboard');
 
 const stats = computed(() => [
   { id: 1, label: 'Machines', value: dashboard.value?.stats?.machines || '0', icon: 'i-lucide-monitor-smartphone', color: 'text-action-teal-500', bg: 'bg-action-teal-50' },
@@ -29,6 +29,9 @@ const formatDate = (dateString) => {
   if (!dateString) return 'N/A'
   return new Date(dateString).toLocaleDateString()
 }
+
+const showBulkExport = ref(false)
+const showBulkImport = ref(false)
 </script>
 
 <template>
@@ -128,8 +131,31 @@ const formatDate = (dateString) => {
             variant="ghost"
             to="/admin/settings"
           />
+          <USeparator />
+          <div class="grid grid-cols-2 gap-3">
+            <UButton 
+              block 
+              icon="i-lucide-upload" 
+              label="Import" 
+              color="primary" 
+              variant="soft"
+              @click="showBulkImport = true"
+            />
+            <UButton 
+              block 
+              icon="i-lucide-download" 
+              label="Export" 
+              color="primary" 
+              variant="soft"
+              @click="showBulkExport = true"
+            />
+          </div>
         </div>
       </UCard>
     </div>
+
+    <!-- Modals -->
+    <AdminBulkDataExportModal v-model:open="showBulkExport" @success="refresh" />
+    <AdminBulkDataImportModal v-model:open="showBulkImport" @success="refresh" />
   </div>
 </template>
