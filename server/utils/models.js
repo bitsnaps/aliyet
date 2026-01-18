@@ -202,7 +202,7 @@ export const useModels = (sequelize) => {
   // --- 5. Junction Tables (Explicit Definition for Metadata/Ordering) ---
 
   const MachineSpecifications = sequelize.define('MachineSpecifications', {
-    value: { type: DataTypes.STRING, allowNull: false },
+    value: { type: DataTypes.TEXT, allowNull: false },
     sort_order: { type: DataTypes.INTEGER, defaultValue: 0 }
   })
 

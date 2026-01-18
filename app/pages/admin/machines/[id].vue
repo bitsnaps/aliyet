@@ -304,7 +304,7 @@ const save = async () => {
                  <UInput v-model="spec.parameter" placeholder="Parameter (e.g. Max RPM)" size="sm" class="w-full" disabled />
                </div>
                <div class="flex-1">
-                 <UInput v-model="spec.value" placeholder="Value (e.g. 5000)" size="sm" class="w-full" />
+                 <UTextarea v-model="spec.value" placeholder="Value (e.g. 5000)" size="sm" class="w-full" :rows="1" autoresize />
                </div>
                <div class="w-24">
                  <UInput v-model="spec.unit" placeholder="Unit" size="sm" class="w-full" disabled />
