@@ -25,6 +25,7 @@ const { data: machines, pending, error, refresh } = await useFetch('/api/admin/m
 })
 
 const columns = [
+  { accessorKey: 'id', header: 'N°', enableSorting: true },
   { accessorKey: 'code', header: 'Code', enableSorting: true },
   { accessorKey: 'name', header: 'Name', enableSorting: true },
   { accessorKey: 'category', header: 'Category', enableSorting: true },

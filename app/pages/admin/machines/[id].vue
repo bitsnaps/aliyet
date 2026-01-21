@@ -1,4 +1,7 @@
 <script setup>
+import DataImportModal from '~/components/admin/DataImportModal.vue';
+import DataExportModal from '~/components/admin/DataExportModal.vue';
+
 definePageMeta({
   layout: 'admin'
 })
@@ -63,6 +66,27 @@ const { data: uniqueSpecs, refresh: refreshUniqueSpecs, pending: uniqueSpecsPend
 })
 
 const isSpecModalOpen = ref(false)
+const isImportModalOpen = ref(false)
+const isExportModalOpen = ref(false)
+
+const refreshSpecs = async () => {
+  if (isNew) return
+  loading.value = true
+  try {
+    const response = await $fetch(`/api/admin/machines/${route.params.id}`)
+    if (response && response.data) {
+      state.value.specs = response.data.specs || []
+      if (!state.value.specs) {
+        state.value.specs = [{ parameter: '', value: '', unit: '' }]
+      }
+    }
+  } catch (err) {
+    toast.add({ title: 'Refresh Failed', description: 'Could not refresh specifications.', color: 'error' })
+  } finally {
+    loading.value = false
+  }
+}
+
 const selectedSpecs = ref([])
 const searchQuery = ref('')
 
@@ -277,6 +301,9 @@ const save = async () => {
             <div class="flex justify-between items-center">
               <h3 class="font-semibold dark:text-charcoal-300">Specifications</h3>
               <div class="flex gap-2">
+                <UButton label="Import" size="xs" icon="i-lucide-upload" color="neutral" variant="soft"  class="cursor-pointer" @click="isImportModalOpen = true" />
+                <UButton label="Export" size="xs" icon="i-lucide-download" color="neutral" variant="soft" class="cursor-pointer" @click="isExportModalOpen = true" />
+                
                 <UButton size="xs" color="neutral" variant="outline" icon="i-lucide-list-plus" label="Select Existing" @click="openSpecModal" class="cursor-pointer" />
               </div>
             </div>
@@ -477,4 +504,15 @@ const save = async () => {
       <UButton label="Add Selected" color="primary" @click="confirmSelectedSpecs" :disabled="selectedSpecs.length === 0" class="cursor-pointer" />
     </template>
   </UModal>
+
+  <DataImportModal
+    v-model:open="isImportModalOpen"
+    model="MachineSpecifications"
+    @success="refreshSpecs"
+  />
+
+  <DataExportModal
+    v-model:open="isExportModalOpen"
+    model="MachineSpecifications"
+  />
 </template>
