@@ -184,7 +184,7 @@ const formatPrice = (value) => {
                 <p class="text-xs text-medium-gray-600 uppercase tracking-wide">
                   {{ spec.parameter }}
                 </p>
-                <p class="text-sm font-semibold text-charcoal-900 mt-1">
+                <p class="text-sm font-semibold text-charcoal-900 mt-1 whitespace-pre-wrap">
                   {{ spec.value }}<span v-if="spec.unit"> {{ spec.unit }}</span>
                 </p>
               </div>
