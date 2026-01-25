@@ -108,7 +108,7 @@ const onFormSaved = async () => {
           <UButton label="Export" icon="i-lucide-download" color="neutral" variant="soft" class="cursor-pointer" @click="isExportModalOpen = true" />
           <UButton
             icon="i-lucide-plus"
-            label="Add Group"
+            label="Add"
             color="primary"
             size="md"
             @click="openFormModal()"

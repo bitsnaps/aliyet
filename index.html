@@ -388,12 +388,36 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
     const phoneNumber = '+213696914084';
-    Array.from(document.getElementsByClassName('phone')).forEach(el => {
-      el.textContent = phoneNumber.replace(/(\d{3})(\d{3})(\d{3})(\d{3})/, '$1 (0) $2 $3 $4');
-    });
-    document.querySelectorAll('a[href^="tel:"]').forEach(el => {
-      el.href = 'tel:'+phoneNumber;
-    });
+    fetch('/api/settings')
+      .then(response => response.json())
+      .then(data => {
+        if (data?.general?.supportPhone) {
+          const phone = data.general.supportPhone.replace(/\s/g, '');
+          Array.from(document.getElementsByClassName('phone')).forEach(el => {
+            el.textContent = phone.replace(/(\d{3})(\d{3})(\d{3})(\d{3})/, '$1 (0) $2 $3 $4');
+          });
+          document.querySelectorAll('a[href^="tel:"]').forEach(el => {
+            el.href = 'tel:' + phone;
+          });
+        } else {
+            // Fallback to default if API fails or empty
+             Array.from(document.getElementsByClassName('phone')).forEach(el => {
+                el.textContent = phoneNumber.replace(/(\d{3})(\d{3})(\d{3})(\d{3})/, '$1 (0) $2 $3 $4');
+            });
+            document.querySelectorAll('a[href^="tel:"]').forEach(el => {
+                el.href = 'tel:'+phoneNumber;
+            });
+        }
+      })
+      .catch(() => {
+         // Fallback on error
+         Array.from(document.getElementsByClassName('phone')).forEach(el => {
+            el.textContent = phoneNumber.replace(/(\d{3})(\d{3})(\d{3})(\d{3})/, '$1 (0) $2 $3 $4');
+        });
+        document.querySelectorAll('a[href^="tel:"]').forEach(el => {
+            el.href = 'tel:'+phoneNumber;
+        });
+      });
   </script>
 </body>
 </html>
