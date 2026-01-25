@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     general: {
       siteName: 'Aliyaat',
       contactEmail: 'contact@aliyaat.com',
-      supportPhone: '+213 554 982 123'
+      supportPhone: '+213 696 914 084'
     },
     seo: {
       metaTitle: 'Aliyaat - Industrial Machine Maintenance',
