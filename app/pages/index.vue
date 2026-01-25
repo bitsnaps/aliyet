@@ -197,7 +197,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
               
               <div class="absolute bottom-0 left-0 p-6 w-full rtl:text-right rtl:left-auto rtl:right-0">
                 <h3 class="text-white text-2xl font-bold mb-2">{{ machine.label }}</h3>
-                <div class="h-0 overflow-hidden group-hover:h-auto group-hover:mt-4 transition-all duration-300">
+                <div class="mt-4 h-auto md:mt-0 md:h-0 overflow-hidden md:group-hover:h-auto md:group-hover:mt-4 transition-all duration-300">
                   <UButton
                     :to="{ path: localePath('catalog'), query: { type: machine.key } }"
                     color="neutral"
@@ -318,6 +318,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
                 <div>
                   <h4 class="font-bold text-lg text-slate-900">{{ $t('contact.call_us') }}</h4>
                   <p class="text-slate-600">{{ $t('contact.call_us_description') }}</p>
+      
       <a :href="`tel:${contacts.tel.replaceAll(' ','').replaceAll('(0)','')}`" class="text-deep-teal-500 font-semibold mt-1 block hover:underline">{{ contacts.tel }}</a>
                 </div>
               </div>
