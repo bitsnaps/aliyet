@@ -39,19 +39,19 @@ const localePath = useLocalePath();
             <h4 class="font-bold text-white mb-4">{{ $t('footer.support') }}</h4>
             <ul class="space-y-3">
               <li><NuxtLink :to="localePath('/') + '#contact'" class="hover:text-white">{{ $t('nav.contact') }}</NuxtLink></li>
-              <li><a href="#" class="hover:text-white">{{ $t('footer.faq') }}</a></li>
-              <li><a href="#" class="hover:text-white">{{ $t('footer.terms') }}</a></li>
+              <!-- <li><a href="#" class="hover:text-white">{{ $t('footer.faq') }}</a></li>
+              <li><a href="#" class="hover:text-white">{{ $t('footer.terms') }}</a></li> -->
             </ul>
           </div>
 
           <div>
             <h4 class="font-bold text-white mb-4">{{ $t('footer.follow_us') }}</h4>
-            <div class="flex gap-2">
-              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-twitter" class="w-5 h-5" /></a>
-              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-linkedin" class="w-5 h-5" /></a>
-              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-facebook" class="w-5 h-5" /></a>
-              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-instagram" class="w-5 h-5" /></a>
-              <a href="#" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-music-2" class="w-5 h-5" /></a>
+            <div class="flex gap-2 lg:flex-col lg:items-start">
+                <a href="https://x.com/aliyaat" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-twitter" class="w-5 h-5" /></a>
+                <a href="https://www.linkedin.com/company/aliyaat" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-linkedin" class="w-5 h-5" /></a>
+                <a href="https://www.facebook.com/aliyaat" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-facebook" class="w-5 h-5" /></a>
+                <a href="https://www.instagram.com/aliyaat" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-instagram" class="w-5 h-5" /></a>
+                <a href="https://www.tiktok.com/@aliyaat" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-md flex items-center justify-center"><UIcon name="i-lucide-music-2" class="w-5 h-5" /></a>
             </div>
           </div>
         </div>
