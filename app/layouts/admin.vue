@@ -14,14 +14,14 @@ const links = [
     to: '/admin/categories'
   },
   {
-    label: 'Machines',
-    icon: 'i-lucide-cog',
-    to: '/admin/machines'
-  },
-  {
     label: 'Specifications',
     icon: 'i-lucide-list',
     to: '/admin/specifications'
+  },
+  {
+    label: 'Machines',
+    icon: 'i-lucide-cog',
+    to: '/admin/machines'
   },
   {
     label: 'Config Groups',
@@ -29,14 +29,9 @@ const links = [
     to: '/admin/config-groups'
   },
   {
-    label: 'Configurations',
+    label: 'Standard Configurations',
     icon: 'i-lucide-wrench',
     to: '/admin/configs'
-  },
-  {
-    label: 'Quote Requests',
-    icon: 'i-lucide-file-text',
-    to: '/admin/quotes'
   },
   {
     label: 'Optional Additions',
@@ -47,6 +42,11 @@ const links = [
     label: 'Optional Replacements',
     icon: 'i-lucide-replace',
     to: '/admin/optional-replacements'
+  },
+  {
+    label: 'Quote Requests',
+    icon: 'i-lucide-file-text',
+    to: '/admin/quotes'
   },
   {
     label: 'Users',
