@@ -212,7 +212,7 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
             </div>
           </div>
 
-          <div class="mt-8">
+          <div class="mt-8 space-y-4">
             <UButton
               :to="localePath('catalog')"
               variant="outline"
@@ -220,6 +220,16 @@ const selectedMachineForQuote = ref(machineTypes.value[0].id || 'turning_centers
               class="flex items-center justify-center font-bold w-full text-deep-teal-500 hover:text-action-teal-500 py-3"
             >
               {{ $t('products.view_catalog') }} <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ms-2 rtl:rotate-180" />
+            </UButton>
+
+            <UButton
+              to="/catalog.pdf"
+              target="_blank"
+              variant="outline"
+              color="ghost"
+              class="flex items-center justify-center font-bold w-full text-deep-teal-500 hover:text-action-teal-500 py-3"
+            >
+              {{ $t('catalog.download') }} <UIcon name="i-lucide-download" class="w-5 h-5 ms-2" />
             </UButton>
           </div>
         </div>

@@ -132,6 +132,18 @@ const activeDescription = computed(() => {
         <p class="text-base md:text-lg text-medium-gray-700 max-w-3xl">
           {{ $t('catalog.description') }}
         </p>
+
+        <div class="mt-6">
+          <UButton
+            to="/catalog.pdf"
+            target="_blank"
+            icon="i-lucide-download"
+            size="xl"
+            color="primary"
+          >
+            {{ $t('catalog.download') }}
+          </UButton>
+        </div>
       </div>
 
       <UCard class="mb-8" :ui="{ body: { padding: 'p-4 md:p-6' } }">

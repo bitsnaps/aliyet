@@ -162,6 +162,7 @@
         "meta_description": "Explore industrial machines by category and start a Build & Price configuration.",
         "badge": "Products Catalog",
         "heading": "Explore Industrial Machines.",
+        "download": "Download Catalog",
         "description": "Browse available machines across all categories. Select a model to view details or continue directly to the Build & Price configuration.",
         "filter_title": "Filter by category",
         "filter_description": "Switch between machine families to focus your selection.",
