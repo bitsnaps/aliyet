@@ -273,7 +273,7 @@ const activeDescription = computed(() => {
                     color="neutral"
                     variant="outline"
                     size="sm"
-                    class="cursor-pointer w-full sm:w-auto mx-2"
+                    class="cursor-pointer w-full sm:w-auto"
                   >
                     {{ $t('catalog.read_more') }}
                   </UButton>
