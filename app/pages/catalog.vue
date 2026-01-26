@@ -122,18 +122,20 @@ const activeDescription = computed(() => {
 <template>
   <section class="bg-light-gray-200 min-h-screen py-24 rtl:text-right">
     <div class="container mx-auto px-4 md:px-8">
-      <div class="mb-10">
-        <p class="uppercase text-xs font-semibold tracking-[0.2em] text-deep-teal-500 mb-3">
-          {{ $t('catalog.badge') }}
-        </p>
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-charcoal-900 mb-4">
-          {{ $t('catalog.heading') }}
-        </h1>
-        <p class="text-base md:text-lg text-medium-gray-700 max-w-3xl">
-          {{ $t('catalog.description') }}
-        </p>
+      <div class="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="uppercase text-xs font-semibold tracking-[0.2em] text-deep-teal-500 mb-3">
+            {{ $t('catalog.badge') }}
+          </p>
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-charcoal-900 mb-4">
+            {{ $t('catalog.heading') }}
+          </h1>
+          <p class="text-base md:text-lg text-medium-gray-700 max-w-3xl">
+            {{ $t('catalog.description') }}
+          </p>
+        </div>
 
-        <div class="mt-6">
+        <div class="mt-6 md:mt-0 flex-shrink-0">
           <UButton
             to="/catalog.pdf"
             target="_blank"
