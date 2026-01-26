@@ -93,6 +93,14 @@ const saveSettings = async () => {
             <UFormField label="Support Phone" name="supportPhone">
               <UInput v-model="form.general.supportPhone" class="w-full" />
             </UFormField>
+
+            <UFormField label="Address" name="address">
+              <UTextarea v-model="form.general.address" class="w-full" autoresize />
+            </UFormField>
+
+            <UFormField label="Google Maps Link" name="maps">
+              <UInput v-model="form.general.maps" class="w-full" />
+            </UFormField>
           </div>
         </UCard>
       </template>

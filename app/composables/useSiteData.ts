@@ -33,12 +33,14 @@ export const useSiteData = () => {
     { name: 'euromoteur', logo: '/images/clients/euromoteur.png' },
   ]);
 
-  const contacts = ref({
-    email: 'contact@aliyaat.com',
-    tel: '+213 (0) 696 914 084',
-    address: 'Coop. El Amel Lot 77, Ain Naadja, Algiers, Algeria',
-    maps: 'https://maps.app.goo.gl/hT4EHyToxyobWgqr5'
-  });
+  const { data: settings } = useFetch('/api/settings');
+
+  const contacts = computed(() => ({
+    email: settings.value?.general?.contactEmail || 'contact@aliyaat.com',
+    tel: settings.value?.general?.supportPhone || '+213 696 914 084',
+    address: settings.value?.general?.address || 'Coop. El Amel Lot 77, Ain Naadja, Algiers, Algeria',
+    maps: settings.value?.general?.maps || 'https://maps.app.goo.gl/hT4EHyToxyobWgqr5'
+  }));
 
   return {
     navLinks,

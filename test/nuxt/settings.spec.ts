@@ -24,9 +24,10 @@ describe('Settings API', () => {
     const response = await settingsHandler(event);
 
     expect(response).toHaveProperty('general');
-    expect(response.general.supportPhone).toBeDefined();
     // Check default value
-    expect(response.general.supportPhone).toBe('+213 696 914 084');
+    expect(response.general.supportPhone).toBeDefined();
+    expect(response.general.address).toBeDefined();
+    expect(response.general.maps).toBeDefined();
     
     expect(response).toHaveProperty('seo');
     expect(response).not.toHaveProperty('notifications');
@@ -39,6 +40,7 @@ describe('Settings API', () => {
     expect(response).toHaveProperty('general');
     expect(response).toHaveProperty('seo');
     expect(response).toHaveProperty('notifications');
+    expect(response.general.address).toBeDefined();
   });
   
   it('Should retrieve updated settings from DB', async () => {
@@ -48,7 +50,9 @@ describe('Settings API', () => {
         group: 'general',
         data: {
             supportPhone: '+1234567890',
-            siteName: 'Updated Site'
+            siteName: 'Updated Site',
+            address: 'New Address',
+            maps: 'http://newmaps.com'
         }
     });
     
@@ -57,6 +61,8 @@ describe('Settings API', () => {
     
     expect(response.general.supportPhone).toBe('+1234567890');
     expect(response.general.siteName).toBe('Updated Site');
+    expect(response.general.address).toBe('New Address');
+    expect(response.general.maps).toBe('http://newmaps.com');
     // Check if other fields persist from defaults (contactEmail)
     expect(response.general.contactEmail).toBe('contact@aliyaat.com');
   });

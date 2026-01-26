@@ -12,7 +12,9 @@ export const getSettings = async () => {
     general: {
       siteName: 'Aliyaat',
       contactEmail: 'contact@aliyaat.com',
-      supportPhone: '+213 696 914 084'
+      supportPhone: '+213 696 914 084',
+      address: 'Coop. El Amel Lot 77, Ain Naadja, Algiers, Algeria',
+      maps: 'https://maps.app.goo.gl/hT4EHyToxyobWgqr5'
     },
     seo: {
       metaTitle: 'Aliyaat - Industrial Machine Maintenance',
