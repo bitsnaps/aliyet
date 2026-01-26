@@ -97,7 +97,7 @@ const formatPrice = (value) => {
           </UCard>
           <UCard>
             <div class="flex flex-col gap-4">
-              <div>
+              <div v-if="Number(machine.base_price) > 0">
                 <p class="text-sm font-semibold dark:text-charcoal-300">
                   {{ $t('machine_details.starting_price') }}
                 </p>

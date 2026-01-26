@@ -75,7 +75,7 @@ const imageUrl = computed(() => props.machine.metadata?.imageUrl || null)
 
       <!-- Right: Price & Actions -->
       <div class="flex flex-col sm:flex-row lg:flex-col lg:items-end justify-center gap-4 lg:w-[20%] lg:min-w-48">
-        <div class="text-left lg:text-right w-full">
+        <div v-if="Number(machine.base_price) > 0" class="text-left lg:text-right w-full">
             <p class="text-xs font-semibold uppercase tracking-wide text-medium-gray-500 mb-0.5">
                 {{ $t('catalog.starting_price') }}
             </p>

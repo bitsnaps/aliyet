@@ -261,7 +261,7 @@ const activeDescription = computed(() => {
               </UBadge>
             </div>
 
-            <div class="space-y-4">
+            <div class="space-y-2">
               <MachineCard
                 v-for="machine in displayMachines"
                 :key="machine.id"
@@ -273,7 +273,7 @@ const activeDescription = computed(() => {
                     color="neutral"
                     variant="outline"
                     size="sm"
-                    class="cursor-pointer w-full sm:w-auto"
+                    class="cursor-pointer w-full sm:w-auto mx-2"
                   >
                     {{ $t('catalog.read_more') }}
                   </UButton>
