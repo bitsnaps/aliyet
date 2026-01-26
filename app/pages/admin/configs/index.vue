@@ -29,6 +29,7 @@ const columns = [
   { accessorKey: 'name', header: 'Name', enableSorting: true },
   { accessorKey: 'description', header: 'Description', enableSorting: false },
   { accessorKey: 'type', header: 'Type', enableSorting: true },
+  { accessorKey: 'price', header: 'Price', enableSorting: true },
   { accessorKey: 'actions', header: 'Actions', enableSorting: false }
 ]
 
@@ -181,6 +182,10 @@ const onFormSaved = async () => {
 
         <template #type-cell="{ row }">
           <UBadge :color="row.original.type === 'select' ? 'primary' : 'neutral'" variant="subtle">{{ row.original.type || 'select' }}</UBadge>
+        </template>
+
+        <template #price-cell="{ row }">
+          <span class="text-charcoal-700 dark:text-charcoal-300">${{ row.original.price || '0.00' }}</span>
         </template>
 
         <template #actions-cell="{ row }">

@@ -85,8 +85,9 @@ const confirmDelete = async () => {
           </div>
           <h2 class="text-2xl font-bold text-charcoal-900 dark:text-white">Manage Options</h2>
           <p class="dark:text-charcoal-300 text-sm mt-1">{{ config.description }}</p>
-          <div class="mt-2">
+          <div class="mt-2 flex gap-2">
             <UBadge :color="config.type === 'select' ? 'primary' : 'neutral'" variant="subtle">Type: {{ config.type }}</UBadge>
+            <UBadge color="neutral" variant="subtle">Price: ${{ config.price }}</UBadge>
           </div>
         </div>
 

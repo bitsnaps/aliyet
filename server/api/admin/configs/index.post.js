@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
     name: body.name,
     description: body.description,
     type: body.type || 'select',
+    price: body.price || 0,
   };
 
   try {

@@ -17,7 +17,8 @@ const isNew = !props.config
 const state = ref({
   name: props.config?.name || '',
   description: props.config?.description || '',
-  type: props.config?.type || 'select'
+  type: props.config?.type || 'select',
+  price: props.config?.price || 0
 })
 
 const schema = v.object({
@@ -64,6 +65,10 @@ const save = async () => {
         placeholder="Select Input Type"
         class="w-full"
       />
+    </UFormField>
+
+    <UFormField label="Base Price" name="price" help="Base price for this configuration group (if any).">
+      <UInput v-model="state.price" type="number" step="0.01" class="w-full" />
     </UFormField>
 
     <div class="flex justify-end gap-3 mt-6">
