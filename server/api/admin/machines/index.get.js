@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
           attributes: ['name']
         }
       ],
-      order: [['code', 'ASC']]
+      order: [['sort_order', 'ASC'], ['code', 'ASC']]
     })
 
     return {
@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
         name: m.name,
         category: m.Category ? m.Category.name : 'N/A',
         price: m.base_price,
+        sort_order: m.sort_order,
         available: m.available
       }))
     }

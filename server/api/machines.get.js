@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
           }
         }
       ],
-      order: [['code', 'ASC'], [Specifications, models.MachineSpecifications, 'sort_order', 'ASC']]
+      order: [['sort_order', 'ASC'], ['code', 'ASC'], [Specifications, models.MachineSpecifications, 'sort_order', 'ASC']]
     })
 
     const machinesData = machines.map(machine => {

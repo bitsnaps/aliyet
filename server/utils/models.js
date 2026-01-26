@@ -44,6 +44,7 @@ export const useModels = (sequelize) => {
     name: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT },
     url: { type: DataTypes.STRING },
+    sort_order: { type: DataTypes.INTEGER, defaultValue: 0 },
     base_price: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0.00 },
     available: { type: DataTypes.BOOLEAN, defaultValue: true },
     metadata: {

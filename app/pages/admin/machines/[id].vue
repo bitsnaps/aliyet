@@ -17,6 +17,7 @@ const state = ref({
   categoryId: null,
   configCategoryId: null,
   basePrice: 0,
+  sortOrder: 0,
   available: true,
   description: '',
   url: '',
@@ -349,6 +350,10 @@ const save = async () => {
       <div class="space-y-6">
         <UCard title="Classification">
           <div class="space-y-4">
+            <UFormField label="Sort Order" name="sortOrder" help="Lower numbers appear first">
+              <UInput v-model="state.sortOrder" type="number" />
+            </UFormField>
+
             <UFormField label="Status" name="available">
               <USwitch v-model="state.available" />
               <span class="ml-2 text-sm text-charcoal-300">{{ state.available ? 'Available for Quote' : 'Hidden/Unavailable' }}</span>

@@ -15,6 +15,7 @@ export default defineEventHandler(async (event) => {
     config_category_id: machineData.configCategoryId,
     base_price: machineData.basePrice,
     available: machineData.available,
+    sort_order: machineData.sortOrder || 0,
     description: machineData.description,
     url: machineData.url,
   }

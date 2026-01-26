@@ -38,6 +38,7 @@ export default defineEventHandler(async (event) => {
       categoryId: machine.category_id,
       configCategoryId: machine.config_category_id,
       basePrice: machine.base_price,
+      sortOrder: machine.sort_order,
       available: machine.available,
       description: machine.description,
       url: machine.url,
